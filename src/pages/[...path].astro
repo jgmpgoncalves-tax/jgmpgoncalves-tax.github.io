@@ -1,0 +1,27 @@
+---
+// One template per page, rendered in every language from the route map in src/i18n/config.ts.
+import Base from '../layouts/Base.astro';
+import type { Locale, RouteKey } from '../i18n/config';
+import { UI } from '../i18n/ui';
+import { allRouteParams } from '../i18n/utils';
+import { getProfile } from '../lib/profile';
+
+export function getStaticPaths() {
+  return allRouteParams();
+}
+
+interface Props { key: RouteKey; locale: Locale }
+const { key, locale } = Astro.props;
+const t = UI[locale];
+const profile = await getProfile();
+const title = key === 'home' ? profile.name : t.nav[key];
+---
+<Base locale={locale} routeKey={key} title={title} description={profile.headline[locale]}>
+  <div class="container">
+    <article class="page">
+      <h1>{title}</h1>
+      {key === 'home' && <p>{profile.headline[locale]}</p>}
+      <p>{t.placeholder}</p>
+    </article>
+  </div>
+</Base>

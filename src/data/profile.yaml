@@ -1,0 +1,18 @@
+# Identity and contacts. Fields with pt/en are shown in that language.
+- id: main
+  name: João Gabriel Gonçalves
+  headline:
+    pt: Advogado | Direito Fiscal e Fiscalidade Internacional
+    en: Lawyer | Tax Law and International Taxation
+  profession:
+    pt: Advogado
+    en: Lawyer
+  barNumber: 70649L
+  barLabel:
+    pt: Cédula profissional n.º
+    en: Portuguese Bar no.
+  city:
+    pt: Lisboa, Portugal
+    en: Lisbon, Portugal
+  email: jgmpgoncalves@gmail.com
+  linkedin: https://www.linkedin.com/in/jgmpgoncalves

@@ -1,0 +1,29 @@
+---
+import type { Locale } from '../i18n/config';
+import { UI } from '../i18n/ui';
+import { pathFor } from '../i18n/utils';
+import { getProfile } from '../lib/profile';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = UI[locale];
+const p = await getProfile();
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div>
+      <p class="footer-name">{p.name}</p>
+      <p>{p.profession[locale]} · {p.barLabel[locale]} {p.barNumber}</p>
+    </div>
+    <ul class="footer-links">
+      <li><a href={`mailto:${p.email}`}>{p.email}</a></li>
+      <li><a href={p.linkedin} rel="me">LinkedIn</a></li>
+    </ul>
+    <ul class="footer-links">
+      <li><a href={pathFor('privacy', locale)}>{t.nav.privacy}</a></li>
+      <li><a href={pathFor('legal', locale)}>{t.nav.legal}</a></li>
+    </ul>
+    <p class="copyright">© {year} {p.name}</p>
+  </div>
+</footer>

@@ -1,0 +1,24 @@
+---
+interface Props { size?: number; title?: string }
+const { size = 44, title } = Astro.props;
+---
+<svg
+  class="monogram"
+  width={size}
+  height={size}
+  viewBox="0 0 64 64"
+  role={title ? 'img' : undefined}
+  aria-hidden={title ? undefined : 'true'}
+  aria-label={title}
+>
+  <rect x="1" y="1" width="62" height="62" fill="none" stroke="currentColor" stroke-width="2" />
+  <text
+    x="32"
+    y="41"
+    text-anchor="middle"
+    font-family="'Source Serif 4 Variable', Georgia, serif"
+    font-size="22"
+    font-weight="600"
+    letter-spacing="1"
+    fill="currentColor">JGG</text>
+</svg>

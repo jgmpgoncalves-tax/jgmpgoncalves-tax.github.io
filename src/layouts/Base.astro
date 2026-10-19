@@ -1,0 +1,69 @@
+---
+import '@fontsource-variable/source-serif-4';
+import '@fontsource-variable/source-sans-3';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { DEFAULT_LOCALE, LANG_TAGS, LOCALES, OG_LOCALES, type Locale, type RouteKey } from '../i18n/config';
+import { UI } from '../i18n/ui';
+import { absoluteUrlFor, asset } from '../i18n/utils';
+import { getProfile } from '../lib/profile';
+
+interface Props {
+  locale: Locale;
+  /** Omit for pages without a localised equivalent (404). */
+  routeKey?: RouteKey;
+  title: string;
+  description: string;
+  noindex?: boolean;
+}
+const { locale, routeKey, title, description, noindex = false } = Astro.props;
+const t = UI[locale];
+const profile = await getProfile();
+
+// News stays out of the navigation until the first entry exists (stage 2 wires this to the collection).
+const navKeys: RouteKey[] = ['about', 'practice', 'publications', 'contact'];
+
+const fullTitle = routeKey === 'home' ? `${profile.name} | ${profile.headline[locale]}` : `${title} | ${profile.name}`;
+const canonical = routeKey ? absoluteUrlFor(routeKey, locale, Astro.site) : undefined;
+---
+<!doctype html>
+<html lang={LANG_TAGS[locale]}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="icon" href={asset('favicon.svg')} type="image/svg+xml" />
+    <meta name="theme-color" content="#1b2a4a" />
+    {canonical && <link rel="canonical" href={canonical} />}
+    {routeKey && LOCALES.map((l) => (
+      <link rel="alternate" hreflang={LANG_TAGS[l]} href={absoluteUrlFor(routeKey, l, Astro.site)} />
+    ))}
+    {routeKey && <link rel="alternate" hreflang="x-default" href={absoluteUrlFor(routeKey, DEFAULT_LOCALE, Astro.site)} />}
+    <meta property="og:type" content={routeKey === 'about' ? 'profile' : 'website'} />
+    <meta property="og:site_name" content={profile.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta property="og:locale" content={OG_LOCALES[locale]} />
+    {LOCALES.filter((l) => l !== locale).map((l) => <meta property="og:locale:alternate" content={OG_LOCALES[l]} />)}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#content">{t.skip}</a>
+    <Header locale={locale} routeKey={routeKey ?? 'home'} navKeys={navKeys} name={profile.name} />
+    <main id="content" tabindex="-1">
+      {routeKey && routeKey !== 'home' && (
+        <div class="container"><Breadcrumbs locale={locale} routeKey={routeKey} /></div>
+      )}
+      <slot />
+    </main>
+    <Footer locale={locale} />
+  </body>
+</html>
