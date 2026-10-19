@@ -1,8 +1,8 @@
 ---
 import Monogram from './Monogram.astro';
-import { LANG_TAGS, type Locale, type RouteKey } from '../i18n/config';
+import { LANG_TAGS, LOCALES, type Locale, type RouteKey } from '../i18n/config';
 import { UI } from '../i18n/ui';
-import { otherLocales, pathFor } from '../i18n/utils';
+import { pathFor } from '../i18n/utils';
 
 interface Props { locale: Locale; routeKey: RouteKey; navKeys: RouteKey[]; name: string }
 const { locale, routeKey, navKeys, name } = Astro.props;
@@ -31,15 +31,15 @@ const t = UI[locale];
         ))}
       </ul>
       <ul class="lang-switch" aria-label={t.langSwitch}>
-        <li><span aria-current="true" lang={LANG_TAGS[locale]}>{locale.toUpperCase()}</span></li>
-        {otherLocales(locale).map((other) => (
+        {LOCALES.map((l) => (
           <li>
-            <a
-              href={pathFor(routeKey, other)}
-              hreflang={LANG_TAGS[other]}
-              lang={LANG_TAGS[other]}
-              aria-label={UI[other].switchTo}
-            >{other.toUpperCase()}</a>
+            {l === locale ? (
+              <span aria-current="true" lang={LANG_TAGS[l]}>{l.toUpperCase()}</span>
+            ) : (
+              <a href={pathFor(routeKey, l)} hreflang={LANG_TAGS[l]} lang={LANG_TAGS[l]} aria-label={UI[l].switchTo}>
+                {l.toUpperCase()}
+              </a>
+            )}
           </li>
         ))}
       </ul>
@@ -56,6 +56,9 @@ const t = UI[locale];
       nav.classList.toggle('is-open', open);
     };
     toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+    nav.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('a')) setOpen(false);
+    });
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
         setOpen(false);
