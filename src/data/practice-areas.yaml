@@ -1,0 +1,28 @@
+# Practice areas, shown in this order.
+- id: corporate
+  order: 1
+  title: { pt: Tributação societária em M&A e reestruturações, en: Corporate taxation in M&A and restructurings }
+  text:
+    pt: Assessoria fiscal em operações de fusões e aquisições e em reestruturações societárias, sobretudo em matéria de IRC.
+    en: Tax advice on mergers, acquisitions and corporate restructurings, mainly on corporate income tax.
+
+- id: litigation
+  order: 2
+  title: { pt: Contencioso tributário, en: Tax litigation }
+  text:
+    pt: Procedimentos e processos tributários, na fase administrativa e na fase judicial.
+    en: Tax disputes at the administrative stage and before the courts.
+
+- id: real-estate
+  order: 3
+  title: { pt: Fiscalidade de operações imobiliárias, en: Tax aspects of real estate transactions }
+  text:
+    pt: Enquadramento fiscal da aquisição, detenção e alienação de imóveis e de investimento imobiliário.
+    en: Tax treatment of the acquisition, holding and disposal of real estate and of real estate investment.
+
+- id: international
+  order: 4
+  title: { pt: Fiscalidade internacional, en: International taxation }
+  text:
+    pt: Tributação internacional de pessoas singulares e sociedades, incluindo o planeamento fiscal de clientes estrangeiros.
+    en: International taxation of individuals and companies, including tax planning for foreign clients.

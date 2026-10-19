@@ -1,0 +1,93 @@
+# Professional experience, most recent first is not required: entries are sorted by start date.
+# Dates: "YYYY" or "YYYY-MM". `end: null` means current ("presente" / "present").
+# Roles: list every title held at the organisation, with dates; the current one has `end: null`.
+# To record a promotion: give the current role an end date and add the new role with `end: null`.
+# `position` (current employer only) is used in the bio; {role} is replaced by the current title.
+# `internship: true` puts the entry in the compact "summer internships" sub-list.
+- id: bsm
+  organisation: BSM Sociedade de Advogados (Brasil Salomão e Matthes)
+  city: { pt: Lisboa, en: Lisbon }
+  start: "2025-07"
+  end: null
+  position:
+    pt: "{role} na BSM Sociedade de Advogados"
+    en: "a {role} at BSM Sociedade de Advogados"
+  roles:
+    - title: { pt: Associado, en: Associate }
+      start: "2025-07"
+      end: "2026-06"
+    - title: { pt: Associado Sénior, en: Senior Associate }
+      start: "2026-06"
+      end: null
+  description:
+    pt:
+      - Tributação societária em operações de M&A e reestruturações.
+      - Contencioso tributário, nas fases administrativa e judicial.
+      - Assessoria fiscal em operações imobiliárias.
+      - Planeamento fiscal de pessoas singulares e sociedades estrangeiras.
+    en:
+      - Corporate taxation in M&A and restructurings.
+      - Tax litigation at the administrative and judicial stages.
+      - Tax advice on real estate transactions.
+      - Tax planning for foreign individuals and companies.
+
+- id: kpmg
+  organisation: KPMG Portugal
+  city: { pt: Lisboa, en: Lisbon }
+  start: "2024-09"
+  end: "2025-06"
+  roles:
+    - title: { pt: Consultor Fiscal (Corporate Tax), en: Corporate Tax Consultant }
+      start: "2024-09"
+      end: "2025-06"
+  description:
+    pt:
+      - Assessoria em IRC e apoio em contencioso tributário.
+      - Cumprimento de obrigações declarativas, incluindo a declaração Modelo 22.
+    en:
+      - Corporate income tax advisory and tax litigation support.
+      - Compliance, including Modelo 22 returns.
+
+- id: abreu
+  organisation: Abreu Advogados
+  city: { pt: Lisboa, en: Lisbon }
+  start: "2022-09"
+  end: "2024-08"
+  roles:
+    - title: { pt: Advogado Estagiário, en: Trainee Lawyer }
+      start: "2022-09"
+      end: "2024-08"
+  description:
+    pt:
+      - Estágio de advocacia concluído no departamento fiscal.
+    en:
+      - Bar traineeship completed in the Tax department.
+
+- id: kore
+  internship: true
+  organisation: Kore Partners
+  city: { pt: Lisboa, en: Lisbon }
+  start: "2021-08"
+  end: "2021-09"
+  roles:
+    - title: { pt: Estágio de verão, área fiscal, en: Summer internship, Tax }
+  supervisor: Tiago Cassiano Neves
+
+- id: cms-croatia
+  internship: true
+  organisation: CMS Croatia
+  city: { pt: Zagreb (à distância), en: Zagreb (remote) }
+  start: "2021-02"
+  end: "2021-02"
+  roles:
+    - title: { pt: Estágio ELSA STEP, en: ELSA STEP traineeship }
+
+- id: vda
+  internship: true
+  organisation: Vieira de Almeida (VdA)
+  city: { pt: Lisboa, en: Lisbon }
+  start: "2019-08"
+  end: "2019-08"
+  roles:
+    - title: { pt: Estágio de verão, área fiscal, en: Summer internship, Tax }
+  supervisor: João Rapoula

@@ -1,0 +1,18 @@
+# Research positions. Sorted by start date (most recent first).
+- id: nova-tax
+  organisation: Nova Tax Research Lab
+  role: { pt: Investigador Júnior, en: Junior Researcher }
+  start: "2022"
+  end: null
+
+- id: ibdt
+  organisation: Instituto Brasileiro de Direito Tributário (IBDT)
+  role: { pt: Investigador Júnior, en: Junior Researcher }
+  start: "2022"
+  end: "2022"
+
+- id: ku-leuven-isl
+  organisation: Institute of Social Law, KU Leuven
+  role: { pt: Assistente de Investigação, en: Research Assistant }
+  start: "2019"
+  end: "2020"

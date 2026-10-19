@@ -1,0 +1,30 @@
+# Publications. Order does not matter: they are sorted by date and grouped by year.
+# Titles exactly as published. `date`: "YYYY", "YYYY-MM" or "YYYY-MM-DD".
+# Without `url` the title is not linked. `todo` lists missing data shown as a visible TODO.
+- id: poem-ruling-26078
+  title: "Portugal and P.O.E.M.: The Road not Taken? Reflections on Ruling no. 26078"
+  venue: Nova Tax Practitioners Column
+  date: "2025-06"
+  todo: [url]
+
+- id: crypto-assets-mining
+  title: "Crypto-assets, Aggravated Taxation for Environmental Reasons (Mining)"
+  venue: Nova Tax Research Series
+  edition: { pt: 2.ª ed., en: 2nd ed. }
+  volume: Taxation and Sustainability
+  date: "2024-08"
+  todo: [url]
+
+- id: zooming-out-digital-economy
+  title: "Zooming Out - Why do we need to Tax the Digital Economy?"
+  venue: Nova Tax Research Series
+  edition: { pt: 1.ª ed., en: 1st ed. }
+  date: "2023-07"
+  todo: [url]
+
+- id: brexit-mdr-dac6
+  title: "Brexit, MDR and DAC-6: the 'London System' against a 'Sicilian Defence'?"
+  venue: CMS LawNow
+  date: "2021-06-15"
+  coauthors: [Tamara Jelić Kazić]
+  url: https://cms.law/en/hrv/legal-updates/brexit-mdr-and-dac-6-the-london-system-against-a-sicilian-defence-the-dac-6-directive-the-hard-to-navigate-defence-by-the-eu

@@ -1,0 +1,25 @@
+# Further training. Sorted by date (most recent first). Course titles as given by the organiser.
+- id: european-corporate-taxation
+  title: Intensive Course on European Corporate Taxation (14h)
+  teacher: Gustavo Courinha
+  date: "2026"
+  notes:
+    pt: [Diretiva Mães-Filhas, Diretiva Juros e Royalties, Diretiva Fusões, ATAD I e II.]
+    en: [Parent-Subsidiary Directive, Interest and Royalties Directive, Merger Directive, ATAD I and II.]
+  todo: [organiser]
+
+- id: mobile-individuals
+  title: Advanced Course on Special Tax Regimes for Mobile Individuals
+  organiser: Nova School of Law
+  date: "2025"
+
+- id: pillar-two
+  title: "Pillar Two: The Global Minimum Tax Reform"
+  organiser: Universidade Católica Portuguesa
+  date: "2025"
+
+- id: legal-english
+  title: Legal English
+  organiser: Oxford International School
+  result: 81/100
+  todo: [date]

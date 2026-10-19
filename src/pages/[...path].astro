@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 import type { Locale, RouteKey } from '../i18n/config';
 import { UI } from '../i18n/ui';
 import { allRouteParams } from '../i18n/utils';
-import { getProfile } from '../lib/profile';
+import { getProfile } from '../lib/data';
 
 export function getStaticPaths() {
   return allRouteParams();

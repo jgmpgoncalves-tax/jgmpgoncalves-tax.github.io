@@ -8,7 +8,7 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { DEFAULT_LOCALE, LANG_TAGS, LOCALES, OG_LOCALES, type Locale, type RouteKey } from '../i18n/config';
 import { UI } from '../i18n/ui';
 import { absoluteUrlFor, asset } from '../i18n/utils';
-import { getProfile } from '../lib/profile';
+import { getProfile, hasNews } from '../lib/data';
 
 interface Props {
   locale: Locale;
@@ -22,8 +22,8 @@ const { locale, routeKey, title, description, noindex = false } = Astro.props;
 const t = UI[locale];
 const profile = await getProfile();
 
-// News stays out of the navigation until the first entry exists (stage 2 wires this to the collection).
-const navKeys: RouteKey[] = ['about', 'practice', 'publications', 'contact'];
+// News stays out of the navigation until the first entry in this language exists.
+const navKeys: RouteKey[] = ['about', 'practice', 'publications', ...((await hasNews(locale)) ? (['news'] as const) : []), 'contact'];
 
 const fullTitle = routeKey === 'home' ? `${profile.name} | ${profile.headline[locale]}` : `${title} | ${profile.name}`;
 const canonical = routeKey ? absoluteUrlFor(routeKey, locale, Astro.site) : undefined;

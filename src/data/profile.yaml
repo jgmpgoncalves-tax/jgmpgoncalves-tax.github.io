@@ -1,9 +1,15 @@
-# Identity and contacts. Fields with pt/en are shown in that language.
+# Identity, contacts and biography.
+# In `bio`, {position} is filled in from the current entry in experience.yaml
+# (its `position` text with the current role title), so a promotion is recorded only there.
+# On the home page only the first two bio paragraphs are shown.
 - id: main
   name: João Gabriel Gonçalves
   headline:
     pt: Advogado | Direito Fiscal e Fiscalidade Internacional
     en: Lawyer | Tax Law and International Taxation
+  description:
+    pt: Advogado em Lisboa. Direito fiscal, contencioso tributário e fiscalidade internacional.
+    en: Lawyer in Lisbon. Tax law, tax litigation and international taxation.
   profession:
     pt: Advogado
     en: Lawyer
@@ -11,8 +17,29 @@
   barLabel:
     pt: Cédula profissional n.º
     en: Portuguese Bar no.
+  barAdmission:
+    year: 2024
+    council:
+      pt: Conselho Regional de Lisboa da Ordem dos Advogados
+      en: Lisbon Regional Council of the Portuguese Bar Association
   city:
     pt: Lisboa, Portugal
     en: Lisbon, Portugal
   email: jgmpgoncalves@gmail.com
   linkedin: https://www.linkedin.com/in/jgmpgoncalves
+  bio:
+    pt:
+      - João Gabriel Gonçalves é advogado em Lisboa, inscrito na Ordem dos Advogados desde 2024. É {position}.
+      - Trabalha em tributação societária em operações de M&A e reestruturações, contencioso tributário e fiscalidade internacional de pessoas singulares e sociedades. Presta também assessoria fiscal em investimento imobiliário e planeamento fiscal transfronteiriço.
+      - Trabalhou antes na KPMG Portugal, como consultor fiscal, e fez o estágio de advocacia no departamento fiscal da Abreu Advogados.
+      - É investigador júnior no Nova Tax Research Lab e publica sobre fiscalidade nacional e internacional.
+    en:
+      - João Gabriel Gonçalves is a lawyer based in Lisbon, admitted to the Portuguese Bar in 2024. He is {position}.
+      - His practice covers corporate taxation in M&A and restructurings, tax litigation and the international taxation of individuals and companies. He also advises on real estate investment and cross-border tax planning.
+      - He previously worked at KPMG Portugal as a corporate tax consultant and completed his Bar traineeship in the Tax department of Abreu Advogados.
+      - He is a junior researcher at the Nova Tax Research Lab and publishes on domestic and international taxation.
+  languages:
+    - pt: Português (língua materna)
+      en: Portuguese (native)
+    - pt: Inglês (C2, TOEFL iBT 116/120)
+      en: English (C2, TOEFL iBT 116/120)
