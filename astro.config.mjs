@@ -8,11 +8,10 @@ const DEFAULT_LOCALE = 'pt';
 const LOCALES = { pt: 'pt-PT', en: 'en-GB' };
 
 export default defineConfig({
-  // GitHub Pages URL. The repository is a project repository, so the site lives under /<repo>/.
-  // If the repository is renamed to jgmpgoncalves-tax.github.io, or for a custom domain
-  // (set `site` to it and add public/CNAME), change `base` to '/'.
+  // GitHub Pages user site (repository jgmpgoncalves-tax.github.io), served at the domain root.
+  // For a custom domain: set `site` to it, keep base '/' and add public/CNAME.
   site: 'https://jgmpgoncalves-tax.github.io',
-  base: '/jgmpgoncalves-tax',
+  base: '/',
   trailingSlash: 'always',
   output: 'static',
   build: { format: 'directory' },
