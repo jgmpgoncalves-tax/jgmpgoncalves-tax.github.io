@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import type { Locale } from '../i18n/config';
+import { UI } from '../i18n/ui';
+import { pathFor } from '../i18n/utils';
+import { getProfile } from '../lib/data';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = UI[locale];
+const p = await getProfile();
+---
+<Base locale={locale} routeKey="contact" title={t.nav.contact} description={t.meta.contact}>
+  <div class="container">
+    <article class="page surface">
+      <h1>{t.nav.contact}</h1>
+      <dl class="contact-list">
+        <dt>{t.email}</dt>
+        <dd><a href={`mailto:${p.email}`}>{p.email}</a></dd>
+        <dt>{t.linkedin}</dt>
+        <dd><a href={p.linkedin} rel="me">{p.linkedin.replace(/^https:\/\/(www\.)?/, '')}</a></dd>
+        <dt>{t.location}</dt>
+        <dd>{p.city[locale]}</dd>
+      </dl>
+      <p class="muted">{t.contactNote} <a href={pathFor('legal', locale)}>{t.nav.legal.toLowerCase()}</a>.</p>
+    </article>
+  </div>
+</Base>

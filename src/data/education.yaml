@@ -29,7 +29,7 @@
 - id: ku-leuven
   programme: { pt: Programa Erasmus+, en: Erasmus+ exchange }
   institution: KU Leuven
-  city: { pt: Lovaina, Bélgica, en: Leuven, Belgium }
+  city: { pt: "Lovaina, Bélgica", en: "Leuven, Belgium" }
   start: "2019"
   end: "2020"
   notes:

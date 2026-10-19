@@ -70,7 +70,7 @@
   start: "2021-08"
   end: "2021-09"
   roles:
-    - title: { pt: Estágio de verão, área fiscal, en: Summer internship, Tax }
+    - title: { pt: "Estágio de verão, área fiscal", en: "Summer internship, Tax" }
   supervisor: Tiago Cassiano Neves
 
 - id: cms-croatia
@@ -89,5 +89,5 @@
   start: "2019-08"
   end: "2019-08"
   roles:
-    - title: { pt: Estágio de verão, área fiscal, en: Summer internship, Tax }
+    - title: { pt: "Estágio de verão, área fiscal", en: "Summer internship, Tax" }
   supervisor: João Rapoula

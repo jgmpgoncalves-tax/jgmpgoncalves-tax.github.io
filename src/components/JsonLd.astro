@@ -1,0 +1,30 @@
+---
+import type { Locale } from '../i18n/config';
+import { absoluteUrlFor } from '../i18n/utils';
+import { currentRole, getEducation, getExperience, getProfile } from '../lib/data';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const profile = await getProfile();
+const { main } = await getExperience();
+const current = main.find((e) => e.data.end === null);
+const education = await getEducation();
+
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.name,
+  url: absoluteUrlFor('home', locale, Astro.site),
+  email: `mailto:${profile.email}`,
+  jobTitle: current ? currentRole(current.data.roles).title[locale] : profile.profession[locale],
+  ...(current && { worksFor: { '@type': 'Organization', name: current.data.organisation } }),
+  // Completed programmes only.
+  alumniOf: education
+    .filter((e) => e.data.end !== null)
+    .map((e) => ({ '@type': 'EducationalOrganization', name: e.data.institution })),
+  address: { '@type': 'PostalAddress', addressLocality: locale === 'pt' ? 'Lisboa' : 'Lisbon', addressCountry: 'PT' },
+  knowsLanguage: ['pt', 'en'],
+  sameAs: [profile.linkedin],
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(person)} />

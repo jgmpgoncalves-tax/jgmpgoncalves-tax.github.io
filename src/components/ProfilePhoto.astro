@@ -1,0 +1,18 @@
+---
+import { Image } from 'astro:assets';
+import { profilePhoto } from '../lib/photo';
+
+interface Props { alt: string; width: number; loading?: 'eager' | 'lazy' }
+const { alt, width, loading = 'lazy' } = Astro.props;
+const height = Math.round(width * 1.25);
+---
+<Image
+  class="profile-photo"
+  src={profilePhoto.src}
+  alt={profilePhoto.isPlaceholder ? '' : alt}
+  width={width}
+  height={height}
+  densities={[1, 2]}
+  loading={loading}
+  fit="cover"
+/>

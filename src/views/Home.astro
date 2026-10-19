@@ -1,0 +1,61 @@
+---
+import Base from '../layouts/Base.astro';
+import JsonLd from '../components/JsonLd.astro';
+import ProfilePhoto from '../components/ProfilePhoto.astro';
+import NewsList from '../components/NewsList.astro';
+import type { Locale } from '../i18n/config';
+import { UI } from '../i18n/ui';
+import { pathFor } from '../i18n/utils';
+import { getBio, getNews, getProfile } from '../lib/data';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = UI[locale];
+const profile = await getProfile();
+const bio = (await getBio(locale)).slice(0, 2);
+const news = (await getNews(locale)).slice(0, 3);
+const cards = (['about', 'practice', 'publications', 'contact'] as const).map((key) => ({
+  key,
+  href: pathFor(key, locale),
+  title: t.nav[key],
+  text: t.cards[key],
+}));
+---
+<Base locale={locale} routeKey="home" title={profile.name} description={profile.description[locale]}>
+  <JsonLd slot="head" locale={locale} />
+
+  <section class="hero">
+    <div class="container">
+      <h1>{profile.name}</h1>
+      <p class="hero-role">{profile.headline[locale]}</p>
+    </div>
+  </section>
+
+  <div class="container">
+    <section class="intro surface" aria-labelledby="intro-title">
+      <ProfilePhoto alt={t.photoAlt} width={280} loading="eager" />
+      <div>
+        <h2 id="intro-title" class="visually-hidden">{t.nav.about}</h2>
+        {bio.map((p) => <p>{p}</p>)}
+        <p><a class="more" href={pathFor('about', locale)}>{t.readMore}<span class="visually-hidden">: {t.nav.about}</span></a></p>
+      </div>
+    </section>
+
+    <nav class="cards" aria-label={t.mainNav}>
+      {cards.map((c) => (
+        <a class="card" href={c.href}>
+          <span class="card-title">{c.title}</span>
+          <span class="card-text">{c.text}</span>
+        </a>
+      ))}
+    </nav>
+
+    {news.length > 0 && (
+      <section class="news-strip" aria-labelledby="news-title">
+        <h2 id="news-title" class="section-label">{t.featuredNews}</h2>
+        <NewsList items={news} locale={locale} />
+        <p><a href={pathFor('news', locale)}>{t.allNews}</a></p>
+      </section>
+    )}
+  </div>
+</Base>

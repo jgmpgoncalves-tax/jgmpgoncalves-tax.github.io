@@ -4,8 +4,8 @@ import { z } from 'astro/zod';
 
 // Shared field types.
 const text = z.string().min(1);
-const localised = z.object({ pt: text, en: text });
-const localisedList = z.object({ pt: z.array(text), en: z.array(text) });
+const localised = z.strictObject({ pt: text, en: text });
+const localisedList = z.strictObject({ pt: z.array(text), en: z.array(text) });
 // "YYYY", "YYYY-MM" or "YYYY-MM-DD". Years written without quotes are accepted too.
 const partialDate = z
   .union([z.string(), z.number()])
@@ -123,4 +123,10 @@ const news = defineCollection({
   }),
 });
 
-export const collections = { profile, experience, education, research, publications, training, practiceAreas, news };
+// Privacy policy and legal notice: src/content/legal/<locale>/<privacy|legal>.md.
+const legal = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/legal' }),
+  schema: z.object({ title: text, draft: z.boolean().default(false), updated: z.coerce.date() }),
+});
+
+export const collections = { legal, profile, experience, education, research, publications, training, practiceAreas, news };

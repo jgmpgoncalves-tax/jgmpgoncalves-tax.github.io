@@ -27,8 +27,16 @@ Personal professional website. Astro, static output, GitHub Pages. Public reposi
 - Before finishing: `npm run check`, `npm run build`, broken-link check, Lighthouse, HTML validation, and search `dist/` for em dashes and `TODO`.
 
 ## Routine edits
-- Current role / contacts: `src/data/profile.yaml`.
-- Experience, education (incl. dissertation status), research, training, activities: matching file in `src/data/`.
+- Current role or promotion: `src/data/experience.yaml` only (current role has `end: null`). The bio in `src/data/profile.yaml` fills `{position}` from it.
+- Identity, contacts, bio, languages: `src/data/profile.yaml`.
+- Education (incl. dissertation `status`), research, training, practice areas: matching file in `src/data/`.
 - New publication: add an entry to `src/data/publications.yaml` (sorting and year grouping are automatic).
-- News item: add `src/content/news/pt/<date>-<slug>.md` and the English counterpart in `src/content/news/en/`. News appears in the navigation and on the home page once the first entry exists.
-- New page: add a route key and both slugs in `src/i18n/config.ts`, labels in `src/i18n/ui.ts`.
+- News item: add `src/content/news/pt/<date>-<slug>.md` and the same file name in `src/content/news/en/`. News appears in the navigation and on the home page once the first entry in that language exists.
+- Privacy policy and legal notice: `src/content/legal/<pt|en>/<privacy|legal>.md`. Remove `draft: true` once approved.
+- Missing data: `todo: [field]` in the YAML renders a visible TODO.
+- New page: add a route key and both slugs in `src/i18n/config.ts`, labels and meta description in `src/i18n/ui.ts`, a view in `src/views/` and a line in `src/pages/[...path].astro`.
+- Share image: `node scripts/og-image.mjs` (needs Playwright) regenerates `public/og-image.png`.
+
+## YAML pitfalls
+- Quote any value containing a comma inside inline `{ }` or `[ ]` (e.g. `{ pt: "Lisboa, Portugal", en: "Lisbon, Portugal" }`). Unquoted, the comma splits the value; the strict schemas then fail the build.
+- Quote dates: `"2025-07"`.

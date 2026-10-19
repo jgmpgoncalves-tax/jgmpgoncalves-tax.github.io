@@ -1,10 +1,15 @@
 ---
-// One template per page, rendered in every language from the route map in src/i18n/config.ts.
-import Base from '../layouts/Base.astro';
+// Every page in every language, from the route map in src/i18n/config.ts.
+// Each view renders one page; the language comes in as a prop.
 import type { Locale, RouteKey } from '../i18n/config';
-import { UI } from '../i18n/ui';
 import { allRouteParams } from '../i18n/utils';
-import { getProfile } from '../lib/data';
+import Home from '../views/Home.astro';
+import About from '../views/About.astro';
+import Practice from '../views/Practice.astro';
+import Publications from '../views/Publications.astro';
+import News from '../views/News.astro';
+import Contact from '../views/Contact.astro';
+import Legal from '../views/Legal.astro';
 
 export function getStaticPaths() {
   return allRouteParams();
@@ -12,16 +17,11 @@ export function getStaticPaths() {
 
 interface Props { key: RouteKey; locale: Locale }
 const { key, locale } = Astro.props;
-const t = UI[locale];
-const profile = await getProfile();
-const title = key === 'home' ? profile.name : t.nav[key];
 ---
-<Base locale={locale} routeKey={key} title={title} description={profile.headline[locale]}>
-  <div class="container">
-    <article class="page">
-      <h1>{title}</h1>
-      {key === 'home' && <p>{profile.headline[locale]}</p>}
-      <p>{t.placeholder}</p>
-    </article>
-  </div>
-</Base>
+{key === 'home' && <Home locale={locale} />}
+{key === 'about' && <About locale={locale} />}
+{key === 'practice' && <Practice locale={locale} />}
+{key === 'publications' && <Publications locale={locale} />}
+{key === 'news' && <News locale={locale} />}
+{key === 'contact' && <Contact locale={locale} />}
+{(key === 'privacy' || key === 'legal') && <Legal locale={locale} page={key} />}

@@ -1,0 +1,6 @@
+---
+// Visible marker for missing data. Search the built site for "TODO" before publishing.
+interface Props { what: string }
+const { what } = Astro.props;
+---
+<mark class="todo">TODO: {what}</mark>
