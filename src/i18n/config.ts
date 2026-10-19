@@ -16,6 +16,7 @@ export const ROUTES = {
   about: { pt: 'sobre', en: 'about' },
   practice: { pt: 'areas-de-pratica', en: 'practice-areas' },
   publications: { pt: 'publicacoes', en: 'publications' },
+  articles: { pt: 'artigos', en: 'articles' },
   news: { pt: 'noticias', en: 'news' },
   contact: { pt: 'contactos', en: 'contact' },
   privacy: { pt: 'politica-de-privacidade', en: 'privacy-policy' },

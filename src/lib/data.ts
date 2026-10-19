@@ -64,12 +64,12 @@ export async function getPublicationsByYear() {
   return [...groups].map(([year, items]) => ({ year, items }));
 }
 
-// Loaded once per build: every page checks it for the navigation.
+// Loaded once per production build (every page checks it for the navigation); reloaded in dev.
 let newsCache: Awaited<ReturnType<typeof getCollection<'news'>>> | undefined;
 
 /** News items for one language, newest first. */
 export async function getNews(locale: Locale) {
-  newsCache ??= await getCollection('news');
+  if (!newsCache || import.meta.env.DEV) newsCache = await getCollection('news');
   return newsCache
     .filter((n) => n.id.startsWith(`${locale}/`))
     .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());

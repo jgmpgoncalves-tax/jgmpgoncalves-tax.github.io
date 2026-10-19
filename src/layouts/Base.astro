@@ -7,7 +7,7 @@ import Footer from '../components/Footer.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { DEFAULT_LOCALE, LANG_TAGS, LOCALES, OG_LOCALES, type Locale, type RouteKey } from '../i18n/config';
 import { UI } from '../i18n/ui';
-import { absoluteUrlFor, asset } from '../i18n/utils';
+import { asset, pathFor } from '../i18n/utils';
 import { getProfile, hasNews } from '../lib/data';
 
 interface Props {
@@ -17,16 +17,40 @@ interface Props {
   title: string;
   description: string;
   noindex?: boolean;
+  /** Paths of the language versions that exist. Defaults to every language of `routeKey`. */
+  alternates?: Partial<Record<Locale, string>>;
+  /** Where the language switch goes. Defaults to the alternates, else that language's page for `routeKey`. */
+  switchHrefs?: Partial<Record<Locale, string>>;
+  /** Final breadcrumb after the `routeKey` page (e.g. an article title). */
+  crumb?: string;
+  ogType?: 'website' | 'profile' | 'article';
 }
-const { locale, routeKey, title, description, noindex = false } = Astro.props;
+const { locale, routeKey, title, description, noindex = false, crumb } = Astro.props;
 const t = UI[locale];
 const profile = await getProfile();
 
 // News stays out of the navigation until the first entry in this language exists.
-const navKeys: RouteKey[] = ['about', 'practice', 'publications', ...((await hasNews(locale)) ? (['news'] as const) : []), 'contact'];
+const navKeys: RouteKey[] = [
+  'about',
+  'practice',
+  'publications',
+  'articles',
+  ...((await hasNews(locale)) ? (['news'] as const) : []),
+  'contact',
+];
+
+const abs = (path: string) => new URL(path, Astro.site).href;
+const alternates: Partial<Record<Locale, string>> =
+  Astro.props.alternates ?? (routeKey ? Object.fromEntries(LOCALES.map((l) => [l, pathFor(routeKey, l)])) : {});
+const switchHrefs = Object.fromEntries(
+  LOCALES.map((l) => [l, Astro.props.switchHrefs?.[l] ?? alternates[l] ?? pathFor(routeKey ?? 'home', l)]),
+) as Record<Locale, string>;
+const hreflangs = LOCALES.filter((l) => alternates[l]);
+const xDefault = alternates[DEFAULT_LOCALE] ?? alternates[locale];
+const ogType = Astro.props.ogType ?? (routeKey === 'about' ? 'profile' : 'website');
 
 const fullTitle = routeKey === 'home' ? `${profile.name} | ${profile.headline[locale]}` : `${title} | ${profile.name}`;
-const canonical = routeKey ? absoluteUrlFor(routeKey, locale, Astro.site) : undefined;
+const canonical = alternates[locale] ? abs(alternates[locale]) : undefined;
 ---
 <!doctype html>
 <html lang={LANG_TAGS[locale]}>
@@ -40,17 +64,16 @@ const canonical = routeKey ? absoluteUrlFor(routeKey, locale, Astro.site) : unde
     <link rel="icon" href={asset('favicon.svg')} type="image/svg+xml" />
     <meta name="theme-color" content="#1b2a4a" />
     {canonical && <link rel="canonical" href={canonical} />}
-    {routeKey && LOCALES.map((l) => (
-      <link rel="alternate" hreflang={LANG_TAGS[l]} href={absoluteUrlFor(routeKey, l, Astro.site)} />
-    ))}
-    {routeKey && <link rel="alternate" hreflang="x-default" href={absoluteUrlFor(routeKey, DEFAULT_LOCALE, Astro.site)} />}
-    <meta property="og:type" content={routeKey === 'about' ? 'profile' : 'website'} />
+    {hreflangs.map((l) => <link rel="alternate" hreflang={LANG_TAGS[l]} href={abs(alternates[l]!)} />)}
+    {xDefault && <link rel="alternate" hreflang="x-default" href={abs(xDefault)} />}
+    <link rel="alternate" type="application/rss+xml" title={`${profile.name}: ${t.nav.articles}`} href={abs(`${pathFor('articles', locale)}rss.xml`)} />
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={profile.name} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     {canonical && <meta property="og:url" content={canonical} />}
     <meta property="og:locale" content={OG_LOCALES[locale]} />
-    {LOCALES.filter((l) => l !== locale).map((l) => <meta property="og:locale:alternate" content={OG_LOCALES[l]} />)}
+    {hreflangs.filter((l) => l !== locale).map((l) => <meta property="og:locale:alternate" content={OG_LOCALES[l]} />)}
     <meta property="og:image" content={new URL(asset('og-image.png'), Astro.site).href} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -63,10 +86,10 @@ const canonical = routeKey ? absoluteUrlFor(routeKey, locale, Astro.site) : unde
   </head>
   <body>
     <a class="skip-link" href="#content">{t.skip}</a>
-    <Header locale={locale} routeKey={routeKey ?? 'home'} navKeys={navKeys} name={profile.name} />
+    <Header locale={locale} routeKey={routeKey} navKeys={navKeys} name={profile.name} switchHrefs={switchHrefs} isSectionPage={!crumb} />
     <main id="content" tabindex="-1">
       {routeKey && routeKey !== 'home' && (
-        <div class="container"><Breadcrumbs locale={locale} routeKey={routeKey} /></div>
+        <div class="container"><Breadcrumbs locale={locale} routeKey={routeKey} current={crumb} /></div>
       )}
       <slot />
     </main>

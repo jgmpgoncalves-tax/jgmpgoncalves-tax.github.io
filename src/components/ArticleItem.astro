@@ -1,0 +1,24 @@
+---
+// One entry in an article list: title, type, date, summary, and a language label
+// when the article exists only in another language.
+import { LANG_TAGS, type Locale } from '../i18n/config';
+import { UI } from '../i18n/ui';
+import { articlePath, dateFormat, localeOf, TYPE_LABELS, type Article } from '../lib/articles';
+
+interface Props { article: Article; locale: Locale; headingLevel?: 'h2' | 'h3' }
+const { article: a, locale, headingLevel: Heading = 'h3' } = Astro.props;
+const t = UI[locale];
+const aLocale = localeOf(a);
+const foreign = aLocale !== locale;
+---
+<article class="article-item">
+  <p class="article-meta">
+    <time datetime={a.data.date.toISOString().slice(0, 10)}>{dateFormat(locale).format(a.data.date)}</time>
+    {' · '}{TYPE_LABELS[locale][a.data.type]}
+    {foreign && <>{' · '}<span class="lang-label">{t.inLanguage[aLocale]}</span></>}
+  </p>
+  <Heading class="article-item-title">
+    <a href={articlePath(a)} lang={foreign ? LANG_TAGS[aLocale] : undefined} hreflang={foreign ? LANG_TAGS[aLocale] : undefined}>{a.data.title}</a>
+  </Heading>
+  <p class="article-summary" lang={foreign ? LANG_TAGS[aLocale] : undefined}>{a.data.summary}</p>
+</article>

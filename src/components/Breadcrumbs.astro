@@ -3,13 +3,20 @@ import type { Locale, RouteKey } from '../i18n/config';
 import { UI } from '../i18n/ui';
 import { pathFor } from '../i18n/utils';
 
-interface Props { locale: Locale; routeKey: RouteKey }
-const { locale, routeKey } = Astro.props;
+interface Props { locale: Locale; routeKey: RouteKey; current?: string }
+const { locale, routeKey, current } = Astro.props;
 const t = UI[locale];
 ---
 <nav class="breadcrumbs" aria-label={t.breadcrumbs}>
   <ol>
     <li><a href={pathFor('home', locale)}>{t.nav.home}</a></li>
-    <li><span aria-current="page">{t.nav[routeKey]}</span></li>
+    {current ? (
+      <>
+        <li><a href={pathFor(routeKey, locale)}>{t.nav[routeKey]}</a></li>
+        <li><span aria-current="page">{current}</span></li>
+      </>
+    ) : (
+      <li><span aria-current="page">{t.nav[routeKey]}</span></li>
+    )}
   </ol>
 </nav>

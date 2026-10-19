@@ -4,8 +4,17 @@ import { LANG_TAGS, LOCALES, type Locale, type RouteKey } from '../i18n/config';
 import { UI } from '../i18n/ui';
 import { pathFor } from '../i18n/utils';
 
-interface Props { locale: Locale; routeKey: RouteKey; navKeys: RouteKey[]; name: string }
-const { locale, routeKey, navKeys, name } = Astro.props;
+interface Props {
+  locale: Locale;
+  routeKey?: RouteKey;
+  navKeys: RouteKey[];
+  name: string;
+  /** Target of the language switch for each language. */
+  switchHrefs: Record<Locale, string>;
+  /** False on pages inside a section (an article), where the section link is current but not the page. */
+  isSectionPage?: boolean;
+}
+const { locale, routeKey, navKeys, name, switchHrefs, isSectionPage = true } = Astro.props;
 const t = UI[locale];
 ---
 <header class="site-header">
@@ -24,7 +33,7 @@ const t = UI[locale];
       <ul>
         {navKeys.map((key) => (
           <li>
-            <a href={pathFor(key, locale)} aria-current={key === routeKey ? 'page' : undefined}>
+            <a href={pathFor(key, locale)} aria-current={key === routeKey ? (isSectionPage ? 'page' : 'true') : undefined}>
               {t.nav[key]}
             </a>
           </li>
@@ -36,7 +45,7 @@ const t = UI[locale];
             {l === locale ? (
               <span aria-current="true" lang={LANG_TAGS[l]}>{l.toUpperCase()}</span>
             ) : (
-              <a href={pathFor(routeKey, l)} hreflang={LANG_TAGS[l]} lang={LANG_TAGS[l]} aria-label={UI[l].switchTo}>
+              <a href={switchHrefs[l]} hreflang={LANG_TAGS[l]} lang={LANG_TAGS[l]} aria-label={UI[l].switchTo}>
                 {l.toUpperCase()}
               </a>
             )}

@@ -31,11 +31,21 @@ Personal professional website. Astro, static output, GitHub Pages. Public reposi
 - Identity, contacts, bio, languages: `src/data/profile.yaml`.
 - Education (incl. dissertation `status`), research, training, practice areas: matching file in `src/data/`.
 - New publication: add an entry to `src/data/publications.yaml` (sorting and year grouping are automatic).
+- Article: see "Publishing an article" below.
 - News item: add `src/content/news/pt/<date>-<slug>.md` and the same file name in `src/content/news/en/`. News appears in the navigation and on the home page once the first entry in that language exists.
 - Privacy policy and legal notice: `src/content/legal/<pt|en>/<privacy|legal>.md`. Remove `draft: true` once approved.
 - Missing data: `todo: [field]` in the YAML renders a visible TODO.
 - New page: add a route key and both slugs in `src/i18n/config.ts`, labels and meta description in `src/i18n/ui.ts`, a view in `src/views/` and a line in `src/pages/[...path].astro`.
 - Share image: `node scripts/og-image.mjs` (needs Playwright) regenerates `public/og-image.png`.
+
+## Publishing an article
+- File: `src/content/articles/<pt|en>/<slug>.md`. The file name is the slug: `/artigos/<slug>/` or `/en/articles/<slug>/`. Use lowercase ASCII and hyphens.
+- Frontmatter: `title`, `date` (YYYY-MM-DD), `updated` (optional), `summary`, `type` (`scientific` | `note` | `commentary`), `tags` (list), `lang` (must match the folder), `translationOf` (optional: slug of the version in the other language), `pdf` (optional: file name in `public/pdf/`), `draft` (true/false).
+- `draft: true` articles appear in `npm run dev` only; they are not built in production. Draft files are still visible in the public repository.
+- An article may exist in one language only. The other language's list shows it with a language label, and the language switch on the article goes to that list.
+- Body: `##` and `###` headings only. Footnotes with `[^1]` and `[^1]: text`. Statutory text as a block quote whose first line is the provision in bold (`> **Artigo 51.º do Código do IRC**`).
+- The build fails on: wrong folder/`lang`, a missing PDF, `#`/`####` headings, em dashes (including `---` inside text, which the Markdown processor turns into one; a `---` line on its own is a horizontal rule and is allowed).
+- Generated automatically: list and home entry, "Como citar / How to cite", JSON-LD (ScholarlyArticle for `scientific`, Article otherwise), Open Graph article tags, canonical, hreflang (only for versions that exist), RSS at `/artigos/rss.xml` and `/en/articles/rss.xml`.
 
 ## YAML pitfalls
 - Quote any value containing a comma inside inline `{ }` or `[ ]` (e.g. `{ pt: "Lisboa, Portugal", en: "Lisbon, Portugal" }`). Unquoted, the comma splits the value; the strict schemas then fail the build.

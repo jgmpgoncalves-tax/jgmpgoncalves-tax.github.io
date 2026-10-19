@@ -12,6 +12,7 @@
     "url": "git+https://github.com/jgmpgoncalves-tax/jgmpgoncalves-tax.git"
   },
   "dependencies": {
+    "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "@fontsource-variable/source-sans-3": "^5.3.1",
     "@fontsource-variable/source-serif-4": "^5.3.1",

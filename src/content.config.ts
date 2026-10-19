@@ -123,10 +123,28 @@ const news = defineCollection({
   }),
 });
 
+// Articles written for this site: src/content/articles/<pt|en>/<slug>.md.
+// The slug is the file name; `translationOf` is the slug of the version in the other language.
+const articles = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/articles' }),
+  schema: z.object({
+    title: text,
+    date: z.coerce.date(),
+    updated: z.coerce.date().optional(),
+    summary: text,
+    type: z.enum(['scientific', 'note', 'commentary']),
+    tags: z.array(text).default([]),
+    lang: z.enum(['pt', 'en']),
+    translationOf: text.optional(),
+    pdf: text.optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
 // Privacy policy and legal notice: src/content/legal/<locale>/<privacy|legal>.md.
 const legal = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/legal' }),
   schema: z.object({ title: text, draft: z.boolean().default(false), updated: z.coerce.date() }),
 });
 
-export const collections = { legal, profile, experience, education, research, publications, training, practiceAreas, news };
+export const collections = { articles, legal, profile, experience, education, research, publications, training, practiceAreas, news };

@@ -3,6 +3,8 @@ import Base from '../layouts/Base.astro';
 import JsonLd from '../components/JsonLd.astro';
 import ProfilePhoto from '../components/ProfilePhoto.astro';
 import NewsList from '../components/NewsList.astro';
+import ArticleItem from '../components/ArticleItem.astro';
+import { articlesFor } from '../lib/articles';
 import type { Locale } from '../i18n/config';
 import { UI } from '../i18n/ui';
 import { pathFor } from '../i18n/utils';
@@ -14,6 +16,7 @@ const t = UI[locale];
 const profile = await getProfile();
 const bio = (await getBio(locale)).slice(0, 2);
 const news = (await getNews(locale)).slice(0, 3);
+const [latestArticle] = await articlesFor(locale);
 const cards = (['about', 'practice', 'publications', 'contact'] as const).map((key) => ({
   key,
   href: pathFor(key, locale),
@@ -49,6 +52,14 @@ const cards = (['about', 'practice', 'publications', 'contact'] as const).map((k
         </a>
       ))}
     </nav>
+
+    {latestArticle && (
+      <section class="latest-article" aria-labelledby="latest-title">
+        <h2 id="latest-title" class="section-label">{t.latestArticle}</h2>
+        <ArticleItem article={latestArticle} locale={locale} />
+        <p><a href={pathFor('articles', locale)}>{t.allArticles}</a></p>
+      </section>
+    )}
 
     {news.length > 0 && (
       <section class="news-strip" aria-labelledby="news-title">
