@@ -7,8 +7,13 @@ export const LOCALES = /** @type {const} */ (['pt', 'en']);
 /** @type {'pt' | 'en'} */
 export const DEFAULT_LOCALE = 'pt';
 
-// BCP 47 tags used in <html lang>, hreflang, og:locale and the sitemap.
-export const LANG_TAGS = { pt: 'pt-PT', en: 'en-GB' };
+// BCP 47 tags used in <html lang>, hreflang, the sitemap and RSS.
+// Portuguese is tagged "pt" (not "pt-PT") so that search engines serve it to all
+// Portuguese speakers, including Brazil. The text itself is European Portuguese.
+export const LANG_TAGS = { pt: 'pt', en: 'en-GB' };
+
+// Locales for formatting dates (European Portuguese conventions).
+export const FORMAT_LOCALES = { pt: 'pt-PT', en: 'en-GB' };
 
 // Route keys and their path in each language ('' is the home page).
 // Paths may contain "/" (a page inside a section). Never change a published path:

@@ -1,6 +1,12 @@
 // Languages and routes for the site. The values live in routes.mjs.
 
-import { DEFAULT_LOCALE as DEFAULT, LANG_TAGS as TAGS, LOCALES as LOCALE_LIST, ROUTES as ROUTE_MAP } from './routes.mjs';
+import {
+  DEFAULT_LOCALE as DEFAULT,
+  FORMAT_LOCALES as FORMATS,
+  LANG_TAGS as TAGS,
+  LOCALES as LOCALE_LIST,
+  ROUTES as ROUTE_MAP,
+} from './routes.mjs';
 
 export const LOCALES = LOCALE_LIST;
 export type Locale = (typeof LOCALES)[number];
@@ -8,6 +14,7 @@ export type Locale = (typeof LOCALES)[number];
 export const DEFAULT_LOCALE: Locale = DEFAULT;
 
 export const LANG_TAGS: Record<Locale, string> = TAGS;
+export const FORMAT_LOCALES: Record<Locale, string> = FORMATS;
 export const OG_LOCALES: Record<Locale, string> = { pt: 'pt_PT', en: 'en_GB' };
 
 // The route map itself is in routes.mjs (shared with astro.config.mjs).

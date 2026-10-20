@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs';
 import { getCollection, type CollectionEntry } from 'astro:content';
-import { LANG_TAGS, LOCALES, type Locale } from '../i18n/config';
+import { FORMAT_LOCALES, LOCALES, type Locale } from '../i18n/config';
 import { pathFor } from '../i18n/utils';
 import { checkFolder, localeOf, newestFirst, slugOf, versionIn } from './entries';
 
@@ -65,7 +65,7 @@ export function commentaryHtml(c: Commentary): string {
 }
 
 export const dateFormat = (locale: Locale) =>
-  new Intl.DateTimeFormat(LANG_TAGS[locale], { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+  new Intl.DateTimeFormat(FORMAT_LOCALES[locale], { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 
 /**
  * Parts of the "Como citar / How to cite" reference, following the Católica Law Review
