@@ -5,7 +5,7 @@
   title: "Portugal and P.O.E.M.: The Road not Taken? Reflections on Ruling no. 26078"
   venue: Nova Tax Practitioners Column
   date: "2025-06"
-  todo: [url]
+  url: https://taxlab.novalaw.unl.pt/?page_id=5914
 
 - id: crypto-assets-mining
   title: "Crypto-assets, Aggravated Taxation for Environmental Reasons (Mining)"
@@ -13,14 +13,14 @@
   edition: { pt: 2.ª ed., en: 2nd ed. }
   volume: Taxation and Sustainability
   date: "2024-08"
-  todo: [url]
+  url: https://www.bubok.pt/livros/268089/nova-tax-research-series---taxation-and-sustainability---volume-two
 
 - id: zooming-out-digital-economy
   title: "Zooming Out - Why do we need to Tax the Digital Economy?"
   venue: Nova Tax Research Series
   edition: { pt: 1.ª ed., en: 1st ed. }
   date: "2023-07"
-  todo: [url]
+  url: https://www.bubok.pt/livros/267661/nova-tax-research-series---volume-one
 
 - id: brexit-mdr-dac6
   title: "Brexit, MDR and DAC-6: the 'London System' against a 'Sicilian Defence'?"
