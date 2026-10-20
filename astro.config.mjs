@@ -2,7 +2,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-import { DEFAULT_LOCALE, LOCALES } from './src/i18n/routes.mjs';
+import { DEFAULT_LOCALE, LOCALES, legacyRedirects, routePath } from './src/i18n/routes.mjs';
 import { hasCommentaries, sitemapLinks } from './src/i18n/sitemap-links.mjs';
 
 const SITE = 'https://jgmpgoncalves-tax.github.io';
@@ -19,8 +19,9 @@ export default defineConfig({
   // The old articles list points to the commentaries once the first one is published
   // (until then that page does not exist), otherwise to the Publications hub.
   redirects: {
-    '/artigos/': hasCommentaries() ? '/comentarios/' : '/publicacoes/',
-    '/en/articles/': hasCommentaries() ? '/en/commentaries/' : '/en/publications/',
+    ...legacyRedirects(),
+    '/artigos/': routePath(hasCommentaries() ? 'commentaries' : 'publications', 'pt'),
+    '/en/articles/': routePath(hasCommentaries() ? 'commentaries' : 'publications', 'en'),
   },
   output: 'static',
   build: { format: 'directory' },

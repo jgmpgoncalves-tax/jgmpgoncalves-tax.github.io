@@ -5,7 +5,7 @@
 export const LOCALES = /** @type {const} */ (['pt', 'en']);
 
 /** @type {'pt' | 'en'} */
-export const DEFAULT_LOCALE = 'pt';
+export const DEFAULT_LOCALE = 'en';
 
 // BCP 47 tags used in <html lang>, hreflang, the sitemap and RSS.
 // Language-only tags ("pt", "en") so that search engines serve each version to all
@@ -37,4 +37,26 @@ export function routePath(key, locale) {
   const prefix = locale === DEFAULT_LOCALE ? '' : `/${locale}`;
   const slug = ROUTES[key][locale];
   return `${prefix}/${slug ? `${slug}/` : ''}`;
+}
+
+// Until 20 Oct 2026 Portuguese was the default language (at "/") and English was at "/en/".
+// These published URLs redirect to their new place. Only pages that existed then are listed;
+// sections that only exist with content had not been published.
+const LEGACY_DEFAULT = 'pt';
+const LEGACY_KEYS = ['about', 'practice', 'publications', 'papers', 'contact', 'privacy', 'legal'];
+
+/** Redirects from the URLs used while Portuguese was the default language. */
+export function legacyRedirects() {
+  const out = {};
+  for (const key of LEGACY_KEYS) {
+    for (const locale of LOCALES) {
+      const slug = ROUTES[key][locale];
+      const old = locale === LEGACY_DEFAULT ? `/${slug}/` : `/${locale}/${slug}/`;
+      const now = routePath(key, locale);
+      if (old !== now) out[old] = now;
+    }
+  }
+  // Old English home page.
+  out['/en/'] = routePath('home', 'en');
+  return out;
 }

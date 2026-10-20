@@ -4,6 +4,8 @@ Site estático em [Astro](https://astro.build), publicado no GitHub Pages em htt
 
 O conteúdo está separado do código. Para atualizar o site basta editar ficheiros de dados (YAML) ou Markdown; não é necessário mexer em templates.
 
+A língua principal é o inglês, na raiz (`/`); o português está em `/pt/`. Os endereços antigos (português na raiz, inglês em `/en/`) redirecionam para os novos.
+
 As secções Comentários e notas, Intervenções e Notícias só aparecem no menu, na página inicial, no hub de Publicações e no sitemap a partir do primeiro conteúdo publicado.
 
 ## Mudar de cargo ou de sociedade
@@ -55,7 +57,7 @@ A ordenação e os separadores por ano são automáticos.
 
 Os comentários escritos para o site ficam em `src/content/commentaries/pt/` (português) ou `src/content/commentaries/en/` (inglês). Basta existir na língua em que foi escrito: na outra língua aparece na lista com a indicação do idioma.
 
-1. Criar o ficheiro `src/content/commentaries/pt/<slug>.md`. O nome do ficheiro define o endereço: `/comentarios/<slug>/` (ou `/en/commentaries/<slug>/`). Usar minúsculas, sem acentos, com hífenes (por exemplo, `ac-sta-dedutibilidade-encargos.md`). **Depois de publicado, nunca mudar o nome do ficheiro**: o endereço será citado.
+1. Criar o ficheiro `src/content/commentaries/pt/<slug>.md`. O nome do ficheiro define o endereço: `/pt/comentarios/<slug>/` (ou `/commentaries/<slug>/` em inglês). Usar minúsculas, sem acentos, com hífenes (por exemplo, `ac-sta-dedutibilidade-encargos.md`). **Depois de publicado, nunca mudar o nome do ficheiro**: o endereço será citado.
 2. Preencher o cabeçalho:
 
 ```markdown
@@ -97,7 +99,7 @@ Tipos (`src/data/commentary-types.yaml`):
 
 Não usar travessões (o carácter U+2014). A sequência `---` dentro de uma frase também é convertida em travessão e faz falhar o build; uma linha só com `---` é uma linha horizontal e é permitida.
 
-O site gera automaticamente: a entrada na lista, os cartões "Em destaque", o bloco "Como citar" (regras de estilo da Católica Law Review para textos consultados na internet), os dados estruturados, as etiquetas para partilha, o feed RSS (`/comentarios/rss.xml` e `/en/commentaries/rss.xml`) e o menu "Comentários e notas" a partir do primeiro comentário.
+O site gera automaticamente: a entrada na lista, os cartões "Em destaque", o bloco "Como citar" (regras de estilo da Católica Law Review para textos consultados na internet), os dados estruturados, as etiquetas para partilha, o feed RSS (`/pt/comentarios/rss.xml` e `/commentaries/rss.xml`) e o menu "Comentários e notas" a partir do primeiro comentário.
 
 Nota: o repositório é público. Mesmo com `draft: true`, o ficheiro fica visível no GitHub. Para manter um texto privado, não o colocar no repositório.
 

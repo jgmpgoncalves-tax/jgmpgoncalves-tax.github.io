@@ -1,19 +1,19 @@
 ---
-// GitHub Pages serves a single 404 file, so this page carries both languages.
+// GitHub Pages serves a single 404 file, so this page carries both languages (English first).
 import Base from '../layouts/Base.astro';
 import { DEFAULT_LOCALE, LANG_TAGS } from '../i18n/config';
 import { pathFor } from '../i18n/utils';
 ---
-<Base locale={DEFAULT_LOCALE} title="Página não encontrada / Page not found" description="Página não encontrada. Page not found." noindex>
+<Base locale={DEFAULT_LOCALE} title="Page not found / Página não encontrada" description="Page not found. Página não encontrada." noindex>
   <div class="container">
     <article class="page-main reading">
-      <section lang={LANG_TAGS.pt}>
-        <h1>Página não encontrada</h1>
-        <p>O endereço pode ter mudado ou já não existir. <a href={pathFor('home', 'pt')}>Voltar à página inicial</a>.</p>
-      </section>
       <section lang={LANG_TAGS.en}>
-        <h2>Page not found</h2>
+        <h1>Page not found</h1>
         <p>The address may have changed or no longer exist. <a href={pathFor('home', 'en')}>Back to the home page</a>.</p>
+      </section>
+      <section lang={LANG_TAGS.pt}>
+        <h2>Página não encontrada</h2>
+        <p>O endereço pode ter mudado ou já não existir. <a href={pathFor('home', 'pt')}>Voltar à página inicial</a>.</p>
       </section>
     </article>
   </div>
