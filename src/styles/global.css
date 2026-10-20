@@ -243,12 +243,18 @@ main:focus { outline: none; }
 @media (min-width: 48rem) { .banner-hero { min-height: 28rem; } }
 .banner-hero.has-image::after { background: linear-gradient(to right, rgb(27 42 74 / 0.8), rgb(27 42 74 / 0.25)); }
 .banner-hero .banner-content { padding-block: var(--space-6); }
+.hero-name {
+  margin: 0 0 var(--space-3);
+  color: #fff;
+  font-size: clamp(2.25rem, 6vw, 3.75rem);
+  line-height: 1.08;
+}
 .hero-line {
   max-width: 46rem;
   margin: 0 0 var(--space-5);
-  font-family: var(--font-serif);
-  font-size: clamp(2rem, 5.5vw, var(--step-5));
-  line-height: 1.12;
+  color: var(--border);
+  font-size: clamp(var(--step-0), 2.2vw, var(--step-2));
+  line-height: 1.35;
 }
 
 /* Home */

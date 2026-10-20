@@ -17,10 +17,10 @@
   city: { pt: Lisboa, en: Lisbon }
   country: { pt: Portugal, en: Portugal }
 
-  # Large headline in the home banner.
+  # Line under the name in the home banner.
   heroLine:
     pt: Advogado | Direito Fiscal e Fiscalidade Internacional
-    en: International Tax Lawyer based in Lisbon.
+    en: Lawyer | Tax Law and International Taxation
   # Shown under the name in the footer and used in page titles.
   headline:
     pt: Advogado | Direito Fiscal e Fiscalidade Internacional

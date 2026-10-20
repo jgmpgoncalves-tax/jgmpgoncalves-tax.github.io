@@ -35,15 +35,15 @@ const tiles = (['publications', ...(second ? [second] : [])] as const).map((key)
 
   <Banner image="inicio" variant="hero">
     <div class="container">
+      <h1 class="hero-name">{profile.name}</h1>
       <p class="hero-line">{profile.heroLine[locale]}</p>
       <a class="button button-outline" href={pathFor('about', locale)}>{t.readMore}<span class="visually-hidden">: {t.nav.about}</span></a>
     </div>
   </Banner>
 
-  <section class="home-intro" aria-labelledby="intro-title">
+  <section class="home-intro" aria-label={t.nav.about}>
     <div class="container home-intro-grid">
       <div>
-        <h1 id="intro-title">{profile.name}</h1>
         {home.map((p) => <p>{p}</p>)}
         <a class="button" href={pathFor('about', locale)}>{t.readMore}<span class="visually-hidden">: {t.nav.about}</span></a>
       </div>
