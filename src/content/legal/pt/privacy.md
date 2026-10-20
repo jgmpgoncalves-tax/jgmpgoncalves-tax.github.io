@@ -1,6 +1,5 @@
 ---
 title: Política de privacidade
-draft: true
 updated: 2026-10-19
 ---
 
