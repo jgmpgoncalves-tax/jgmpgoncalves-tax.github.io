@@ -20,6 +20,7 @@ interface Props {
 }
 const { locale, routeKey, navItems, name, profession, switchHrefs, isSectionPage = true } = Astro.props;
 const t = UI[locale];
+// The profession beside the monogram only fits while the menu is short (no talks or news yet).
 const current = (key: RouteKey) => (key === routeKey ? (isSectionPage ? 'page' : 'true') : undefined);
 // A parent item is marked when one of its children is the current page.
 const inSection = (item: NavItem) => item.children?.includes(routeKey as RouteKey) ?? false;
@@ -28,7 +29,7 @@ const inSection = (item: NavItem) => item.children?.includes(routeKey as RouteKe
   <div class="container header-inner">
     <a class="brand" href={pathFor('home', locale)} aria-label={`${name}, ${t.nav.home}`}>
       <Monogram height={30} />
-      <span class="brand-tag" aria-hidden="true">{profession}</span>
+      {navItems.length <= 4 && <span class="brand-tag" aria-hidden="true">{profession}</span>}
     </a>
 
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">

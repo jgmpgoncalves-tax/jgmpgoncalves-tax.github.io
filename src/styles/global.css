@@ -129,6 +129,7 @@ main:focus { outline: none; }
 .nav-list > li { position: relative; display: flex; align-items: center; }
 .main-nav a {
   color: var(--navy);
+  white-space: nowrap;
   text-decoration: none;
   font-size: var(--step--1);
   font-weight: 500;
