@@ -27,6 +27,10 @@ A primeira frase do texto da página Sobre é gerada a partir destes campos («J
 
 O resto da descrição está em `src/content/description/pt.md` e `en.md`: o texto da página inicial no cabeçalho (`home`), o texto da página Sobre no corpo.
 
+## Formulário de contacto
+
+O formulário da página Contactos envia as mensagens através da Formspree (conta associada a jgmpgoncalves@gmail.com). O endereço do formulário está em `src/data/profile.yaml` (`contactForm`); apagar essa linha esconde o formulário. Qualquer alteração aos campos ou ao serviço exige atualizar a política de privacidade.
+
 ## Áreas de prática
 
 Editar `src/data/practice-areas.yaml` (título e uma ou duas frases por área, nas duas línguas). A ordem é dada pelo campo `order`.
