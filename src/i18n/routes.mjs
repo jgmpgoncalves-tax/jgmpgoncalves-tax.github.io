@@ -8,9 +8,9 @@ export const LOCALES = /** @type {const} */ (['pt', 'en']);
 export const DEFAULT_LOCALE = 'pt';
 
 // BCP 47 tags used in <html lang>, hreflang, the sitemap and RSS.
-// Portuguese is tagged "pt" (not "pt-PT") so that search engines serve it to all
-// Portuguese speakers, including Brazil. The text itself is European Portuguese.
-export const LANG_TAGS = { pt: 'pt', en: 'en-GB' };
+// Language-only tags ("pt", "en") so that search engines serve each version to all
+// speakers of the language. The text itself is European Portuguese and British English.
+export const LANG_TAGS = { pt: 'pt', en: 'en' };
 
 // Locales for formatting dates (European Portuguese conventions).
 export const FORMAT_LOCALES = { pt: 'pt-PT', en: 'en-GB' };
