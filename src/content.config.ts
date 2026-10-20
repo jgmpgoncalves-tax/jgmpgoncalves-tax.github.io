@@ -18,8 +18,7 @@ const profile = defineCollection({
     name: text,
     citationName: z.strictObject({ surname: text, given: text }),
     role: localised,
-    firm: text,
-    firmPreposition: z.enum(['na', 'no']),
+    employer: localised,
     city: localised,
     country: localised,
     heroLine: localised,
@@ -40,11 +39,11 @@ const profile = defineCollection({
   }),
 });
 
-// General description: src/content/description/<pt|en>.md. Home paragraphs in the frontmatter,
+// General description: src/content/description/<pt|en>.md. Home text in the frontmatter,
 // About paragraphs in the body. {dissertation} is filled in from profile.yaml.
 const description = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/description' }),
-  schema: z.object({ home: z.array(text).length(2) }),
+  schema: z.object({ home: z.array(text).min(1) }),
 });
 
 const researchAreas = defineCollection({

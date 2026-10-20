@@ -11,13 +11,13 @@ export async function getProfile() {
   return entry.data;
 }
 
-/** Generated first sentence of the description: role, firm and city from profile.yaml. */
+/** Generated first sentence of the About text: role, employer and city from profile.yaml. */
 export async function positionSentence(locale: Locale) {
   const p = await getProfile();
   const role = p.role[locale];
-  if (locale === 'pt') return `${p.name} é ${role} ${p.firmPreposition} ${p.firm}, em ${p.city.pt}.`;
-  const article = /^[AEIOU]/i.test(role) ? 'an' : 'a';
-  return `${p.name} is ${article} ${role} at ${p.firm} in ${p.city.en}.`;
+  if (locale === 'pt') return `${p.name} é ${role} ${p.employer.pt}, em ${p.city.pt}.`;
+  const article = /^[aeiou]/i.test(role) ? 'an' : 'a';
+  return `${p.name} is ${article} ${role} ${p.employer.en} in ${p.city.en}.`;
 }
 
 /** The {dissertation} sentence, from the status field in profile.yaml. */
@@ -27,16 +27,15 @@ async function dissertationSentence(locale: Locale) {
   return d.text[d.status][locale].replace('{title}', d.title[locale]).replace('{year}', String(d.defenceYear ?? ''));
 }
 
-/** General description: two paragraphs for the home page, HTML paragraphs for About. */
+/** General description: paragraphs for the home page, HTML paragraphs for About (after the generated sentence). */
 export async function getDescription(locale: Locale) {
   const entry = await getEntry('description', locale);
   if (!entry) throw new Error(`Missing src/content/description/${locale}.md`);
   const first = await positionSentence(locale);
   const diss = await dissertationSentence(locale);
   const fill = (s: string) => s.replaceAll('{dissertation}', diss);
-  const [h1, h2] = entry.data.home.map(fill);
   return {
-    home: [`${first} ${h1}`, h2],
+    home: entry.data.home.map(fill),
     aboutHtml: fill(entry.rendered?.html ?? '').replace(/^<p>/, `<p>${first} `),
   };
 }

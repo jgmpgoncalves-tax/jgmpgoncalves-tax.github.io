@@ -1,22 +1,21 @@
 # Identity, current position and contacts.
-# A change of role or firm is made here only: the first sentence of the description
-# (home and About) is generated from `role`, `firm`, `firmPreposition` and `city`.
+# A change of role or firm is made here only: the first sentence of the About text
+# is generated from `role`, `employer` and `city`.
 - id: main
   name: João Gabriel Gonçalves
   # For "Como citar": surname shown first, in small capitals (Católica Law Review style rules).
   citationName: { surname: Gonçalves, given: João Gabriel }
 
-  role: { pt: Associado Sénior, en: Senior Associate }
-  firm: BSM Sociedade de Advogados
-  # Portuguese contraction before the firm's name: "na" (sociedade) or "no" (escritório).
-  firmPreposition: na
+  role: { pt: advogado sénior, en: senior associate }
+  # How the firm is described on the site (the firm is not named).
+  employer: { pt: numa sociedade de advogados internacional, en: at an international law firm }
   city: { pt: Lisboa, en: Lisbon }
   country: { pt: Portugal, en: Portugal }
 
   # Large headline in the home banner.
   heroLine:
-    pt: Advogado em Lisboa. Direito Fiscal e Fiscalidade Internacional.
-    en: Lawyer in Lisbon. Tax Law and International Taxation.
+    pt: Advogado de fiscalidade internacional, em Lisboa.
+    en: International Tax Lawyer based in Lisbon.
   # Shown under the name in the footer and used in page titles.
   headline:
     pt: Advogado | Direito Fiscal e Fiscalidade Internacional

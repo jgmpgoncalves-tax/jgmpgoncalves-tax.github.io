@@ -1,13 +1,10 @@
 ---
-# Two short paragraphs for the home page. The generated first sentence comes before the first one.
+# Home page text, under the name. The About text below starts with a sentence generated from profile.yaml.
 home:
-  - Inscrito na Ordem dos Advogados desde 2024, trabalha em tributação societária em operações de M&A e reestruturações, contencioso tributário e fiscalidade internacional de pessoas singulares e sociedades.
-  - É investigador júnior no Nova Tax Research Lab e escreve sobre fiscalidade internacional, tributação da economia digital e direito fiscal europeu. Publicou na Nova Tax Research Series e na Nova Tax Practitioners Column.
+  - Advogado e investigador em Direito Fiscal Internacional, com especial ênfase em tributação das pessoas coletivas, direito fiscal europeu, extrafiscalidade e política fiscal como um todo. Entusiasta da política fiscal enquanto instrumento de mudança da sociedade.
 ---
-Está inscrito na Ordem dos Advogados desde 2024. Trabalha em tributação societária em operações de M&A e reestruturações, contencioso tributário e fiscalidade internacional de pessoas singulares e sociedades.
-
-Trabalhou antes na KPMG Portugal, como consultor fiscal (2024–2025), e fez o estágio de advocacia no departamento fiscal da Abreu Advogados (2022–2024).
+Está inscrito na Ordem dos Advogados desde 2024 e conta com experiência de consultoria numa Big 4. Trabalha em tributação societária em operações de M&A e reestruturações, contencioso tributário e fiscalidade internacional de pessoas singulares e sociedades.
 
 Licenciou-se em Direito na Universidade de Coimbra, com um período de mobilidade Erasmus+ na KU Leuven, na Bélgica, e concluiu a Pós-Graduação em Direito Fiscal do IDEFF, na Faculdade de Direito da Universidade de Lisboa. {dissertation}
 
-É investigador júnior no Nova Tax Research Lab. Foi também investigador júnior no Instituto Brasileiro de Direito Tributário (IBDT) e, durante o período na KU Leuven, assistente de investigação no Institute of Social Law. Escreve sobre fiscalidade internacional, tributação da economia digital e dos criptoativos e direito fiscal europeu. Publicou na Nova Tax Research Series, na Nova Tax Practitioners Column e na CMS LawNow.
+É investigador júnior no Nova Tax Research Lab e ocupou também cargos de investigação noutras instituições, o Instituto Brasileiro de Direito Tributário (IBDT) e o KU Leuven Institute of Social Law. Escreve e publica regularmente em periódicos internacionais sobre diversos temas da fiscalidade.
