@@ -23,3 +23,9 @@
   text:
     pt: Estruturação fiscal de investimentos e patrimónios, incluindo a análise de soluções como seguros unit-linked e veículos de investimento, no quadro das normas fiscais e antiabuso aplicáveis.
     en: Tax structuring of investments and wealth, including the analysis of solutions such as unit-linked insurance and investment vehicles, within the applicable tax and anti-abuse rules.
+- id: vat
+  order: 5
+  title: { pt: IVA, en: VAT }
+  text:
+    pt: Enquadramento em IVA de operações nacionais e transfronteiriças, incluindo as regras de localização, o direito à dedução e as operações imobiliárias.
+    en: VAT treatment of domestic and cross-border transactions, including the place-of-supply rules, the right to deduct and real estate transactions.
