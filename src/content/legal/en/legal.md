@@ -1,6 +1,5 @@
 ---
 title: Legal notice
-draft: true
 updated: 2026-10-19
 ---
 

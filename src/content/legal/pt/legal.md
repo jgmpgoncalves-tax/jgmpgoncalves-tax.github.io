@@ -1,6 +1,5 @@
 ---
 title: Aviso legal
-draft: true
 updated: 2026-10-19
 ---
 
