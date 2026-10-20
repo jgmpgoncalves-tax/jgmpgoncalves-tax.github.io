@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 import { DEFAULT_LOCALE, LOCALES } from './src/i18n/routes.mjs';
-import { sitemapLinks } from './src/i18n/sitemap-links.mjs';
+import { hasCommentaries, sitemapLinks } from './src/i18n/sitemap-links.mjs';
 
 const SITE = 'https://jgmpgoncalves-tax.github.io';
 const BASE = '/';
@@ -16,11 +16,13 @@ export default defineConfig({
   base: BASE,
   trailingSlash: 'always',
   // Old URLs. Static redirect pages on GitHub Pages (meta refresh + canonical).
+  // The old articles list points to the commentaries once the first one is published
+  // (until then that page does not exist), otherwise to the Publications hub.
   redirects: {
     '/areas-de-pratica/': '/sobre/',
     '/en/practice-areas/': '/en/about/',
-    '/artigos/': '/comentarios/',
-    '/en/articles/': '/en/commentaries/',
+    '/artigos/': hasCommentaries() ? '/comentarios/' : '/publicacoes/',
+    '/en/articles/': hasCommentaries() ? '/en/commentaries/' : '/en/publications/',
   },
   output: 'static',
   build: { format: 'directory' },

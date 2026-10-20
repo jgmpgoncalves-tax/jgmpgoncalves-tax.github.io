@@ -2,6 +2,9 @@
 import '@fontsource-variable/source-serif-4';
 import '@fontsource-variable/source-sans-3';
 import '../styles/global.css';
+// Preloaded so text is not redrawn (layout shift) when the web fonts arrive.
+import serifFont from '@fontsource-variable/source-serif-4/files/source-serif-4-latin-wght-normal.woff2?url';
+import sansFont from '@fontsource-variable/source-sans-3/files/source-sans-3-latin-wght-normal.woff2?url';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { DEFAULT_LOCALE, LANG_TAGS, LOCALES, OG_LOCALES, type Locale, type RouteKey } from '../i18n/config';
@@ -48,7 +51,11 @@ const hreflangs = LOCALES.filter((l) => alternates[l]);
 const xDefault = alternates[DEFAULT_LOCALE] ?? alternates[locale];
 const ogType = Astro.props.ogType ?? (routeKey === 'about' ? 'profile' : 'website');
 
-const fullTitle = routeKey === 'home' ? `${profile.name} | ${profile.headline[locale]}` : `${title} | ${profile.name}`;
+// Titles up to about 70 characters (longer ones are cut in search results): the home page uses
+// the part of the headline after "|", and long page titles drop the name suffix.
+const homeTitle = `${profile.name} | ${profile.headline[locale].split('|').pop()!.trim()}`;
+const pageTitle = `${title} | ${profile.name}`;
+const fullTitle = routeKey === 'home' ? homeTitle : pageTitle.length > 70 ? title : pageTitle;
 const hasFeed = await hasContent('commentaries');
 const canonical = alternates[locale] ? abs(alternates[locale]) : undefined;
 ---
@@ -58,6 +65,8 @@ const canonical = alternates[locale] ? abs(alternates[locale]) : undefined;
     <meta charset="utf-8" />
     <script is:inline>document.documentElement.classList.add('js')</script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preload" href={sansFont} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={serifFont} as="font" type="font/woff2" crossorigin />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex" />}

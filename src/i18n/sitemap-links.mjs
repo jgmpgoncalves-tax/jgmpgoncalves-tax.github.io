@@ -5,8 +5,8 @@ import { DEFAULT_LOCALE, LANG_TAGS, LOCALES, ROUTES, routePath } from './routes.
 
 const COMMENTARIES = 'src/content/commentaries';
 
-function commentaryGroups() {
-  const files = LOCALES.flatMap((locale) => {
+function commentaryFiles() {
+  return LOCALES.flatMap((locale) => {
     const dir = `${COMMENTARIES}/${locale}`;
     if (!existsSync(dir)) return [];
     return readdirSync(dir)
@@ -20,6 +20,13 @@ function commentaryGroups() {
       })
       .filter((f) => !f.draft);
   });
+}
+
+/** Whether any commentary is published (built in production). */
+export const hasCommentaries = () => commentaryFiles().length > 0;
+
+function commentaryGroups() {
+  const files = commentaryFiles();
   const groups = [];
   for (const f of files) {
     const partner = files.find(

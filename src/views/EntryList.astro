@@ -44,6 +44,10 @@ const slot: BannerSlot | undefined = section === 'commentaries' ? 'publicacoes' 
   <ul class="entry-list">
     {items.map((entry) => <li><EntryRow entry={entry} kind={kind} locale={locale} /></li>)}
   </ul>
-  {next && <p class="more"><a class="button" href={next}>{t.more}</a></p>}
+  {next && (
+    <p class="more">
+      <a class="button" href={next}>{t.more}<span class="visually-hidden">: {t.nav[section]}, {t.pageN(page + 1)}</span></a>
+    </p>
+  )}
   {section === 'commentaries' && <p class="rss-link"><a href={`${base}rss.xml`}>{t.rss}</a></p>}
 </Page>
