@@ -1,0 +1,20 @@
+---
+// Navy tiles linking to sections: serif title, one line of text, arrow. One tile takes the full width.
+import Icon from './Icon.astro';
+
+interface Props { items: { href: string; title: string; text: string }[]; label: string }
+const { items, label } = Astro.props;
+---
+<nav class={`tiles${items.length === 1 ? ' tiles-single' : ''}`} aria-label={label}>
+  <ul>
+    {items.map((tile) => (
+      <li>
+        <a class="tile" href={tile.href}>
+          <span class="tile-title">{tile.title}</span>
+          <span class="tile-text">{tile.text}</span>
+          <span class="tile-arrow"><Icon name="arrow" size={22} /></span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>

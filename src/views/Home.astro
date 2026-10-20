@@ -1,18 +1,23 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
+import Banner from '../components/Banner.astro';
 import JsonLd from '../components/JsonLd.astro';
 import ProfilePhoto from '../components/ProfilePhoto.astro';
+import Tiles from '../components/Tiles.astro';
 import Featured from '../components/Featured.astro';
 import type { Locale } from '../i18n/config';
 import { UI } from '../i18n/ui';
 import { pathFor } from '../i18n/utils';
-import { getDescription, getProfile, hasContent } from '../lib/data';
+import { getDescription, getFeatured, getProfile, hasContent } from '../lib/data';
+import { stripImage } from '../lib/images';
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 const t = UI[locale];
 const profile = await getProfile();
 const { home } = await getDescription(locale);
+const hasFeatured = (await getFeatured(locale)).length > 0;
 // Second tile: talks once they exist, otherwise commentaries once they exist, otherwise none.
 const second: 'talks' | 'commentaries' | undefined = (await hasContent('talks'))
   ? 'talks'
@@ -28,33 +33,41 @@ const tiles = (['publications', ...(second ? [second] : [])] as const).map((key)
 <Base locale={locale} routeKey="home" title={profile.name} description={profile.description[locale]}>
   <JsonLd slot="head" locale={locale} />
 
-  <section class="hero">
+  <Banner image="inicio" variant="hero">
     <div class="container">
       <p class="hero-line">{profile.heroLine[locale]}</p>
-      <p><a class="button-outline" href={pathFor('about', locale)}>{t.readMore}</a></p>
+      <a class="button button-outline" href={pathFor('about', locale)}>{t.readMore}<span class="visually-hidden">: {t.nav.about}</span></a>
     </div>
-  </section>
+  </Banner>
 
-  <div class="container">
-    <section class="intro surface" aria-labelledby="intro-title">
+  <section class="home-intro" aria-labelledby="intro-title">
+    <div class="container home-intro-grid">
       <div>
         <h1 id="intro-title">{profile.name}</h1>
         {home.map((p) => <p>{p}</p>)}
-        <p><a class="button" href={pathFor('about', locale)}>{t.readMore}<span class="visually-hidden">: {t.nav.about}</span></a></p>
+        <a class="button" href={pathFor('about', locale)}>{t.readMore}<span class="visually-hidden">: {t.nav.about}</span></a>
       </div>
-      <ProfilePhoto alt={t.photoAlt} width={280} loading="eager" />
-    </section>
+      <ProfilePhoto alt={t.photoAlt} width={320} loading="eager" />
+    </div>
+  </section>
 
-    <nav class={`tiles tiles-${tiles.length}`} aria-label={t.nav.publications}>
-      {tiles.map((tile) => (
-        <a class="tile" href={tile.href}>
-          <span class="tile-title">{tile.title}</span>
-          <span class="tile-text">{tile.text}</span>
-          <span class="tile-arrow" aria-hidden="true">→</span>
-        </a>
-      ))}
-    </nav>
+  {stripImage && (
+    <div class="strip">
+      <Image src={stripImage} alt="" widths={[768, 1280, 1920, 2560]} sizes="100vw" />
+    </div>
+  )}
 
-    <Featured locale={locale} />
-  </div>
+  <section class="home-tiles">
+    <div class="container">
+      <Tiles items={tiles} label={t.nav.publications} />
+    </div>
+  </section>
+
+  {hasFeatured && (
+    <div class="home-featured">
+      <div class="container">
+        <Featured locale={locale} />
+      </div>
+    </div>
+  )}
 </Base>

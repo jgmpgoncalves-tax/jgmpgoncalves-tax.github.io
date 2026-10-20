@@ -1,0 +1,28 @@
+---
+// Page banner. With an image in src/assets/banners/<image>.jpg it shows the image;
+// without one, a solid navy block. "hero" is the full-width home banner.
+import { Image } from 'astro:assets';
+import { bannerImage, type BannerSlot } from '../lib/images';
+
+// (`slot` is reserved by Astro, hence `image` for the slot name.)
+interface Props { image?: BannerSlot; variant?: 'hero' | 'page'; title?: string }
+const { image: slotName, variant = 'page', title } = Astro.props;
+const image = slotName ? bannerImage(slotName) : undefined;
+---
+<div class={`banner banner-${variant}${image ? ' has-image' : ''}`}>
+  {image && (
+    <Image
+      class="banner-image"
+      src={image}
+      alt=""
+      widths={variant === 'hero' ? [768, 1280, 1920, 2560] : [640, 960, 1280, 1600]}
+      sizes={variant === 'hero' ? '100vw' : '(min-width: 64rem) 64rem, 100vw'}
+      loading="eager"
+      fetchpriority="high"
+    />
+  )}
+  <div class="banner-content">
+    {title && <p class="banner-title">{title}</p>}
+    <slot />
+  </div>
+</div>

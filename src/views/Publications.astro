@@ -1,6 +1,6 @@
 ---
-import Base from '../layouts/Base.astro';
-import Featured from '../components/Featured.astro';
+import Page from '../layouts/Page.astro';
+import Tiles from '../components/Tiles.astro';
 import type { Locale } from '../i18n/config';
 import { UI } from '../i18n/ui';
 import { pathFor } from '../i18n/utils';
@@ -10,25 +10,16 @@ interface Props { locale: Locale }
 const { locale } = Astro.props;
 const t = UI[locale];
 const keys = ['papers', ...((await hasContent('commentaries')) ? (['commentaries'] as const) : [])] as const;
+const tiles = keys.map((key) => ({ href: pathFor(key, locale), title: t.nav[key], text: t.tiles[key] }));
 ---
-<Base locale={locale} routeKey="publications" title={t.nav.publications} description={t.meta.publications}>
-  <div class="container">
-    <div class="banner"><p class="banner-title">{t.nav.publications}</p></div>
-  </div>
-  <div class="container with-sidebar">
-    <div class="page surface">
-      <h1>{t.nav.publications}</h1>
-      <p class="page-intro">{t.intro.publications}</p>
-      <nav class={`tiles tiles-${keys.length}`} aria-label={t.nav.publications}>
-        {keys.map((key) => (
-          <a class="tile" href={pathFor(key, locale)}>
-            <span class="tile-title">{t.nav[key]}</span>
-            <span class="tile-text">{t.tiles[key]}</span>
-            <span class="tile-arrow" aria-hidden="true">→</span>
-          </a>
-        ))}
-      </nav>
-    </div>
-    <aside class="sidebar"><Featured locale={locale} /></aside>
-  </div>
-</Base>
+<Page
+  locale={locale}
+  routeKey="publications"
+  title={t.nav.publications}
+  description={t.meta.publications}
+  intro={t.intro.publications}
+  banner={{ image: 'publicacoes', title: t.nav.publications }}
+  sidebar
+>
+  <Tiles items={tiles} label={t.nav.publications} />
+</Page>

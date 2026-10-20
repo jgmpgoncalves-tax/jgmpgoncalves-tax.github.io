@@ -1,6 +1,7 @@
 ---
-import Base from '../layouts/Base.astro';
+import Page from '../layouts/Page.astro';
 import JsonLd from '../components/JsonLd.astro';
+import Icon from '../components/Icon.astro';
 import type { Locale } from '../i18n/config';
 import { UI } from '../i18n/ui';
 import { pathFor } from '../i18n/utils';
@@ -17,42 +18,50 @@ const areas = await getResearchAreas();
 const affiliations = await getResearch();
 const showTalks = await hasContent('talks');
 ---
-<Base locale={locale} routeKey="about" title={t.nav.about} description={t.meta.about}>
+<Page
+  locale={locale}
+  routeKey="about"
+  title={t.nav.about}
+  heading={locale === 'pt' ? `Sobre ${profile.name}` : `About ${profile.name}`}
+  description={t.meta.about}
+  banner={{ image: 'sobre', title: profile.name }}
+  ogType="profile"
+>
   <JsonLd slot="head" locale={locale} />
-  <div class="container">
-    <div class="banner"><p class="banner-title">{profile.name}</p></div>
-  </div>
-  <div class="container">
-    <article class="page surface">
-      <h1>{t.nav.about}</h1>
-      <div class="prose" set:html={aboutHtml} />
+  <div class="prose prose-wide" set:html={aboutHtml} />
 
-      <div class="collapsibles">
-        <details>
-          <summary>{a.researchAreas}</summary>
-          <ul>{areas.map((r) => <li>{r.data.label[locale]}</li>)}</ul>
-        </details>
-        <details>
-          <summary>{a.affiliations}</summary>
-          <ul>
-            {affiliations.map(({ data: r }) => (
-              <li>{r.organisation}. {r.role[locale]}, {formatRange(r.start, r.end, locale)}.</li>
-            ))}
-          </ul>
-        </details>
-        <details>
-          <summary>{a.publications}</summary>
-          <p>{a.publicationsText}</p>
-          <p><a class="button" href={pathFor('publications', locale)}>{t.readMore}<span class="visually-hidden">: {t.nav.publications}</span></a></p>
-        </details>
-        {showTalks && (
-          <details>
-            <summary>{a.talks}</summary>
-            <p>{a.talksText}</p>
-            <p><a class="button" href={pathFor('talks', locale)}>{t.readMore}<span class="visually-hidden">: {t.nav.talks}</span></a></p>
-          </details>
-        )}
+  <div class="collapsibles">
+    <details>
+      <summary>{a.researchAreas}<Icon name="chevron" size={16} /></summary>
+      <div class="collapsible-body">
+        <ul>{areas.map((r) => <li>{r.data.label[locale]}</li>)}</ul>
       </div>
-    </article>
+    </details>
+    <details>
+      <summary>{a.affiliations}<Icon name="chevron" size={16} /></summary>
+      <div class="collapsible-body">
+        <ul class="affiliations">
+          {affiliations.map(({ data: r }) => (
+            <li><span class="muted">{formatRange(r.start, r.end, locale)}</span> {r.organisation}. {r.role[locale]}.</li>
+          ))}
+        </ul>
+      </div>
+    </details>
+    <details>
+      <summary>{a.publications}<Icon name="chevron" size={16} /></summary>
+      <div class="collapsible-body">
+        <p>{a.publicationsText}</p>
+        <a class="button" href={pathFor('publications', locale)}>{t.readMore}<span class="visually-hidden">: {t.nav.publications}</span></a>
+      </div>
+    </details>
+    {showTalks && (
+      <details>
+        <summary>{a.talks}<Icon name="chevron" size={16} /></summary>
+        <div class="collapsible-body">
+          <p>{a.talksText}</p>
+          <a class="button" href={pathFor('talks', locale)}>{t.readMore}<span class="visually-hidden">: {t.nav.talks}</span></a>
+        </div>
+      </details>
+    )}
   </div>
-</Base>
+</Page>

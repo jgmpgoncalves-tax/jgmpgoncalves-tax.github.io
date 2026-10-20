@@ -1,29 +1,28 @@
 ---
-import Base from '../layouts/Base.astro';
+import { Image } from 'astro:assets';
+import Page from '../layouts/Page.astro';
+import Icon from '../components/Icon.astro';
 import type { Locale } from '../i18n/config';
 import { UI } from '../i18n/ui';
 import { pathFor } from '../i18n/utils';
 import { getProfile } from '../lib/data';
+import { bannerImage } from '../lib/images';
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 const t = UI[locale];
 const p = await getProfile();
+// Optional image on the left (src/assets/banners/contactos.jpg); without it the box takes the full width.
+const image = bannerImage('contactos');
 ---
-<Base locale={locale} routeKey="contact" title={t.nav.contact} description={t.meta.contact}>
-  <div class="container">
-    <article class="page surface">
-      <h1>{t.nav.contact}</h1>
-      <p class="page-intro">{t.intro.contact}</p>
-      <dl class="contact-list">
-        <dt>{t.email}</dt>
-        <dd><a href={`mailto:${p.email}`}>{p.email}</a></dd>
-        <dt>{t.linkedin}</dt>
-        <dd><a href={p.linkedin} rel="me">{p.linkedin.replace(/^https:\/\/(www\.)?/, '')}</a></dd>
-        <dt>{t.location}</dt>
-        <dd>{p.city[locale]}, {p.country[locale]}</dd>
-      </dl>
-      <p class="muted">{t.contactNote} <a href={pathFor('legal', locale)}>{t.nav.legal.toLowerCase()}</a>.</p>
-    </article>
+<Page locale={locale} routeKey="contact" title={t.nav.contact} description={t.meta.contact} intro={t.intro.contact}>
+  <div class={`contact-grid${image ? ' has-image' : ''}`}>
+    {image && <Image class="contact-image" src={image} alt="" widths={[400, 640, 960]} sizes="(min-width: 48rem) 30rem, 100vw" />}
+    <ul class="contact-box">
+      <li><Icon name="location" /><span><span class="visually-hidden">{t.location}: </span>{p.city[locale]}, {p.country[locale]}</span></li>
+      <li><Icon name="email" /><a href={`mailto:${p.email}`}><span class="visually-hidden">{t.email}: </span>{p.email}</a></li>
+      <li><Icon name="linkedin" /><a href={p.linkedin} rel="me"><span class="visually-hidden">{t.linkedin}: </span>{p.linkedin.replace(/^https:\/\/(www\.)?/, '')}</a></li>
+    </ul>
   </div>
-</Base>
+  <p class="contact-note">{t.contactNote} <a href={pathFor('legal', locale)}>{t.nav.legal.toLowerCase()}</a>.</p>
+</Page>

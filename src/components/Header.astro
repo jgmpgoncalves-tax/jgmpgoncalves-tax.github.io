@@ -1,5 +1,6 @@
 ---
 import Monogram from './Monogram.astro';
+import Icon from './Icon.astro';
 import { LANG_TAGS, LOCALES, type Locale, type RouteKey } from '../i18n/config';
 import { UI } from '../i18n/ui';
 import { pathFor } from '../i18n/utils';
@@ -13,20 +14,19 @@ interface Props {
   name: string;
   /** Target of the language switch for each language. */
   switchHrefs: Record<Locale, string>;
-  /** False on pages inside a section (an article), where the section link is current but not the page. */
+  /** False on pages inside a section (a commentary), where the section link is current but not the page. */
   isSectionPage?: boolean;
 }
 const { locale, routeKey, navItems, name, switchHrefs, isSectionPage = true } = Astro.props;
+const t = UI[locale];
 const current = (key: RouteKey) => (key === routeKey ? (isSectionPage ? 'page' : 'true') : undefined);
 // A parent item is marked when one of its children is the current page.
 const inSection = (item: NavItem) => item.children?.includes(routeKey as RouteKey) ?? false;
-const t = UI[locale];
 ---
 <header class="site-header">
   <div class="container header-inner">
-    <a class="brand" href={pathFor('home', locale)}>
-      <Monogram />
-      <span class="brand-name">{name}</span>
+    <a class="brand" href={pathFor('home', locale)} aria-label={`${name}, ${t.nav.home}`}>
+      <Monogram size={46} />
     </a>
 
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">
@@ -35,19 +35,28 @@ const t = UI[locale];
     </button>
 
     <nav id="main-nav" class="main-nav" aria-label={t.mainNav}>
-      <ul>
-        {navItems.map((item) => (
+      <ul class="nav-list">
+        {navItems.map((item, i) => (
           <li class={item.children ? 'has-submenu' : undefined}>
             <a
               href={pathFor(item.key, locale)}
               aria-current={current(item.key) ?? (inSection(item) ? 'true' : undefined)}
             >{t.nav[item.key]}</a>
             {item.children && (
-              <ul class="submenu" aria-label={t.nav[item.key]}>
-                {item.children.map((child) => (
-                  <li><a href={pathFor(child, locale)} aria-current={current(child)}>{t.nav[child]}</a></li>
-                ))}
-              </ul>
+              <>
+                <button
+                  class="submenu-toggle"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls={`submenu-${i}`}
+                  aria-label={t.submenu(t.nav[item.key])}
+                ><Icon name="chevron" size={14} /></button>
+                <ul class="submenu" id={`submenu-${i}`}>
+                  {item.children.map((child) => (
+                    <li><a href={pathFor(child, locale)} aria-current={current(child)}>{t.nav[child]}</a></li>
+                  ))}
+                </ul>
+              </>
             )}
           </li>
         ))}
@@ -70,22 +79,52 @@ const t = UI[locale];
 </header>
 
 <script>
+  // Mobile menu.
   const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
   const nav = document.getElementById('main-nav');
-  if (toggle && nav) {
-    const setOpen = (open: boolean) => {
-      toggle.setAttribute('aria-expanded', String(open));
-      nav.classList.toggle('is-open', open);
-    };
-    toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
-    nav.addEventListener('click', (e) => {
-      if ((e.target as HTMLElement).closest('a')) setOpen(false);
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
-        setOpen(false);
-        toggle.focus();
+  const setMenu = (open: boolean) => {
+    toggle?.setAttribute('aria-expanded', String(open));
+    nav?.classList.toggle('is-open', open);
+  };
+  toggle?.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));
+  nav?.addEventListener('click', (e) => {
+    if ((e.target as HTMLElement).closest('a')) setMenu(false);
+  });
+
+  // Submenus: open on hover and keyboard focus (CSS), and through the toggle button.
+  // Escape closes the submenu (or the mobile menu) and returns focus to its button.
+  const items = [...document.querySelectorAll<HTMLLIElement>('.has-submenu')];
+  const setSub = (li: HTMLLIElement, open: boolean) => {
+    li.querySelector('.submenu-toggle')?.setAttribute('aria-expanded', String(open));
+    li.classList.toggle('is-open', open);
+    li.classList.toggle('is-closed', !open);
+  };
+  for (const li of items) {
+    const button = li.querySelector<HTMLButtonElement>('.submenu-toggle')!;
+    button.addEventListener('click', () => setSub(li, button.getAttribute('aria-expanded') !== 'true'));
+    // Hover or focus reopens a submenu closed with Escape.
+    li.addEventListener('mouseenter', () => li.classList.remove('is-closed'));
+    li.addEventListener('focusout', (e) => {
+      if (!li.contains(e.relatedTarget as Node)) {
+        setSub(li, false);
+        li.classList.remove('is-closed');
       }
     });
   }
+  document.addEventListener('click', (e) => {
+    for (const li of items) if (!li.contains(e.target as Node)) setSub(li, false);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    const li = items.find((x) => x.contains(document.activeElement) || x.matches(':hover'));
+    if (li && getComputedStyle(li.querySelector('.submenu')!).display !== 'none' && !nav?.classList.contains('is-open')) {
+      setSub(li, false);
+      li.querySelector<HTMLButtonElement>('.submenu-toggle')!.focus();
+      return;
+    }
+    if (toggle?.getAttribute('aria-expanded') === 'true') {
+      setMenu(false);
+      toggle.focus();
+    }
+  });
 </script>

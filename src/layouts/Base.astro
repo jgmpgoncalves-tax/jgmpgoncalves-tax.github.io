@@ -4,7 +4,6 @@ import '@fontsource-variable/source-sans-3';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { DEFAULT_LOCALE, LANG_TAGS, LOCALES, OG_LOCALES, type Locale, type RouteKey } from '../i18n/config';
 import { UI } from '../i18n/ui';
 import { asset, pathFor } from '../i18n/utils';
@@ -89,9 +88,6 @@ const canonical = alternates[locale] ? abs(alternates[locale]) : undefined;
     <a class="skip-link" href="#content">{t.skip}</a>
     <Header locale={locale} routeKey={routeKey} navItems={navItems} name={profile.name} switchHrefs={switchHrefs} isSectionPage={!crumb} />
     <main id="content" tabindex="-1">
-      {routeKey && routeKey !== 'home' && (
-        <div class="container"><Breadcrumbs locale={locale} routeKey={routeKey} current={crumb} /></div>
-      )}
       <slot />
     </main>
     <Footer locale={locale} />

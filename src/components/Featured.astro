@@ -1,26 +1,32 @@
 ---
-// "Em destaque" / "Latest": the latest commentaries and news items.
+// "Em destaque" / "Latest": the three most recent commentaries and news items.
+// variant "row": three cards side by side (home); "stack": stacked cards (sidebar).
+import Icon from './Icon.astro';
 import { LANG_TAGS, type Locale } from '../i18n/config';
 import { UI } from '../i18n/ui';
 import { dateFormat, localeOf } from '../lib/commentaries';
 import { featuredHref, getFeatured } from '../lib/data';
 
-interface Props { locale: Locale; headingLevel?: 'h2' | 'h3' }
-const { locale, headingLevel: Heading = 'h2' } = Astro.props;
+interface Props { locale: Locale; variant?: 'row' | 'stack'; headingLevel?: 'h2' | 'h3' }
+const { locale, variant = 'row', headingLevel: Heading = 'h2' } = Astro.props;
 const t = UI[locale];
 const items = await getFeatured(locale);
+const id = `featured-${variant}`;
 ---
 {items.length > 0 && (
-  <section class="featured" aria-labelledby={`featured-${locale}`}>
-    <Heading id={`featured-${locale}`} class="featured-title">{t.featured}</Heading>
-    <ul class="featured-list">
+  <section class={`featured featured-${variant}`} aria-labelledby={id}>
+    <Heading id={id} class="featured-title">{t.featured}</Heading>
+    <ul class="feature-list">
       {items.map((f) => {
-        const foreign = localeOf(f.item) !== locale;
+        const lang = localeOf(f.item) !== locale ? LANG_TAGS[localeOf(f.item)] : undefined;
         return (
           <li class="feature-card">
             <p class="feature-label">{f.label}</p>
-            <a class="feature-link" href={featuredHref(f, locale)} lang={foreign ? LANG_TAGS[localeOf(f.item)] : undefined}>{f.item.data.title}</a>
-            <p class="feature-date"><time datetime={f.item.data.date.toISOString().slice(0, 10)}>{dateFormat(locale).format(f.item.data.date)}</time></p>
+            <a class="feature-link" href={featuredHref(f, locale)} lang={lang}>{f.item.data.title}</a>
+            <p class="feature-date">
+              <time datetime={f.item.data.date.toISOString().slice(0, 10)}>{dateFormat(locale).format(f.item.data.date)}</time>
+            </p>
+            <span class="feature-arrow"><Icon name="arrow" /></span>
           </li>
         );
       })}

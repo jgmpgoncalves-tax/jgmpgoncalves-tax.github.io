@@ -1,0 +1,51 @@
+---
+// Inner pages: banner at content width, breadcrumbs, heading, introduction, content,
+// and an optional "Em destaque" sidebar (below the content on small screens).
+import Base from './Base.astro';
+import Banner from '../components/Banner.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Featured from '../components/Featured.astro';
+import type { Locale, RouteKey } from '../i18n/config';
+import type { BannerSlot } from '../lib/images';
+import { getFeatured } from '../lib/data';
+
+interface Props {
+  locale: Locale;
+  routeKey: RouteKey;
+  /** <title> and, unless `heading` is given, the page heading. */
+  title: string;
+  heading?: string;
+  description: string;
+  intro?: string;
+  /** Banner: false for none; otherwise the image slot (optional) and the title shown on it. */
+  banner?: false | { image?: BannerSlot; title: string };
+  sidebar?: boolean;
+  noindex?: boolean;
+  alternates?: Partial<Record<Locale, string>>;
+  switchHrefs?: Partial<Record<Locale, string>>;
+  crumb?: string;
+  ogType?: 'website' | 'profile' | 'article';
+  /** Extra class on the main column (e.g. "reading" for long texts). */
+  mainClass?: string;
+}
+const { locale, routeKey, title, heading, intro, banner = false, sidebar = false, crumb, mainClass, ...base } = Astro.props;
+const showSidebar = sidebar && (await getFeatured(locale)).length > 0;
+---
+<Base locale={locale} routeKey={routeKey} title={title} crumb={crumb} {...base}>
+  <Fragment slot="head"><slot name="head" /></Fragment>
+  <div class={`container page-grid${showSidebar ? ' has-sidebar' : ''}`}>
+    <div class={`page-main${mainClass ? ` ${mainClass}` : ''}`}>
+      {banner && <Banner image={banner.image} title={banner.title} />}
+      <Breadcrumbs locale={locale} routeKey={routeKey} current={crumb} />
+      <slot name="before-heading" />
+      <h1 class="page-heading">{heading ?? title}</h1>
+      {intro && <p class="page-intro">{intro}</p>}
+      <slot />
+    </div>
+    {showSidebar && (
+      <aside class="page-sidebar">
+        <Featured locale={locale} variant="stack" headingLevel="h2" />
+      </aside>
+    )}
+  </div>
+</Base>

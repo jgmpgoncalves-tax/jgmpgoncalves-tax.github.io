@@ -1,4 +1,5 @@
 ---
+import Icon from './Icon.astro';
 import type { Locale } from '../i18n/config';
 import { UI } from '../i18n/ui';
 import { pathFor } from '../i18n/utils';
@@ -11,21 +12,25 @@ const p = await getProfile();
 const year = new Date().getFullYear();
 ---
 <footer class="site-footer">
-  <div class="container footer-inner">
-    <div>
-      <p class="footer-name">{p.name}</p>
-      <p class="footer-role">{p.headline[locale]}</p>
-      <p>{p.profession[locale]} · {p.barLabel[locale]} {p.barNumber}</p>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-id">
+        <p class="footer-name">{p.name}</p>
+        <p class="footer-role">{p.headline[locale]}</p>
+      </div>
+      <p class="footer-item"><Icon name="location" />{p.city[locale]}, {p.country[locale]}</p>
+      <ul class="footer-contacts">
+        <li class="footer-item"><Icon name="email" /><a href={`mailto:${p.email}`}>{p.email}</a></li>
+        <li class="footer-item"><Icon name="linkedin" /><a href={p.linkedin} rel="me">LinkedIn</a></li>
+      </ul>
     </div>
-    <ul class="footer-links">
-      <li>{p.city[locale]}, {p.country[locale]}</li>
-      <li><a href={`mailto:${p.email}`}>{p.email}</a></li>
-      <li><a href={p.linkedin} rel="me">LinkedIn</a></li>
-    </ul>
-    <ul class="footer-links">
-      <li><a href={pathFor('privacy', locale)}>{t.nav.privacy}</a></li>
-      <li><a href={pathFor('legal', locale)}>{t.nav.legal}</a></li>
-    </ul>
-    <p class="copyright">© {year} {p.name}</p>
+    <div class="footer-bottom">
+      <p>{p.profession[locale]} · {p.barLabel[locale]} {p.barNumber}</p>
+      <ul class="footer-legal">
+        <li><a href={pathFor('privacy', locale)}>{t.nav.privacy}</a></li>
+        <li><a href={pathFor('legal', locale)}>{t.nav.legal}</a></li>
+      </ul>
+      <p>© {year} {p.name}</p>
+    </div>
   </div>
 </footer>

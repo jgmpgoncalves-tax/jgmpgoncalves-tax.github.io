@@ -1,13 +1,15 @@
 ---
 // Commentaries, talks and news lists: newest first, PAGE_SIZE per page, "Ver mais" to the next page.
-import Base from '../layouts/Base.astro';
+// The news page opens with its two latest items as large cards.
+import Page from '../layouts/Page.astro';
 import EntryRow from '../components/EntryRow.astro';
-import Featured from '../components/Featured.astro';
+import NewsLead from '../components/NewsLead.astro';
 import type { Locale } from '../i18n/config';
 import { UI } from '../i18n/ui';
 import { pathFor } from '../i18n/utils';
 import type { Commentary } from '../lib/commentaries';
 import type { NewsItem } from '../lib/data';
+import type { BannerSlot } from '../lib/images';
 
 interface Props {
   section: 'commentaries' | 'talks' | 'news';
@@ -23,27 +25,25 @@ const self = page > 1 ? `${base}${page}/` : base;
 const next = page < pageCount ? `${base}${page + 1}/` : undefined;
 const title = page > 1 ? `${t.nav[section]} (${t.pageN(page)})` : t.nav[section];
 const kind = section === 'commentaries' ? 'commentary' : 'news';
+const lead = section === 'news' && page === 1 ? (items.slice(0, 2) as NewsItem[]) : [];
+const slot: BannerSlot | undefined = section === 'commentaries' ? 'publicacoes' : undefined;
 ---
-<Base
+<Page
   locale={locale}
   routeKey={section}
   title={title}
   description={t.meta[section]}
+  intro={page === 1 ? t.intro[section] : undefined}
+  banner={{ image: slot, title: t.nav[section] }}
   alternates={page > 1 ? { [locale]: self } : undefined}
+  sidebar
 >
-  <div class="container">
-    <div class="banner"><p class="banner-title">{t.nav[section]}</p></div>
-  </div>
-  <div class="container with-sidebar">
-    <div class="page surface">
-      <h1>{title}</h1>
-      {page === 1 && <p class="page-intro">{t.intro[section]}</p>}
-      <ul class="entry-list">
-        {items.map((entry) => <li><EntryRow entry={entry} kind={kind} locale={locale} /></li>)}
-      </ul>
-      {next && <p class="more"><a class="button" href={next}>{t.more}</a></p>}
-      {section === 'commentaries' && <p class="rss-link"><a href={`${base}rss.xml`}>{t.rss}</a></p>}
-    </div>
-    <aside class="sidebar"><Featured locale={locale} /></aside>
-  </div>
-</Base>
+  {lead.length > 0 && (
+    <div class="news-leads">{lead.map((item) => <NewsLead item={item} locale={locale} />)}</div>
+  )}
+  <ul class="entry-list">
+    {items.map((entry) => <li><EntryRow entry={entry} kind={kind} locale={locale} /></li>)}
+  </ul>
+  {next && <p class="more"><a class="button" href={next}>{t.more}</a></p>}
+  {section === 'commentaries' && <p class="rss-link"><a href={`${base}rss.xml`}>{t.rss}</a></p>}
+</Page>

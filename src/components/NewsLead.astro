@@ -1,0 +1,26 @@
+---
+// Large news card (top of the news page): image if the item has one, then label, title, date and arrow.
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import { LANG_TAGS, type Locale } from '../i18n/config';
+import { dateFormat, localeOf, slugOf } from '../lib/commentaries';
+import { categoryLabel, type NewsItem } from '../lib/data';
+
+interface Props { item: NewsItem; locale: Locale }
+const { item, locale } = Astro.props;
+const label = (await categoryLabel('newsCategories', item.data.category.id))[locale];
+const lang = localeOf(item) !== locale ? LANG_TAGS[localeOf(item)] : undefined;
+// Without a link of its own, the card points to the item in the list below.
+const href = item.data.link ?? `#${slugOf(item)}`;
+---
+<article class={`news-lead${item.data.image ? ' has-image' : ''}`}>
+  {item.data.image && (
+    <Image class="news-lead-image" src={item.data.image} alt={item.data.imageAlt ?? ''} widths={[400, 640, 960]} sizes="(min-width: 64rem) 30rem, 100vw" />
+  )}
+  <div class="news-lead-body">
+    <p class="feature-label">{label}</p>
+    <h2 class="news-lead-title" lang={lang}><a href={href}>{item.data.title}</a></h2>
+    <p class="feature-date"><time datetime={item.data.date.toISOString().slice(0, 10)}>{dateFormat(locale).format(item.data.date)}</time></p>
+    <span class="feature-arrow"><Icon name="arrow" /></span>
+  </div>
+</article>

@@ -1,7 +1,6 @@
 ---
-import Base from '../layouts/Base.astro';
+import Page from '../layouts/Page.astro';
 import Todo from '../components/Todo.astro';
-import Featured from '../components/Featured.astro';
 import type { Locale } from '../i18n/config';
 import { UI } from '../i18n/ui';
 import { formatDate } from '../lib/dates';
@@ -12,40 +11,38 @@ const { locale } = Astro.props;
 const t = UI[locale];
 const groups = await getPublicationsByYear();
 ---
-<Base locale={locale} routeKey="papers" title={t.nav.papers} description={t.meta.papers}>
-  <div class="container">
-    <div class="banner"><p class="banner-title">{t.nav.publications}</p></div>
-  </div>
-  <div class="container with-sidebar">
-    <article class="page surface">
-      <h1>{t.nav.papers}</h1>
-      <p class="page-intro">{t.intro.papers}</p>
-      {groups.map(({ year, items }) => (
-        <section class="pub-year" aria-labelledby={`y-${year ?? 'nd'}`}>
-          <h2 class="year-sep" id={`y-${year ?? 'nd'}`}>
-            {year ? <>– {year} –</> : <Todo what={locale === 'pt' ? 'data' : 'date'} />}
-          </h2>
-          <ul class="pub-list">
-            {items.map(({ data: p }) => (
-              <li>
-                <p class="pub-title" lang="en">
-                  {p.url ? <a href={p.url}>{p.title}</a> : p.title}
-                  {!p.url && p.todo?.includes('url') && <> <Todo what="link" /></>}
-                </p>
-                <p class="pub-meta">
-                  <i>{p.venue}</i>
-                  {p.edition && <>, {p.edition[locale]}</>}
-                  {p.volume && <>, <i>{p.volume}</i></>}
-                  {p.pages && <>, pp. {p.pages}</>}
-                  {p.date && <>, {formatDate(p.date, locale)}</>}
-                  {p.coauthors && <> ({t.with} {p.coauthors.join(', ')})</>}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ))}
-    </article>
-    <aside class="sidebar"><Featured locale={locale} /></aside>
-  </div>
-</Base>
+<Page
+  locale={locale}
+  routeKey="papers"
+  title={t.nav.papers}
+  description={t.meta.papers}
+  intro={t.intro.papers}
+  banner={{ image: 'publicacoes', title: t.nav.publications }}
+  sidebar
+>
+  {groups.map(({ year, items }) => (
+    <section class="pub-year" aria-labelledby={`y-${year ?? 'nd'}`}>
+      <h2 class="year-sep" id={`y-${year ?? 'nd'}`}>
+        {year ? <>– {year} –</> : <Todo what={locale === 'pt' ? 'data' : 'date'} />}
+      </h2>
+      <ul class="pub-list">
+        {items.map(({ data: p }) => (
+          <li>
+            <p class="pub-title" lang="en">
+              {p.url ? <a href={p.url}>{p.title}</a> : p.title}
+              {!p.url && p.todo?.includes('url') && <> <Todo what="link" /></>}
+            </p>
+            <p class="pub-meta">
+              <i>{p.venue}</i>
+              {p.edition && <>, {p.edition[locale]}</>}
+              {p.volume && <>, <i>{p.volume}</i></>}
+              {p.pages && <>, pp. {p.pages}</>}
+              {p.date && <>, {formatDate(p.date, locale)}</>}
+              {p.coauthors && <> ({t.with} {p.coauthors.join(', ')})</>}
+            </p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</Page>
