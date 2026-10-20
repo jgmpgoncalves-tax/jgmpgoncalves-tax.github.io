@@ -19,6 +19,8 @@ const profile = defineCollection({
     citationName: z.strictObject({ surname: text, given: text }),
     role: localised,
     employer: localised,
+    firm: text,
+    formerEmployers: z.array(text),
     city: localised,
     country: localised,
     heroLine: localised,

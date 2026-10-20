@@ -7,8 +7,13 @@
   citationName: { surname: Gonçalves, given: João Gabriel }
 
   role: { pt: advogado sénior, en: senior associate }
-  # How the firm is described on the site (the firm is not named).
+  # How the firm is described in the text (the firm is not named on the pages).
   employer: { pt: numa sociedade de advogados internacional, en: at an international law firm }
+  # Structured data for search engines only (Person JSON-LD); not shown in the text.
+  firm: "Brasil, Salomão e Matthes - Sociedade de Advogados"
+  formerEmployers:
+    - KPMG Portugal
+    - Abreu Advogados
   city: { pt: Lisboa, en: Lisbon }
   country: { pt: Portugal, en: Portugal }
 
@@ -44,7 +49,7 @@
         pt: É mestre em Direito Fiscal pela Católica Tax, Universidade Católica Portuguesa, com a dissertação «{title}» ({year}).
         en: He holds a Master's in Tax Law from Católica Tax, Universidade Católica Portuguesa, with the dissertation '{title}' ({year}).
 
-  # Institutions for the Person JSON-LD (alumniOf): completed degrees only.
+  # Institutions for the Person JSON-LD (alumniOf): completed degrees only. Not shown in the text.
   alumniOf:
     - Universidade de Coimbra
     - Faculdade de Direito da Universidade de Lisboa
