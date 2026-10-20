@@ -12,14 +12,22 @@ const font = (p) => new URL(`node_modules/${p}`, root).href;
 const html = `<!doctype html><html><head><meta charset="utf-8"><style>
 @font-face { font-family: OgSerif; src: url(${font('@fontsource-variable/source-serif-4/files/source-serif-4-latin-wght-normal.woff2')}); font-weight: 200 900; }
 @font-face { font-family: OgSans; src: url(${font('@fontsource-variable/source-sans-3/files/source-sans-3-latin-wght-normal.woff2')}); font-weight: 200 900; }
-body { margin: 0; width: 1200px; height: 630px; background: #1b2a4a; color: #fff; display: flex; align-items: center; }
-.wrap { padding: 0 96px; display: flex; gap: 56px; align-items: center; }
-.mono { width: 168px; height: 168px; border: 3px solid #fff; display: grid; place-items: center; font: 600 58px/1 OgSerif; letter-spacing: 2px; flex: none; }
-h1 { font: 600 64px/1.1 OgSerif; margin: 0 0 20px; }
-p { font: 400 30px/1.35 OgSans; margin: 0; color: #d9dee5; }
-</style></head><body><div class="wrap"><div class="mono">JGG</div><div>
-<h1>João Gabriel Gonçalves</h1><p>Advogado | Direito Fiscal e Fiscalidade Internacional</p><p>Lawyer | Tax Law and International Taxation</p>
-</div></div></body></html>`;
+* { box-sizing: border-box; }
+body { margin: 0; width: 1200px; height: 630px; background: #fff; color: #1b2a4a; font-family: OgSans; position: relative; }
+.top { position: absolute; left: 80px; right: 80px; top: 64px; display: flex; justify-content: space-between; align-items: flex-end; padding-bottom: 22px; border-bottom: 2px solid #1b2a4a; }
+.tag { font-size: 20px; letter-spacing: 0.35em; color: #4f5b69; text-transform: uppercase; }
+.body { position: absolute; left: 80px; right: 80px; top: 250px; }
+h1 { font: 600 76px/1.05 OgSerif; margin: 0 0 24px; }
+p { font: 400 30px/1.4 OgSans; margin: 0; color: #4f5b69; }
+.foot { position: absolute; left: 80px; right: 80px; bottom: 56px; padding-top: 18px; border-top: 1px solid #d9dee5; font-size: 18px; letter-spacing: 0.3em; color: #4f5b69; text-transform: uppercase; display: flex; justify-content: space-between; }
+</style></head><body>
+<div class="top">
+  <svg width="174" height="66" viewBox="0 0 132 50"><g font-family="OgSerif" font-size="44" font-weight="500" fill="#1b2a4a" text-anchor="middle"><text x="16" y="40">J</text><text x="66" y="40">G</text><text x="116" y="40">G</text></g><g stroke="#9b1c39" stroke-width="2.2"><line x1="40" y1="14" x2="40" y2="42"/><line x1="91" y1="14" x2="91" y2="42"/></g></svg>
+  <span class="tag">Advogado · Lawyer</span>
+</div>
+<div class="body"><h1>João Gabriel Gonçalves</h1><p>Lawyer | Tax Law and International Taxation</p><p>Advogado | Direito Fiscal e Fiscalidade Internacional</p></div>
+<div class="foot"><span>Lisboa · Portugal</span><span>Cédula n.º 70649L</span></div>
+</body></html>`;
 
 const browser = await chromium.launch(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {});
 const page = await browser.newPage({ viewport: { width: 1200, height: 630 } });

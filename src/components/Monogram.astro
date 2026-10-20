@@ -1,24 +1,26 @@
 ---
-interface Props { size?: number; title?: string }
-const { size = 44, title } = Astro.props;
+// "J | G | G" monogram, as on the letterhead: serif capitals separated by two thin
+// burgundy rules. Letters take the current colour; the rules use --accent.
+interface Props { height?: number; title?: string }
+const { height = 30, title } = Astro.props;
+const width = Math.round((height * 132) / 50);
 ---
 <svg
   class="monogram"
-  width={size}
-  height={size}
-  viewBox="0 0 64 64"
+  width={width}
+  height={height}
+  viewBox="0 0 132 50"
   role={title ? 'img' : undefined}
   aria-hidden={title ? undefined : 'true'}
   aria-label={title}
 >
-  <rect x="1" y="1" width="62" height="62" fill="none" stroke="currentColor" stroke-width="2" />
-  <text
-    x="32"
-    y="41"
-    text-anchor="middle"
-    font-family="'Source Serif 4 Variable', Georgia, serif"
-    font-size="22"
-    font-weight="600"
-    letter-spacing="1"
-    fill="currentColor">JGG</text>
+  <g font-family="'Source Serif 4 Variable', Georgia, 'Times New Roman', serif" font-size="44" font-weight="500" fill="currentColor" text-anchor="middle">
+    <text x="16" y="40">J</text>
+    <text x="66" y="40">G</text>
+    <text x="116" y="40">G</text>
+  </g>
+  <g stroke="var(--accent, #9b1c39)" stroke-width="2.2">
+    <line x1="40" y1="14" x2="40" y2="42" />
+    <line x1="91" y1="14" x2="91" y2="42" />
+  </g>
 </svg>

@@ -12,12 +12,13 @@ interface Props {
   routeKey?: RouteKey;
   navItems: NavItem[];
   name: string;
+  profession: string;
   /** Target of the language switch for each language. */
   switchHrefs: Record<Locale, string>;
   /** False on pages inside a section (a commentary), where the section link is current but not the page. */
   isSectionPage?: boolean;
 }
-const { locale, routeKey, navItems, name, switchHrefs, isSectionPage = true } = Astro.props;
+const { locale, routeKey, navItems, name, profession, switchHrefs, isSectionPage = true } = Astro.props;
 const t = UI[locale];
 const current = (key: RouteKey) => (key === routeKey ? (isSectionPage ? 'page' : 'true') : undefined);
 // A parent item is marked when one of its children is the current page.
@@ -26,7 +27,8 @@ const inSection = (item: NavItem) => item.children?.includes(routeKey as RouteKe
 <header class="site-header">
   <div class="container header-inner">
     <a class="brand" href={pathFor('home', locale)} aria-label={`${name}, ${t.nav.home}`}>
-      <Monogram size={46} />
+      <Monogram height={30} />
+      <span class="brand-tag" aria-hidden="true">{profession}</span>
     </a>
 
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">

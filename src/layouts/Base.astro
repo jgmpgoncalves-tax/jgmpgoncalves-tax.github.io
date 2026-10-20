@@ -96,7 +96,7 @@ const canonical = alternates[locale] ? abs(alternates[locale]) : undefined;
   </head>
   <body>
     <a class="skip-link" href="#content">{t.skip}</a>
-    <Header locale={locale} routeKey={routeKey} navItems={navItems} name={profile.name} switchHrefs={switchHrefs} isSectionPage={!crumb} />
+    <Header locale={locale} routeKey={routeKey} navItems={navItems} name={profile.name} profession={profile.profession[locale]} switchHrefs={switchHrefs} isSectionPage={!crumb} />
     <main id="content" tabindex="-1">
       <slot />
     </main>

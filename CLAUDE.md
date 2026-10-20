@@ -4,7 +4,8 @@ Academic outlet of a tax lawyer: a short description, practice areas, publicatio
 
 ## Technical rules
 - Astro (static), plain CSS with custom properties (`src/styles/global.css`). No UI framework, no client-side framework. Vanilla JS only where needed (mobile menu, submenu, citation date).
-- Colour tokens are fixed: `--navy`, `--navy-700`, `--bg`, `--surface`, `--text`, `--muted`, `--border`. Do not add tokens. On navy surfaces: white for titles and arrows, `--border` for labels and dates. In white layouts, dates in `--muted`.
+- Colour tokens are fixed: `--navy`, `--navy-700`, `--bg`, `--surface`, `--text`, `--muted`, `--border`, and `--accent` (burgundy `#9b1c39`, from the letterhead: only for the rules in the J|G|G monogram, on light backgrounds). Do not add tokens.
+- Visual identity matches the letterhead: J|G|G monogram (serif capitals, two burgundy rules), navy rule under the header, profession letter-spaced beside the monogram, letter-spaced uppercase labels. The same mark is in `public/favicon.svg` and `public/og-image.png`. On navy surfaces: white for titles and arrows, `--border` for labels and dates. In white layouts, dates in `--muted`.
 - Fonts: Source Serif 4 + Source Sans 3, self-hosted via Fontsource (the two latin files are preloaded in `Base.astro`).
 - Content lives outside templates: YAML in `src/data/`, Markdown in `src/content/`, validated by schemas in `src/content.config.ts` (strict for {pt, en} pairs). A content change must never require editing a template.
 - Languages: en (default, at `/`) and pt (at `/pt/`). Until 20 Oct 2026 pt was the default (at `/`) and en was at `/en/`; those URLs redirect (`legacyRedirects()` in `src/i18n/routes.mjs`). Locales, default locale and localised paths are defined only in `src/i18n/routes.mjs` (read by both the site and `astro.config.mjs`). Language tags are `pt` and `en` (language only, so each version reaches all speakers); dates are formatted pt-PT / en-GB.

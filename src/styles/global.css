@@ -7,6 +7,9 @@
   --text: #1f2933;
   --muted: #4f5b69;
   --border: #d9dee5;
+  /* Letterhead accent: the rules in the J|G|G monogram. Decorative, on light backgrounds only
+     (8.0:1 on white, 7.3:1 on --bg; not on navy). */
+  --accent: #9b1c39;
 
   --font-serif: 'Source Serif 4 Variable', Georgia, 'Times New Roman', serif;
   --font-sans: 'Source Sans 3 Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -100,7 +103,7 @@ main:focus { outline: none; }
 .button-quiet:hover { background: var(--bg); color: var(--navy); border-color: var(--navy); }
 
 /* Header: monogram, small uppercase navigation, PT | EN */
-.site-header { background: var(--surface); border-bottom: 1px solid var(--border); position: relative; z-index: 10; }
+.site-header { background: var(--surface); border-bottom: 1px solid var(--navy); position: relative; z-index: 10; }
 .header-inner {
   display: flex;
   align-items: center;
@@ -108,7 +111,18 @@ main:focus { outline: none; }
   gap: var(--space-3);
   min-height: 4.5rem;
 }
-.brand { display: inline-flex; color: var(--navy); }
+.brand { display: inline-flex; align-items: center; gap: var(--space-4); color: var(--navy); text-decoration: none; }
+.brand .monogram { display: block; }
+/* Profession beside the monogram, letter-spaced as on the letterhead (wide screens only). */
+.brand-tag {
+  font-size: var(--step--2);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-left: var(--space-4);
+  border-left: 1px solid var(--border);
+}
+@media (max-width: 75rem) { .brand-tag { display: none; } }
 .main-nav { display: flex; align-items: center; gap: var(--space-5); }
 .nav-list, .lang-switch, .submenu { list-style: none; margin: 0; padding: 0; }
 .nav-list { display: flex; align-items: center; gap: var(--space-4); }
@@ -466,6 +480,9 @@ main:focus { outline: none; }
   padding-block: var(--space-4);
   border-top: 1px solid rgb(255 255 255 / 0.25);
   color: var(--border);
+  font-size: var(--step--2);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
 }
 .footer-legal { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-4); }
 
@@ -529,7 +546,7 @@ main:focus { outline: none; }
   font-family: var(--font-sans);
   font-size: var(--step--1);
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--navy);
   border-bottom: 1px solid var(--border);
