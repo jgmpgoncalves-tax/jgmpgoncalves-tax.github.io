@@ -19,7 +19,7 @@
 
   # Large headline in the home banner.
   heroLine:
-    pt: Advogado de fiscalidade internacional, em Lisboa.
+    pt: Advogado | Direito Fiscal e Fiscalidade Internacional
     en: International Tax Lawyer based in Lisbon.
   # Shown under the name in the footer and used in page titles.
   headline:
