@@ -1,47 +1,54 @@
-# Identity, contacts and biography.
-# In `bio`, {position} is filled in from the current entry in experience.yaml
-# (its `position` text with the current role title), so a promotion is recorded only there.
-# On the home page only the first two bio paragraphs are shown.
+# Identity, current position and contacts.
+# A change of role or firm is made here only: the first sentence of the description
+# (home and About) is generated from `role`, `firm`, `firmPreposition` and `city`.
 - id: main
   name: João Gabriel Gonçalves
   # For "Como citar": surname shown first, in small capitals (Católica Law Review style rules).
   citationName: { surname: Gonçalves, given: João Gabriel }
+
+  role: { pt: Associado Sénior, en: Senior Associate }
+  firm: BSM Sociedade de Advogados
+  # Portuguese contraction before the firm's name: "na" (sociedade) or "no" (escritório).
+  firmPreposition: na
+  city: { pt: Lisboa, en: Lisbon }
+  country: { pt: Portugal, en: Portugal }
+
+  # Large headline in the home banner.
+  heroLine:
+    pt: Advogado em Lisboa. Direito Fiscal e Fiscalidade Internacional.
+    en: Lawyer in Lisbon. Tax Law and International Taxation.
+  # Shown under the name in the footer and used in page titles.
   headline:
     pt: Advogado | Direito Fiscal e Fiscalidade Internacional
     en: Lawyer | Tax Law and International Taxation
+  # Meta description of the home page.
   description:
-    pt: Advogado em Lisboa. Direito fiscal, contencioso tributário e fiscalidade internacional.
-    en: Lawyer in Lisbon. Tax law, tax litigation and international taxation.
-  profession:
-    pt: Advogado
-    en: Lawyer
+    pt: Advogado em Lisboa. Direito fiscal, contencioso tributário e fiscalidade internacional. Publicações e comentários.
+    en: Lawyer in Lisbon. Tax law, tax litigation and international taxation. Publications and commentaries.
+  profession: { pt: Advogado, en: Lawyer }
   barNumber: 70649L
-  barLabel:
-    pt: Cédula profissional n.º
-    en: Portuguese Bar no.
-  barAdmission:
-    year: 2024
-    council:
-      pt: Conselho Regional de Lisboa da Ordem dos Advogados
-      en: Lisbon Regional Council of the Portuguese Bar Association
-  city:
-    pt: Lisboa, Portugal
-    en: Lisbon, Portugal
+  barLabel: { pt: Cédula profissional n.º, en: Portuguese Bar no. }
+
+  # Master's dissertation. Fills the {dissertation} token in src/content/description/.
+  # After the public defence: set status to "defended" and fill defenceYear.
+  dissertation:
+    title:
+      pt: "IRC e Corporate Governance: Diligência do Gestor e Controlo do Risco"
+      en: "Corporate Income Tax and Corporate Governance: Between Managerial Diligence and Risk Control"
+    status: pending-defence   # pending-defence | defended
+    defenceYear: null
+    text:
+      pending-defence:
+        pt: Concluiu a parte curricular e a dissertação do Mestrado em Direito Fiscal na Católica Tax, Universidade Católica Portuguesa. A dissertação, «{title}», aguarda defesa pública.
+        en: He has completed the coursework and dissertation for the Master's in Tax Law at Católica Tax, Universidade Católica Portuguesa. The dissertation, '{title}', awaits its public defence.
+      defended:
+        pt: É mestre em Direito Fiscal pela Católica Tax, Universidade Católica Portuguesa, com a dissertação «{title}» ({year}).
+        en: He holds a Master's in Tax Law from Católica Tax, Universidade Católica Portuguesa, with the dissertation '{title}' ({year}).
+
+  # Institutions for the Person JSON-LD (alumniOf): completed degrees only.
+  alumniOf:
+    - Universidade de Coimbra
+    - Faculdade de Direito da Universidade de Lisboa
+
   email: jgmpgoncalves@gmail.com
   linkedin: https://www.linkedin.com/in/jgmpgoncalves
-  bio:
-    pt:
-      - João Gabriel Gonçalves é advogado em Lisboa, inscrito na Ordem dos Advogados desde 2024. É {position}.
-      - Trabalha em tributação societária em operações de M&A e reestruturações, contencioso tributário e fiscalidade internacional de pessoas singulares e sociedades. Presta também assessoria fiscal em investimento imobiliário e planeamento fiscal transfronteiriço.
-      - Trabalhou antes na KPMG Portugal, como consultor fiscal, e fez o estágio de advocacia no departamento fiscal da Abreu Advogados.
-      - É investigador júnior no Nova Tax Research Lab e publica sobre fiscalidade nacional e internacional.
-    en:
-      - João Gabriel Gonçalves is a lawyer based in Lisbon, admitted to the Portuguese Bar in 2024. He is {position}.
-      - His practice covers corporate taxation in M&A and restructurings, tax litigation and the international taxation of individuals and companies. He also advises on real estate investment and cross-border tax planning.
-      - He previously worked at KPMG Portugal as a corporate tax consultant and completed his Bar traineeship in the Tax department of Abreu Advogados.
-      - He is a junior researcher at the Nova Tax Research Lab and publishes on domestic and international taxation.
-  languages:
-    - pt: Português (língua materna)
-      en: Portuguese (native)
-    - pt: Inglês (C2, TOEFL iBT 116/120)
-      en: English (C2, TOEFL iBT 116/120)

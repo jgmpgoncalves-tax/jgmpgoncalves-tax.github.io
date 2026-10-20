@@ -1,0 +1,13 @@
+# Research areas: shown on the About page and in the Person JSON-LD (knowsAbout). Shown in this order.
+- id: international
+  order: 1
+  label: { pt: Fiscalidade internacional, en: International taxation }
+- id: digital
+  order: 2
+  label: { pt: Tributação da economia digital e dos criptoativos, en: Taxation of the digital economy and crypto-assets }
+- id: eu
+  order: 3
+  label: { pt: "Direito fiscal europeu e cooperação administrativa (DAC, MDR)", en: "EU tax law and administrative cooperation (DAC, MDR)" }
+- id: governance
+  order: 4
+  label: { pt: IRC e governo societário, en: Corporate income tax and corporate governance }

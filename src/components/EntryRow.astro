@@ -1,0 +1,32 @@
+---
+// One row in the commentaries, talks or news lists: date on the left, title and excerpt on the right.
+import { LANG_TAGS, type Locale } from '../i18n/config';
+import { UI } from '../i18n/ui';
+import { commentaryPath, dateFormat, localeOf, slugOf, type Commentary } from '../lib/commentaries';
+import { categoryLabel, type NewsItem } from '../lib/data';
+
+interface Props { entry: Commentary | NewsItem; kind: 'commentary' | 'news'; locale: Locale }
+const { entry, kind, locale } = Astro.props;
+const t = UI[locale];
+const eLocale = localeOf(entry);
+const foreign = eLocale !== locale;
+const lang = foreign ? LANG_TAGS[eLocale] : undefined;
+const label =
+  kind === 'commentary'
+    ? (await categoryLabel('commentaryTypes', (entry as Commentary).data.type.id))[locale]
+    : (await categoryLabel('newsCategories', (entry as NewsItem).data.category.id))[locale];
+const href = kind === 'commentary' ? commentaryPath(entry as Commentary) : (entry as NewsItem).data.link;
+// Excerpt: the summary of a commentary, or the text of a news item without Markdown.
+const excerpt =
+  kind === 'commentary'
+    ? (entry as Commentary).data.summary
+    : (entry.rendered?.html ?? '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+---
+<article class="entry-row" id={kind === 'news' ? slugOf(entry) : undefined}>
+  <p class="entry-date"><time datetime={entry.data.date.toISOString().slice(0, 10)}>{dateFormat(locale).format(entry.data.date)}</time></p>
+  <div>
+    <p class="entry-label">{label}{foreign && <>{' · '}<span class="lang-label">{t.inLanguage[eLocale]}</span></>}</p>
+    <h2 class="entry-title" lang={lang}>{href ? <a href={href} hreflang={lang}>{entry.data.title}</a> : entry.data.title}</h2>
+    <p class="entry-excerpt" lang={lang}>{excerpt}</p>
+  </div>
+</article>

@@ -1,11 +1,10 @@
-import { defineCollection } from 'astro:content';
+import { defineCollection, reference } from 'astro:content';
 import { file, glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
 // Shared field types.
 const text = z.string().min(1);
 const localised = z.strictObject({ pt: text, en: text });
-const localisedList = z.strictObject({ pt: z.array(text), en: z.array(text) });
 // "YYYY", "YYYY-MM" or "YYYY-MM-DD". Years written without quotes are accepted too.
 const partialDate = z
   .union([z.string(), z.number()])
@@ -18,56 +17,39 @@ const profile = defineCollection({
   schema: z.object({
     name: text,
     citationName: z.strictObject({ surname: text, given: text }),
+    role: localised,
+    firm: text,
+    firmPreposition: z.enum(['na', 'no']),
+    city: localised,
+    country: localised,
+    heroLine: localised,
     headline: localised,
     description: localised,
     profession: localised,
     barNumber: text,
     barLabel: localised,
-    barAdmission: z.object({ year: z.number().int(), council: localised }),
-    city: localised,
+    dissertation: z.strictObject({
+      title: localised,
+      status: z.enum(['pending-defence', 'defended']),
+      defenceYear: z.number().int().nullable(),
+      text: z.strictObject({ 'pending-defence': localised, defended: localised }),
+    }),
+    alumniOf: z.array(text),
     email: z.email(),
     linkedin: z.url(),
-    bio: localisedList,
-    languages: z.array(localised),
   }),
 });
 
-const experience = defineCollection({
-  loader: file('src/data/experience.yaml'),
-  schema: z.object({
-    organisation: text,
-    city: localised,
-    start: partialDate,
-    end: partialDate.nullable(),
-    internship: z.boolean().default(false),
-    position: localised.optional(),
-    roles: z
-      .array(z.object({ title: localised, start: partialDate.optional(), end: partialDate.nullable().optional() }))
-      .min(1),
-    description: localisedList.optional(),
-    supervisor: text.optional(),
-  }),
+// General description: src/content/description/<pt|en>.md. Home paragraphs in the frontmatter,
+// About paragraphs in the body. {dissertation} is filled in from profile.yaml.
+const description = defineCollection({
+  loader: glob({ pattern: '*.md', base: './src/content/description' }),
+  schema: z.object({ home: z.array(text).length(2) }),
 });
 
-const education = defineCollection({
-  loader: file('src/data/education.yaml'),
-  schema: z.object({
-    programme: localised,
-    institution: text,
-    city: localised,
-    start: partialDate,
-    end: partialDate.nullable(),
-    notes: localisedList.optional(),
-    dissertation: z
-      .object({
-        title: localised,
-        supervisor: localised,
-        status: z.enum(['pending-defence', 'defended']),
-        defenceDate: partialDate.nullable().optional(),
-        grade: text.nullable().optional(),
-      })
-      .optional(),
-  }),
+const researchAreas = defineCollection({
+  loader: file('src/data/research-areas.yaml'),
+  schema: z.object({ order: z.number().int(), label: localised }),
 });
 
 const research = defineCollection({
@@ -95,51 +77,48 @@ const publications = defineCollection({
   }),
 });
 
-const training = defineCollection({
-  loader: file('src/data/training.yaml'),
-  schema: z.object({
-    title: text,
-    organiser: text.optional(),
-    teacher: text.optional(),
-    date: partialDate.optional(),
-    result: text.optional(),
-    notes: localisedList.optional(),
-    todo,
-  }),
+const commentaryTypes = defineCollection({
+  loader: file('src/data/commentary-types.yaml'),
+  schema: z.object({ label: localised, schema: z.enum(['ScholarlyArticle', 'Article']) }),
 });
 
-const practiceAreas = defineCollection({
-  loader: file('src/data/practice-areas.yaml'),
-  schema: z.object({ order: z.number().int(), title: localised, text: localised }),
-});
-
-// News: one Markdown file per language, same file name in news/pt/ and news/en/.
-const news = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/news' }),
-  schema: z.object({
-    date: z.coerce.date(),
-    category: text,
-    title: text,
-    link: z.url().optional(),
-  }),
-});
-
-// Articles written for this site: src/content/articles/<pt|en>/<slug>.md.
-// The slug is the file name; `translationOf` is the slug of the version in the other language.
-const articles = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/articles' }),
+// Commentaries and notes: src/content/commentaries/<pt|en>/<slug>.md, published at
+// /comentarios/<slug>/ and /en/commentaries/<slug>/. Never rename a published file.
+const commentaries = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/commentaries' }),
   schema: z.object({
     title: text,
     date: z.coerce.date(),
     updated: z.coerce.date().optional(),
     summary: text,
-    type: z.enum(['scientific', 'note', 'commentary']),
+    type: reference('commentaryTypes'),
     tags: z.array(text).default([]),
-    lang: z.enum(['pt', 'en']),
     translationOf: text.optional(),
     pdf: text.optional(),
     draft: z.boolean().default(false),
   }),
+});
+
+const newsCategories = defineCollection({
+  loader: file('src/data/news-categories.yaml'),
+  schema: z.object({ label: localised }),
+});
+
+// News and talks: src/content/news/<pt|en>/<slug>.md. Items in the "talk" category
+// also appear on the Talks page. The body is the text shown in the lists.
+const news = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/news' }),
+  schema: ({ image }) =>
+    z.object({
+      date: z.coerce.date(),
+      category: reference('newsCategories'),
+      title: text,
+      link: z.url().optional(),
+      image: image().optional(),
+      imageAlt: text.optional(),
+      translationOf: text.optional(),
+      draft: z.boolean().default(false),
+    }),
 });
 
 // Privacy policy and legal notice: src/content/legal/<locale>/<privacy|legal>.md.
@@ -148,4 +127,15 @@ const legal = defineCollection({
   schema: z.object({ title: text, draft: z.boolean().default(false), updated: z.coerce.date() }),
 });
 
-export const collections = { articles, legal, profile, experience, education, research, publications, training, practiceAreas, news };
+export const collections = {
+  profile,
+  description,
+  researchAreas,
+  research,
+  publications,
+  commentaryTypes,
+  commentaries,
+  newsCategories,
+  news,
+  legal,
+};

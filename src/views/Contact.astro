@@ -14,13 +14,14 @@ const p = await getProfile();
   <div class="container">
     <article class="page surface">
       <h1>{t.nav.contact}</h1>
+      <p class="page-intro">{t.intro.contact}</p>
       <dl class="contact-list">
         <dt>{t.email}</dt>
         <dd><a href={`mailto:${p.email}`}>{p.email}</a></dd>
         <dt>{t.linkedin}</dt>
         <dd><a href={p.linkedin} rel="me">{p.linkedin.replace(/^https:\/\/(www\.)?/, '')}</a></dd>
         <dt>{t.location}</dt>
-        <dd>{p.city[locale]}</dd>
+        <dd>{p.city[locale]}, {p.country[locale]}</dd>
       </dl>
       <p class="muted">{t.contactNote} <a href={pathFor('legal', locale)}>{t.nav.legal.toLowerCase()}</a>.</p>
     </article>

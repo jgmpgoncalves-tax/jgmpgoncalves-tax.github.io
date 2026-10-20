@@ -4,17 +4,22 @@ import { LANG_TAGS, LOCALES, type Locale, type RouteKey } from '../i18n/config';
 import { UI } from '../i18n/ui';
 import { pathFor } from '../i18n/utils';
 
+export interface NavItem { key: RouteKey; children?: RouteKey[] }
+
 interface Props {
   locale: Locale;
   routeKey?: RouteKey;
-  navKeys: RouteKey[];
+  navItems: NavItem[];
   name: string;
   /** Target of the language switch for each language. */
   switchHrefs: Record<Locale, string>;
   /** False on pages inside a section (an article), where the section link is current but not the page. */
   isSectionPage?: boolean;
 }
-const { locale, routeKey, navKeys, name, switchHrefs, isSectionPage = true } = Astro.props;
+const { locale, routeKey, navItems, name, switchHrefs, isSectionPage = true } = Astro.props;
+const current = (key: RouteKey) => (key === routeKey ? (isSectionPage ? 'page' : 'true') : undefined);
+// A parent item is marked when one of its children is the current page.
+const inSection = (item: NavItem) => item.children?.includes(routeKey as RouteKey) ?? false;
 const t = UI[locale];
 ---
 <header class="site-header">
@@ -31,11 +36,19 @@ const t = UI[locale];
 
     <nav id="main-nav" class="main-nav" aria-label={t.mainNav}>
       <ul>
-        {navKeys.map((key) => (
-          <li>
-            <a href={pathFor(key, locale)} aria-current={key === routeKey ? (isSectionPage ? 'page' : 'true') : undefined}>
-              {t.nav[key]}
-            </a>
+        {navItems.map((item) => (
+          <li class={item.children ? 'has-submenu' : undefined}>
+            <a
+              href={pathFor(item.key, locale)}
+              aria-current={current(item.key) ?? (inSection(item) ? 'true' : undefined)}
+            >{t.nav[item.key]}</a>
+            {item.children && (
+              <ul class="submenu" aria-label={t.nav[item.key]}>
+                {item.children.map((child) => (
+                  <li><a href={pathFor(child, locale)} aria-current={current(child)}>{t.nav[child]}</a></li>
+                ))}
+              </ul>
+            )}
           </li>
         ))}
       </ul>

@@ -8,7 +8,8 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { DEFAULT_LOCALE, LANG_TAGS, LOCALES, OG_LOCALES, type Locale, type RouteKey } from '../i18n/config';
 import { UI } from '../i18n/ui';
 import { asset, pathFor } from '../i18n/utils';
-import { getProfile, hasNews } from '../lib/data';
+import { getProfile, hasContent } from '../lib/data';
+import type { NavItem } from '../components/Header.astro';
 
 interface Props {
   locale: Locale;
@@ -21,7 +22,7 @@ interface Props {
   alternates?: Partial<Record<Locale, string>>;
   /** Where the language switch goes. Defaults to the alternates, else that language's page for `routeKey`. */
   switchHrefs?: Partial<Record<Locale, string>>;
-  /** Final breadcrumb after the `routeKey` page (e.g. an article title). */
+  /** Final breadcrumb after the `routeKey` page (e.g. a commentary title). */
   crumb?: string;
   ogType?: 'website' | 'profile' | 'article';
 }
@@ -29,14 +30,13 @@ const { locale, routeKey, title, description, noindex = false, crumb } = Astro.p
 const t = UI[locale];
 const profile = await getProfile();
 
-// News stays out of the navigation until the first entry in this language exists.
-const navKeys: RouteKey[] = [
-  'about',
-  'practice',
-  'publications',
-  'articles',
-  ...((await hasNews(locale)) ? (['news'] as const) : []),
-  'contact',
+// Sections appear in the navigation only once they have content.
+const navItems: NavItem[] = [
+  { key: 'about' },
+  { key: 'publications', children: ['papers', ...((await hasContent('commentaries')) ? (['commentaries'] as const) : [])] },
+  ...((await hasContent('talks')) ? [{ key: 'talks' as const }] : []),
+  ...((await hasContent('news')) ? [{ key: 'news' as const }] : []),
+  { key: 'contact' },
 ];
 
 const abs = (path: string) => new URL(path, Astro.site).href;
@@ -50,6 +50,7 @@ const xDefault = alternates[DEFAULT_LOCALE] ?? alternates[locale];
 const ogType = Astro.props.ogType ?? (routeKey === 'about' ? 'profile' : 'website');
 
 const fullTitle = routeKey === 'home' ? `${profile.name} | ${profile.headline[locale]}` : `${title} | ${profile.name}`;
+const hasFeed = await hasContent('commentaries');
 const canonical = alternates[locale] ? abs(alternates[locale]) : undefined;
 ---
 <!doctype html>
@@ -66,7 +67,7 @@ const canonical = alternates[locale] ? abs(alternates[locale]) : undefined;
     {canonical && <link rel="canonical" href={canonical} />}
     {hreflangs.map((l) => <link rel="alternate" hreflang={LANG_TAGS[l]} href={abs(alternates[l]!)} />)}
     {xDefault && <link rel="alternate" hreflang="x-default" href={abs(xDefault)} />}
-    <link rel="alternate" type="application/rss+xml" title={`${profile.name}: ${t.nav.articles}`} href={abs(`${pathFor('articles', locale)}rss.xml`)} />
+    {hasFeed && <link rel="alternate" type="application/rss+xml" title={`${profile.name}: ${t.nav.commentaries}`} href={abs(`${pathFor('commentaries', locale)}rss.xml`)} />}
     <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={profile.name} />
     <meta property="og:title" content={fullTitle} />
@@ -86,7 +87,7 @@ const canonical = alternates[locale] ? abs(alternates[locale]) : undefined;
   </head>
   <body>
     <a class="skip-link" href="#content">{t.skip}</a>
-    <Header locale={locale} routeKey={routeKey} navKeys={navKeys} name={profile.name} switchHrefs={switchHrefs} isSectionPage={!crumb} />
+    <Header locale={locale} routeKey={routeKey} navItems={navItems} name={profile.name} switchHrefs={switchHrefs} isSectionPage={!crumb} />
     <main id="content" tabindex="-1">
       {routeKey && routeKey !== 'home' && (
         <div class="container"><Breadcrumbs locale={locale} routeKey={routeKey} current={crumb} /></div>

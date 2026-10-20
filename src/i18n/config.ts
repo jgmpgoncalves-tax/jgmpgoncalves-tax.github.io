@@ -1,26 +1,28 @@
-// Single source of truth for languages and localised URLs.
-// To change the default language (served at "/"), change DEFAULT_LOCALE only.
+// Languages and routes for the site. The values live in routes.mjs.
 
-export const LOCALES = ['pt', 'en'] as const;
+import { DEFAULT_LOCALE as DEFAULT, LANG_TAGS as TAGS, LOCALES as LOCALE_LIST, ROUTES as ROUTE_MAP } from './routes.mjs';
+
+export const LOCALES = LOCALE_LIST;
 export type Locale = (typeof LOCALES)[number];
 
-export const DEFAULT_LOCALE: Locale = 'pt';
+export const DEFAULT_LOCALE: Locale = DEFAULT;
 
-// BCP 47 tags used in <html lang>, hreflang and og:locale.
-export const LANG_TAGS: Record<Locale, string> = { pt: 'pt-PT', en: 'en-GB' };
+export const LANG_TAGS: Record<Locale, string> = TAGS;
 export const OG_LOCALES: Record<Locale, string> = { pt: 'pt_PT', en: 'en_GB' };
 
-// Route keys and their slug in each language ('' is the home page).
-export const ROUTES = {
-  home: { pt: '', en: '' },
-  about: { pt: 'sobre', en: 'about' },
-  practice: { pt: 'areas-de-pratica', en: 'practice-areas' },
-  publications: { pt: 'publicacoes', en: 'publications' },
-  articles: { pt: 'artigos', en: 'articles' },
-  news: { pt: 'noticias', en: 'news' },
-  contact: { pt: 'contactos', en: 'contact' },
-  privacy: { pt: 'politica-de-privacidade', en: 'privacy-policy' },
-  legal: { pt: 'aviso-legal', en: 'legal-notice' },
-} as const satisfies Record<string, Record<Locale, string>>;
+// The route map itself is in routes.mjs (shared with astro.config.mjs).
+export const ROUTES = ROUTE_MAP;
+
+// Sections that exist only once they have content (navigation, home, hub, sitemap).
+export const CONDITIONAL_ROUTES = ['commentaries', 'talks', 'news'] as const;
+
+// Pages that sit inside another section (breadcrumbs, submenu).
+export const PARENTS: Partial<Record<keyof typeof ROUTES, keyof typeof ROUTES>> = {
+  papers: 'publications',
+  commentaries: 'publications',
+};
+
+// Items per page in the commentaries, talks and news lists.
+export const PAGE_SIZE = 10;
 
 export type RouteKey = keyof typeof ROUTES;

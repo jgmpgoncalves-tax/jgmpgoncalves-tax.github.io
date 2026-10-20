@@ -1,36 +1,38 @@
 ---
+import { getEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { LANG_TAGS, LOCALES, type Locale } from '../i18n/config';
 import { UI } from '../i18n/ui';
 import { asset, pathFor } from '../i18n/utils';
 import {
-  articleAlternates,
-  articleHtml,
-  articlePath,
   citation,
+  commentaryAlternates,
+  commentaryHtml,
+  commentaryPath,
   dateFormat,
-  TYPE_LABELS,
-  type Article,
-} from '../lib/articles';
+  type Commentary,
+} from '../lib/commentaries';
 import { getProfile } from '../lib/data';
 
-interface Props { article: Article; locale: Locale }
-const { article: a, locale } = Astro.props;
+interface Props { commentary: Commentary; locale: Locale }
+const { commentary: a, locale } = Astro.props;
 const t = UI[locale];
 const profile = await getProfile();
 const fmt = dateFormat(locale);
-const url = new URL(articlePath(a), Astro.site).href;
-const alternates = await articleAlternates(a);
-// Without a translation, the switch goes to the other language's article list.
+const url = new URL(commentaryPath(a), Astro.site).href;
+const alternates = await commentaryAlternates(a);
+const type = await getEntry('commentaryTypes', a.data.type.id);
+if (!type) throw new Error(`Unknown commentary type ${a.data.type.id}`);
+// Without a translation, the switch goes to the other language's list.
 const switchHrefs = Object.fromEntries(
-  LOCALES.map((l) => [l, alternates[l] ?? pathFor('articles', l)]),
+  LOCALES.map((l) => [l, alternates[l] ?? pathFor('commentaries', l)]),
 ) as Record<Locale, string>;
 const iso = (d: Date) => d.toISOString().slice(0, 10);
 const cite = citation(a, profile.citationName, url);
 
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': a.data.type === 'scientific' ? 'ScholarlyArticle' : 'Article',
+  '@type': type.data.schema,
   headline: a.data.title,
   description: a.data.summary,
   datePublished: iso(a.data.date),
@@ -50,7 +52,7 @@ const jsonLd = {
 ---
 <Base
   locale={locale}
-  routeKey="articles"
+  routeKey="commentaries"
   title={a.data.title}
   description={a.data.summary}
   alternates={alternates}
@@ -68,7 +70,7 @@ const jsonLd = {
   <div class="container">
     <article class="page surface article">
       <header class="article-header">
-        <p class="article-meta">{TYPE_LABELS[locale][a.data.type]}</p>
+        <p class="article-meta">{type.data.label[locale]}</p>
         <h1>{a.data.title}</h1>
         <p class="article-dates">
           {t.published} <time datetime={iso(a.data.date)}>{fmt.format(a.data.date)}</time>
@@ -80,7 +82,7 @@ const jsonLd = {
         )}
       </header>
 
-      <div class="article-body" set:html={articleHtml(a)} />
+      <div class="article-body" set:html={commentaryHtml(a)} />
 
       <footer class="article-footer">
         {a.data.tags.length > 0 && (

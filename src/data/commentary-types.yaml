@@ -1,0 +1,14 @@
+# Types of commentaries and notes. A commentary's `type` must be one of these ids.
+# `schema` is the JSON-LD type: ScholarlyArticle or Article.
+- id: case-commentary
+  label: { pt: Comentário de jurisprudência, en: Case commentary }
+  schema: Article
+- id: ruling-commentary
+  label: { pt: Comentário a informação vinculativa, en: Commentary on a binding ruling }
+  schema: Article
+- id: legislative-note
+  label: { pt: Nota legislativa, en: Legislative note }
+  schema: Article
+- id: article
+  label: { pt: Artigo, en: Article }
+  schema: ScholarlyArticle

@@ -14,9 +14,11 @@ const year = new Date().getFullYear();
   <div class="container footer-inner">
     <div>
       <p class="footer-name">{p.name}</p>
+      <p class="footer-role">{p.headline[locale]}</p>
       <p>{p.profession[locale]} · {p.barLabel[locale]} {p.barNumber}</p>
     </div>
     <ul class="footer-links">
+      <li>{p.city[locale]}, {p.country[locale]}</li>
       <li><a href={`mailto:${p.email}`}>{p.email}</a></li>
       <li><a href={p.linkedin} rel="me">LinkedIn</a></li>
     </ul>

@@ -1,0 +1,49 @@
+---
+// Commentaries, talks and news lists: newest first, PAGE_SIZE per page, "Ver mais" to the next page.
+import Base from '../layouts/Base.astro';
+import EntryRow from '../components/EntryRow.astro';
+import Featured from '../components/Featured.astro';
+import type { Locale } from '../i18n/config';
+import { UI } from '../i18n/ui';
+import { pathFor } from '../i18n/utils';
+import type { Commentary } from '../lib/commentaries';
+import type { NewsItem } from '../lib/data';
+
+interface Props {
+  section: 'commentaries' | 'talks' | 'news';
+  locale: Locale;
+  items: (Commentary | NewsItem)[];
+  page: number;
+  pageCount: number;
+}
+const { section, locale, items, page, pageCount } = Astro.props;
+const t = UI[locale];
+const base = pathFor(section, locale);
+const self = page > 1 ? `${base}${page}/` : base;
+const next = page < pageCount ? `${base}${page + 1}/` : undefined;
+const title = page > 1 ? `${t.nav[section]} (${t.pageN(page)})` : t.nav[section];
+const kind = section === 'commentaries' ? 'commentary' : 'news';
+---
+<Base
+  locale={locale}
+  routeKey={section}
+  title={title}
+  description={t.meta[section]}
+  alternates={page > 1 ? { [locale]: self } : undefined}
+>
+  <div class="container">
+    <div class="banner"><p class="banner-title">{t.nav[section]}</p></div>
+  </div>
+  <div class="container with-sidebar">
+    <div class="page surface">
+      <h1>{title}</h1>
+      {page === 1 && <p class="page-intro">{t.intro[section]}</p>}
+      <ul class="entry-list">
+        {items.map((entry) => <li><EntryRow entry={entry} kind={kind} locale={locale} /></li>)}
+      </ul>
+      {next && <p class="more"><a class="button" href={next}>{t.more}</a></p>}
+      {section === 'commentaries' && <p class="rss-link"><a href={`${base}rss.xml`}>{t.rss}</a></p>}
+    </div>
+    <aside class="sidebar"><Featured locale={locale} /></aside>
+  </div>
+</Base>

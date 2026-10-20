@@ -1,10 +1,9 @@
-import { getCollection, getEntry } from 'astro:content';
-import type { Locale } from '../i18n/config';
+import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
+import type { Locale, RouteKey } from '../i18n/config';
+import { pathFor } from '../i18n/utils';
+import { commentaryPath, getCommentaries, type Commentary } from './commentaries';
 import { dateKey } from './dates';
-
-const byStartDesc = <T extends { data: { start: string; end?: string | null } }>(a: T, b: T) =>
-  dateKey(b.data.start).localeCompare(dateKey(a.data.start)) ||
-  dateKey(b.data.end).localeCompare(dateKey(a.data.end));
+import { checkFolder, listFor, newestFirst, slugOf } from './entries';
 
 export async function getProfile() {
   const entry = await getEntry('profile', 'main');
@@ -12,43 +11,44 @@ export async function getProfile() {
   return entry.data;
 }
 
-export async function getExperience() {
-  const all = (await getCollection('experience')).sort(byStartDesc);
+/** Generated first sentence of the description: role, firm and city from profile.yaml. */
+export async function positionSentence(locale: Locale) {
+  const p = await getProfile();
+  const role = p.role[locale];
+  if (locale === 'pt') return `${p.name} é ${role} ${p.firmPreposition} ${p.firm}, em ${p.city.pt}.`;
+  const article = /^[AEIOU]/i.test(role) ? 'an' : 'a';
+  return `${p.name} is ${article} ${role} at ${p.firm} in ${p.city.en}.`;
+}
+
+/** The {dissertation} sentence, from the status field in profile.yaml. */
+async function dissertationSentence(locale: Locale) {
+  const d = (await getProfile()).dissertation;
+  if (d.status === 'defended' && !d.defenceYear) throw new Error('profile.yaml: set dissertation.defenceYear once the dissertation is defended.');
+  return d.text[d.status][locale].replace('{title}', d.title[locale]).replace('{year}', String(d.defenceYear ?? ''));
+}
+
+/** General description: two paragraphs for the home page, HTML paragraphs for About. */
+export async function getDescription(locale: Locale) {
+  const entry = await getEntry('description', locale);
+  if (!entry) throw new Error(`Missing src/content/description/${locale}.md`);
+  const first = await positionSentence(locale);
+  const diss = await dissertationSentence(locale);
+  const fill = (s: string) => s.replaceAll('{dissertation}', diss);
+  const [h1, h2] = entry.data.home.map(fill);
   return {
-    main: all.filter((e) => !e.data.internship),
-    internships: all.filter((e) => e.data.internship),
+    home: [`${first} ${h1}`, h2],
+    aboutHtml: fill(entry.rendered?.html ?? '').replace(/^<p>/, `<p>${first} `),
   };
 }
 
-/** Current role at an organisation: the one with `end: null`, otherwise the last listed. */
-export function currentRole(roles: { title: { pt: string; en: string }; end?: string | null }[]) {
-  return roles.find((r) => r.end === null) ?? roles[roles.length - 1];
-}
-
-/** Bio paragraphs with {position} filled in from the current employer in experience.yaml. */
-export async function getBio(locale: Locale) {
-  const profile = await getProfile();
-  const { main } = await getExperience();
-  const current = main.find((e) => e.data.end === null && e.data.position);
-  if (!current?.data.position) throw new Error('experience.yaml: the current employer needs a `position` field.');
-  const position = current.data.position[locale].replace('{role}', currentRole(current.data.roles).title[locale]);
-  return profile.bio[locale].map((p) => p.replace('{position}', position));
-}
-
-export async function getEducation() {
-  return (await getCollection('education')).sort(byStartDesc);
+export async function getResearchAreas() {
+  return (await getCollection('researchAreas')).sort((a, b) => a.data.order - b.data.order);
 }
 
 export async function getResearch() {
-  return (await getCollection('research')).sort(byStartDesc);
-}
-
-export async function getTraining() {
-  return (await getCollection('training')).sort((a, b) => dateKey(b.data.date).localeCompare(dateKey(a.data.date)));
-}
-
-export async function getPracticeAreas() {
-  return (await getCollection('practiceAreas')).sort((a, b) => a.data.order - b.data.order);
+  return (await getCollection('research')).sort(
+    (a, b) => dateKey(b.data.start).localeCompare(dateKey(a.data.start)) || dateKey(b.data.end).localeCompare(dateKey(a.data.end)),
+  );
 }
 
 /** Publications, newest first, grouped by year. Undated entries go in a final group with year null. */
@@ -64,17 +64,77 @@ export async function getPublicationsByYear() {
   return [...groups].map(([year, items]) => ({ year, items }));
 }
 
-// Loaded once per production build (every page checks it for the navigation); reloaded in dev.
-let newsCache: Awaited<ReturnType<typeof getCollection<'news'>>> | undefined;
+export type NewsItem = CollectionEntry<'news'>;
 
-/** News items for one language, newest first. */
+let newsCache: NewsItem[] | undefined;
+
+/** All news items that are built, newest first (drafts left out of production builds). */
+export async function getAllNews() {
+  if (!newsCache || import.meta.env.DEV) {
+    const all = await getCollection('news', (n) => !(import.meta.env.PROD && n.data.draft));
+    all.forEach((n) => checkFolder(n, 'news'));
+    newsCache = newestFirst(all);
+  }
+  return newsCache;
+}
+
+/** News listed in a language (with items that exist only in the other language). */
 export async function getNews(locale: Locale) {
-  if (!newsCache || import.meta.env.DEV) newsCache = await getCollection('news');
-  return newsCache
-    .filter((n) => n.id.startsWith(`${locale}/`))
-    .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+  return listFor(await getAllNews(), locale);
 }
 
-export async function hasNews(locale: Locale) {
-  return (await getNews(locale)).length > 0;
+/** Talks: news items in the "talk" category. */
+export async function getTalks(locale: Locale) {
+  return (await getNews(locale)).filter((n) => n.data.category.id === 'talk');
 }
+
+export async function getCommentaryList(locale: Locale) {
+  return listFor(await getCommentaries(), locale);
+}
+
+/**
+ * Whether a section has content. A section appears in the navigation, on the home page,
+ * on the Publications hub and in the sitemap only once it has content.
+ */
+export async function hasContent(key: RouteKey): Promise<boolean> {
+  if (key === 'commentaries') return (await getCommentaries()).length > 0;
+  if (key === 'news') return (await getAllNews()).length > 0;
+  if (key === 'talks') return (await getAllNews()).some((n) => n.data.category.id === 'talk');
+  return true;
+}
+
+/** Anchor of a news item in a language's news list, used when the item has no link of its own. */
+export const newsAnchor = (n: NewsItem, locale: Locale) => `${pathFor('news', locale)}#${slugOf(n)}`;
+
+export type Featured = ({ kind: 'commentary'; item: Commentary } | { kind: 'news'; item: NewsItem }) & { label: string };
+
+/** The latest items across commentaries and news, for "Em destaque". */
+export async function getFeatured(locale: Locale, count = 3): Promise<Featured[]> {
+  const items: Featured[] = [
+    ...(await Promise.all(
+      (await getCommentaryList(locale)).map(async (item) => ({
+        kind: 'commentary' as const,
+        item,
+        label: (await categoryLabel('commentaryTypes', item.data.type.id))[locale],
+      })),
+    )),
+    ...(await Promise.all(
+      (await getNews(locale)).map(async (item) => ({
+        kind: 'news' as const,
+        item,
+        label: (await categoryLabel('newsCategories', item.data.category.id))[locale],
+      })),
+    )),
+  ];
+  return items.sort((a, b) => b.item.data.date.getTime() - a.item.data.date.getTime()).slice(0, count);
+}
+
+/** Label of a commentary type or news category. */
+export async function categoryLabel(collection: 'commentaryTypes' | 'newsCategories', id: string) {
+  const entry = await getEntry(collection, id);
+  if (!entry) throw new Error(`Unknown ${collection} id "${id}"`);
+  return entry.data.label;
+}
+
+export const featuredHref = (f: Featured, locale: Locale) =>
+  f.kind === 'commentary' ? commentaryPath(f.item) : (f.item.data.link ?? newsAnchor(f.item, locale));

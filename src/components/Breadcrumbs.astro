@@ -1,22 +1,20 @@
 ---
-import type { Locale, RouteKey } from '../i18n/config';
+import { PARENTS, type Locale, type RouteKey } from '../i18n/config';
 import { UI } from '../i18n/ui';
 import { pathFor } from '../i18n/utils';
 
 interface Props { locale: Locale; routeKey: RouteKey; current?: string }
 const { locale, routeKey, current } = Astro.props;
 const t = UI[locale];
+// Início › [parent section ›] page [› current item]
+const chain: RouteKey[] = [...(PARENTS[routeKey] ? [PARENTS[routeKey]!] : []), routeKey];
+const links = current ? chain : chain.slice(0, -1);
+const last = current ?? t.nav[routeKey];
 ---
 <nav class="breadcrumbs" aria-label={t.breadcrumbs}>
   <ol>
     <li><a href={pathFor('home', locale)}>{t.nav.home}</a></li>
-    {current ? (
-      <>
-        <li><a href={pathFor(routeKey, locale)}>{t.nav[routeKey]}</a></li>
-        <li><span aria-current="page">{current}</span></li>
-      </>
-    ) : (
-      <li><span aria-current="page">{t.nav[routeKey]}</span></li>
-    )}
+    {links.map((key) => <li><a href={pathFor(key, locale)}>{t.nav[key]}</a></li>)}
+    <li><span aria-current="page">{last}</span></li>
   </ol>
 </nav>

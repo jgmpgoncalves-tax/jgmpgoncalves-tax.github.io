@@ -2,26 +2,27 @@
 import Base from '../layouts/Base.astro';
 import JsonLd from '../components/JsonLd.astro';
 import ProfilePhoto from '../components/ProfilePhoto.astro';
-import NewsList from '../components/NewsList.astro';
-import ArticleItem from '../components/ArticleItem.astro';
-import { articlesFor } from '../lib/articles';
+import Featured from '../components/Featured.astro';
 import type { Locale } from '../i18n/config';
 import { UI } from '../i18n/ui';
 import { pathFor } from '../i18n/utils';
-import { getBio, getNews, getProfile } from '../lib/data';
+import { getDescription, getProfile, hasContent } from '../lib/data';
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 const t = UI[locale];
 const profile = await getProfile();
-const bio = (await getBio(locale)).slice(0, 2);
-const news = (await getNews(locale)).slice(0, 3);
-const [latestArticle] = await articlesFor(locale);
-const cards = (['about', 'practice', 'publications', 'contact'] as const).map((key) => ({
-  key,
+const { home } = await getDescription(locale);
+// Second tile: talks once they exist, otherwise commentaries once they exist, otherwise none.
+const second: 'talks' | 'commentaries' | undefined = (await hasContent('talks'))
+  ? 'talks'
+  : (await hasContent('commentaries'))
+    ? 'commentaries'
+    : undefined;
+const tiles = (['publications', ...(second ? [second] : [])] as const).map((key) => ({
   href: pathFor(key, locale),
   title: t.nav[key],
-  text: t.cards[key],
+  text: t.tiles[key],
 }));
 ---
 <Base locale={locale} routeKey="home" title={profile.name} description={profile.description[locale]}>
@@ -29,44 +30,31 @@ const cards = (['about', 'practice', 'publications', 'contact'] as const).map((k
 
   <section class="hero">
     <div class="container">
-      <h1>{profile.name}</h1>
-      <p class="hero-role">{profile.headline[locale]}</p>
+      <p class="hero-line">{profile.heroLine[locale]}</p>
+      <p><a class="button-outline" href={pathFor('about', locale)}>{t.readMore}</a></p>
     </div>
   </section>
 
   <div class="container">
     <section class="intro surface" aria-labelledby="intro-title">
-      <ProfilePhoto alt={t.photoAlt} width={280} loading="eager" />
       <div>
-        <h2 id="intro-title" class="visually-hidden">{t.nav.about}</h2>
-        {bio.map((p) => <p>{p}</p>)}
-        <p><a class="more" href={pathFor('about', locale)}>{t.readMore}<span class="visually-hidden">: {t.nav.about}</span></a></p>
+        <h1 id="intro-title">{profile.name}</h1>
+        {home.map((p) => <p>{p}</p>)}
+        <p><a class="button" href={pathFor('about', locale)}>{t.readMore}<span class="visually-hidden">: {t.nav.about}</span></a></p>
       </div>
+      <ProfilePhoto alt={t.photoAlt} width={280} loading="eager" />
     </section>
 
-    <nav class="cards" aria-label={t.mainNav}>
-      {cards.map((c) => (
-        <a class="card" href={c.href}>
-          <span class="card-title">{c.title}</span>
-          <span class="card-text">{c.text}</span>
+    <nav class={`tiles tiles-${tiles.length}`} aria-label={t.nav.publications}>
+      {tiles.map((tile) => (
+        <a class="tile" href={tile.href}>
+          <span class="tile-title">{tile.title}</span>
+          <span class="tile-text">{tile.text}</span>
+          <span class="tile-arrow" aria-hidden="true">→</span>
         </a>
       ))}
     </nav>
 
-    {latestArticle && (
-      <section class="latest-article" aria-labelledby="latest-title">
-        <h2 id="latest-title" class="section-label">{t.latestArticle}</h2>
-        <ArticleItem article={latestArticle} locale={locale} />
-        <p><a href={pathFor('articles', locale)}>{t.allArticles}</a></p>
-      </section>
-    )}
-
-    {news.length > 0 && (
-      <section class="news-strip" aria-labelledby="news-title">
-        <h2 id="news-title" class="section-label">{t.featuredNews}</h2>
-        <NewsList items={news} locale={locale} />
-        <p><a href={pathFor('news', locale)}>{t.allNews}</a></p>
-      </section>
-    )}
+    <Featured locale={locale} />
   </div>
 </Base>

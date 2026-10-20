@@ -1,125 +1,58 @@
 ---
 import Base from '../layouts/Base.astro';
 import JsonLd from '../components/JsonLd.astro';
-import ProfilePhoto from '../components/ProfilePhoto.astro';
-import SectionLabel from '../components/SectionLabel.astro';
-import Todo from '../components/Todo.astro';
 import type { Locale } from '../i18n/config';
 import { UI } from '../i18n/ui';
-import { formatDate, formatRange } from '../lib/dates';
-import { getBio, getEducation, getExperience, getProfile, getResearch, getTraining } from '../lib/data';
+import { pathFor } from '../i18n/utils';
+import { formatRange } from '../lib/dates';
+import { getDescription, getProfile, getResearch, getResearchAreas, hasContent } from '../lib/data';
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 const t = UI[locale];
+const a = t.about;
 const profile = await getProfile();
-const bio = await getBio(locale);
-const { main, internships } = await getExperience();
-const education = await getEducation();
-const research = await getResearch();
-const training = await getTraining();
+const { aboutHtml } = await getDescription(locale);
+const areas = await getResearchAreas();
+const affiliations = await getResearch();
+const showTalks = await hasContent('talks');
 ---
 <Base locale={locale} routeKey="about" title={t.nav.about} description={t.meta.about}>
   <JsonLd slot="head" locale={locale} />
   <div class="container">
+    <div class="banner"><p class="banner-title">{profile.name}</p></div>
+  </div>
+  <div class="container">
     <article class="page surface">
-      <h1>{profile.name}</h1>
-      <div class="about-intro">
-        <div class="prose">{bio.map((p) => <p>{p}</p>)}</div>
-        <ProfilePhoto alt={t.photoAlt} width={240} />
+      <h1>{t.nav.about}</h1>
+      <div class="prose" set:html={aboutHtml} />
+
+      <div class="collapsibles">
+        <details>
+          <summary>{a.researchAreas}</summary>
+          <ul>{areas.map((r) => <li>{r.data.label[locale]}</li>)}</ul>
+        </details>
+        <details>
+          <summary>{a.affiliations}</summary>
+          <ul>
+            {affiliations.map(({ data: r }) => (
+              <li>{r.organisation}. {r.role[locale]}, {formatRange(r.start, r.end, locale)}.</li>
+            ))}
+          </ul>
+        </details>
+        <details>
+          <summary>{a.publications}</summary>
+          <p>{a.publicationsText}</p>
+          <p><a class="button" href={pathFor('publications', locale)}>{t.readMore}<span class="visually-hidden">: {t.nav.publications}</span></a></p>
+        </details>
+        {showTalks && (
+          <details>
+            <summary>{a.talks}</summary>
+            <p>{a.talksText}</p>
+            <p><a class="button" href={pathFor('talks', locale)}>{t.readMore}<span class="visually-hidden">: {t.nav.talks}</span></a></p>
+          </details>
+        )}
       </div>
-
-      <SectionLabel id="experience">{t.sections.experience}</SectionLabel>
-      <ul class="cv-list">
-        {main.map(({ data: e }) => (
-          <li>
-            <span class="cv-dates">{formatRange(e.start, e.end, locale)}</span>
-            <div>
-              <p class="cv-title">{e.organisation}, {e.city[locale]}</p>
-              {e.roles.length > 1 ? (
-                <ul class="cv-roles">
-                  {[...e.roles].reverse().map((r) => (
-                    <li>{r.title[locale]}{r.start && <span class="muted"> ({formatRange(r.start, r.end, locale)})</span>}</li>
-                  ))}
-                </ul>
-              ) : (
-                <p class="cv-role">{e.roles[0].title[locale]}</p>
-              )}
-              {e.description && <ul class="cv-desc">{e.description[locale].map((d) => <li>{d}</li>)}</ul>}
-            </div>
-          </li>
-        ))}
-      </ul>
-
-      <h3 class="sub-label">{t.sections.internships}</h3>
-      <ul class="cv-list cv-compact">
-        {internships.map(({ data: e }) => (
-          <li>
-            <span class="cv-dates">{formatRange(e.start, e.end, locale)}</span>
-            <p>
-              {e.organisation}, {e.city[locale]}. {e.roles[0].title[locale]}.
-              {e.supervisor && <> {t.supervisor}: {e.supervisor}.</>}
-            </p>
-          </li>
-        ))}
-      </ul>
-
-      <SectionLabel id="education">{t.sections.education}</SectionLabel>
-      <ul class="cv-list">
-        {education.map(({ data: e }) => (
-          <li>
-            <span class="cv-dates">{formatRange(e.start, e.end, locale)}</span>
-            <div>
-              <p class="cv-title">{e.programme[locale]}</p>
-              <p class="cv-role">{e.institution}, {e.city[locale]}</p>
-              {e.notes && <ul class="cv-desc">{e.notes[locale].map((n) => <li>{n}</li>)}</ul>}
-              {e.dissertation && (
-                <p class="cv-diss">
-                  {t.dissertation}: <cite lang={locale === 'en' ? 'en-GB' : 'pt-PT'}>{e.dissertation.title[locale]}</cite>.{' '}
-                  {t.supervisor}: {e.dissertation.supervisor[locale]}.{' '}
-                  {e.dissertation.status === 'defended'
-                    ? <>{t.dissertationStatus.defended}{e.dissertation.defenceDate && <> ({formatDate(e.dissertation.defenceDate, locale)})</>}{e.dissertation.grade && <>, {e.dissertation.grade}</>}.</>
-                    : t.dissertationStatus['pending-defence']}
-                </p>
-              )}
-            </div>
-          </li>
-        ))}
-      </ul>
-
-      <SectionLabel id="research">{t.sections.research}</SectionLabel>
-      <ul class="cv-list">
-        {research.map(({ data: r }) => (
-          <li>
-            <span class="cv-dates">{formatRange(r.start, r.end, locale)}</span>
-            <p><span class="cv-title">{r.organisation}</span>. {r.role[locale]}.</p>
-          </li>
-        ))}
-      </ul>
-
-      <SectionLabel id="training">{t.sections.training}</SectionLabel>
-      <ul class="cv-list">
-        {training.map(({ data: c }) => (
-          <li>
-            <span class="cv-dates">{c.date ? formatDate(c.date, locale) : <Todo what={locale === 'pt' ? 'data' : 'date'} />}</span>
-            <div>
-              <p>
-                <span class="cv-title">{c.title}</span>
-                {c.organiser && <>. {c.organiser}</>}
-                {c.result && <> ({c.result})</>}
-                {c.teacher && <>. {t.teacher}: {c.teacher}</>}.
-                {c.todo?.includes('organiser') && <> <Todo what={locale === 'pt' ? 'entidade' : 'organiser'} /></>}
-              </p>
-              {c.notes && <p class="muted">{c.notes[locale].join(' ')}</p>}
-            </div>
-          </li>
-        ))}
-      </ul>
-
-      <SectionLabel id="languages">{t.sections.languages}</SectionLabel>
-      <ul class="plain-list">
-        {profile.languages.map((l) => <li>{l[locale]}</li>)}
-      </ul>
     </article>
   </div>
 </Base>

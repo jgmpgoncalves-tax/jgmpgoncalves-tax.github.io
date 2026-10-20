@@ -1,0 +1,9 @@
+# Categories of news items. Items in the `talk` category also appear on the Talks page.
+- id: talk
+  label: { pt: Intervenção, en: Talk }
+- id: publication
+  label: { pt: Publicação, en: Publication }
+- id: teaching
+  label: { pt: Docência, en: Teaching }
+- id: other
+  label: { pt: Outro, en: Other }

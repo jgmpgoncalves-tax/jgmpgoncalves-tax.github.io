@@ -1,0 +1,29 @@
+---
+// "Em destaque" / "Latest": the latest commentaries and news items.
+import { LANG_TAGS, type Locale } from '../i18n/config';
+import { UI } from '../i18n/ui';
+import { dateFormat, localeOf } from '../lib/commentaries';
+import { featuredHref, getFeatured } from '../lib/data';
+
+interface Props { locale: Locale; headingLevel?: 'h2' | 'h3' }
+const { locale, headingLevel: Heading = 'h2' } = Astro.props;
+const t = UI[locale];
+const items = await getFeatured(locale);
+---
+{items.length > 0 && (
+  <section class="featured" aria-labelledby={`featured-${locale}`}>
+    <Heading id={`featured-${locale}`} class="featured-title">{t.featured}</Heading>
+    <ul class="featured-list">
+      {items.map((f) => {
+        const foreign = localeOf(f.item) !== locale;
+        return (
+          <li class="feature-card">
+            <p class="feature-label">{f.label}</p>
+            <a class="feature-link" href={featuredHref(f, locale)} lang={foreign ? LANG_TAGS[localeOf(f.item)] : undefined}>{f.item.data.title}</a>
+            <p class="feature-date"><time datetime={f.item.data.date.toISOString().slice(0, 10)}>{dateFormat(locale).format(f.item.data.date)}</time></p>
+          </li>
+        );
+      })}
+    </ul>
+  </section>
+)}
