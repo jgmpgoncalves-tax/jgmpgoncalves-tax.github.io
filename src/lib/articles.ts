@@ -103,12 +103,11 @@ export const TYPE_LABELS: Record<Locale, Record<Article['data']['type'], string>
   en: { scientific: 'Scientific article', note: 'Note', commentary: 'Commentary' },
 };
 
-/** "Como citar / How to cite" text, built from the metadata. */
-export function citation(a: Article, author: string, url: string): string {
-  const l = localeOf(a);
-  const date = dateFormat(l).format(a.data.date);
-  const type = TYPE_LABELS[l][a.data.type].toLowerCase();
-  return l === 'pt'
-    ? `${author}, «${a.data.title}», ${type}, ${date}, disponível em ${url}.`
-    : `${author}, '${a.data.title}' (${type}, ${date}) <${url}>.`;
+/**
+ * Parts of the "Como citar / How to cite" reference, following the Católica Law Review
+ * style rules for texts consulted online (V.5): author (surname in small capitals),
+ * year, title in italics, "in" + URL, and the date of consultation (d.mm.yyyy).
+ */
+export function citation(a: Article, name: { surname: string; given: string }, url: string) {
+  return { surname: name.surname, given: name.given, year: a.data.date.getUTCFullYear(), title: a.data.title, url };
 }

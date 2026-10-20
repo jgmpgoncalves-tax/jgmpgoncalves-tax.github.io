@@ -45,7 +45,7 @@ Personal professional website. Astro, static output, GitHub Pages. Public reposi
 - An article may exist in one language only. The other language's list shows it with a language label, and the language switch on the article goes to that list.
 - Body: `##` and `###` headings only. Footnotes with `[^1]` and `[^1]: text`. Statutory text as a block quote whose first line is the provision in bold (`> **Artigo 51.º do Código do IRC**`).
 - The build fails on: wrong folder/`lang`, a missing PDF, `#`/`####` headings, em dashes (including `---` inside text, which the Markdown processor turns into one; a `---` line on its own is a horizontal rule and is allowed).
-- Generated automatically: list and home entry, "Como citar / How to cite", JSON-LD (ScholarlyArticle for `scientific`, Article otherwise), Open Graph article tags, canonical, hreflang (only for versions that exist), RSS at `/artigos/rss.xml` and `/en/articles/rss.xml`.
+- Generated automatically: list and home entry, "Como citar / How to cite" (Católica Law Review style rules, V.5: `GONÇALVES, João Gabriel (2026), *Título*, in <URL> (d.mm.aaaa)`, consultation date filled in by the reader's browser), JSON-LD (ScholarlyArticle for `scientific`, Article otherwise), Open Graph article tags, canonical, hreflang (only for versions that exist), RSS at `/artigos/rss.xml` and `/en/articles/rss.xml`.
 
 ## YAML pitfalls
 - Quote any value containing a comma inside inline `{ }` or `[ ]` (e.g. `{ pt: "Lisboa, Portugal", en: "Lisbon, Portugal" }`). Unquoted, the comma splits the value; the strict schemas then fail the build.

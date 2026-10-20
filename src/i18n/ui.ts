@@ -72,6 +72,7 @@ export const UI = {
     tags: 'Temas',
     downloadPdf: 'Descarregar em PDF',
     howToCite: 'Como citar',
+    accessDate: 'data de consulta',
     rss: 'Subscrever por RSS',
   },
   en: {
@@ -144,6 +145,7 @@ export const UI = {
     tags: 'Topics',
     downloadPdf: 'Download PDF',
     howToCite: 'How to cite',
+    accessDate: 'date accessed',
     rss: 'Subscribe via RSS',
   },
 } as const satisfies Record<Locale, unknown>;

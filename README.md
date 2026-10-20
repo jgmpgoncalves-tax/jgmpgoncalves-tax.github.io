@@ -89,7 +89,7 @@ Não usar travessões (o carácter U+2014). A sequência `---` dentro de uma fra
 
 Para uma tradução, criar o ficheiro na outra pasta e indicar em `translationOf` o slug da versão original. As duas versões ficam ligadas no seletor de idioma.
 
-O site gera automaticamente a entrada na lista de artigos e na homepage, o bloco "Como citar", os dados estruturados, as etiquetas para partilha e os feeds RSS (`/artigos/rss.xml` e `/en/articles/rss.xml`).
+O site gera automaticamente a entrada na lista de artigos e na homepage, o bloco "Como citar" (segundo as regras de estilo da Católica Law Review para textos consultados na internet: GONÇALVES, João Gabriel (2026), *Título*, in URL (data de consulta, preenchida pelo navegador do leitor)), os dados estruturados, as etiquetas para partilha e os feeds RSS (`/artigos/rss.xml` e `/en/articles/rss.xml`).
 
 Nota: o repositório é público. Mesmo com `draft: true`, o ficheiro fica visível no GitHub. Para manter um texto privado, não o colocar no repositório.
 

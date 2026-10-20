@@ -4,6 +4,8 @@
 # On the home page only the first two bio paragraphs are shown.
 - id: main
   name: João Gabriel Gonçalves
+  # For "Como citar": surname shown first, in small capitals (Católica Law Review style rules).
+  citationName: { surname: Gonçalves, given: João Gabriel }
   headline:
     pt: Advogado | Direito Fiscal e Fiscalidade Internacional
     en: Lawyer | Tax Law and International Taxation
