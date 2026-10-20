@@ -1,22 +1,28 @@
 # Site rules (João Gabriel Gonçalves)
 
-Personal professional website. Astro, static output, GitHub Pages. Public repository.
+Academic outlet of a tax lawyer: a short description, publications, commentaries and, once they exist, talks and news. Astro, static output, GitHub Pages (repository `jgmpgoncalves-tax.github.io`, site at the domain root). Public repository.
 
 ## Technical rules
-- Astro (static), plain CSS with custom properties (`src/styles/global.css`). No UI framework, no client-side framework. Vanilla JS only where needed (mobile menu).
-- Content lives outside templates: YAML in `src/data/`, Markdown in `src/content/`, validated by schemas in `src/content.config.ts`. A content change must never require editing a template.
-- Languages: pt (pt-PT, default, at `/`) and en (en-GB, at `/en/`). Locales, default locale and localised slugs are defined only in `src/i18n/config.ts` (mirror `DEFAULT_LOCALE`/locales in `astro.config.mjs`). Every page exists in both languages. The language switch goes to the equivalent page.
-- All internal links go through `pathFor()` / `asset()` in `src/i18n/utils.ts` (they handle `base`).
-- No cookies, analytics, embeds or third-party requests at page load. Fonts self-hosted via Fontsource. The site must never need a cookie banner.
-- Accessibility: semantic HTML, WCAG 2.2 AA contrast, visible focus, keyboard-operable menu, alt text, correct `lang`, `prefers-reduced-motion`.
-- SEO: per-page title and description in both languages, Open Graph/Twitter, hreflang (pt-PT, en-GB, x-default), canonical, sitemap, robots.txt, JSON-LD Person.
-- Responsive from 360px. Target Lighthouse 95+ in all categories.
-- Do not commit anything not meant to be published (no CV files, notes, phone numbers, `.env`).
+- Astro (static), plain CSS with custom properties (`src/styles/global.css`). No UI framework, no client-side framework. Vanilla JS only where needed (mobile menu, submenu, citation date).
+- Colour tokens are fixed: `--navy`, `--navy-700`, `--bg`, `--surface`, `--text`, `--muted`, `--border`. Do not add tokens. On navy surfaces: white for titles and arrows, `--border` for labels and dates. In white layouts, dates in `--muted`.
+- Fonts: Source Serif 4 + Source Sans 3, self-hosted via Fontsource (the two latin files are preloaded in `Base.astro`).
+- Content lives outside templates: YAML in `src/data/`, Markdown in `src/content/`, validated by schemas in `src/content.config.ts` (strict for {pt, en} pairs). A content change must never require editing a template.
+- Languages: pt (default, at `/`) and en (at `/en/`). Locales, default locale and localised paths are defined only in `src/i18n/routes.mjs` (read by both the site and `astro.config.mjs`). Language tags are `pt` and `en` (language only, so each version reaches all speakers); dates are formatted pt-PT / en-GB.
+- All internal links go through `pathFor()` / `asset()` in `src/i18n/utils.ts`.
+- Sections with content only: Comentários e notas, Intervenções and Notícias appear in the navigation, on the home page, on the Publicações hub and in the sitemap only once they have an entry (`hasContent()` in `src/lib/data.ts`). Their pages are not generated before that.
+- Lists (commentaries, talks, news): 10 items per page, `<section>/2/`, `<section>/3/`...
+- Never change a published URL. Commentary URLs (`/comentarios/<slug>/`) are cited. Old URLs get a redirect in `astro.config.mjs`.
+- No cookies, analytics, embeds or third-party requests at page load. The site must never need a cookie banner.
+- Accessibility: semantic HTML, WCAG 2.2 AA contrast, visible focus, keyboard-operable menu and submenu (hover, focus, toggle with `aria-expanded`, Escape), `<details>` for collapsible sections, alt text (decorative banners `alt=""`), correct `lang`, `prefers-reduced-motion`.
+- SEO: per-page title (about 70 characters at most) and description in both languages, Open Graph/Twitter, hreflang (pt, en, x-default) and sitemap pairs for localised paths and commentary translations, canonical, robots.txt, JSON-LD Person (`worksFor`, former employers and degrees in `alumniOf`, `knowsAbout` from the research areas). Firm names are in structured data only, never in the visible text.
+- Responsive from 360px; header on one line on mobile. Target Lighthouse 95+ in all categories.
+- Do not commit anything not meant to be published (CV files, notes, phone numbers, `.env`, reference screenshots, images with metadata).
 
 ## Writing rules (all site copy)
-- European Portuguese (AO90) and British English, each written natively, not translated sentence by sentence.
+- European Portuguese (AO90) and British English, each written natively, not translated sentence by sentence. The author's own texts (description) are kept as written, with spelling corrections only.
 - Third person, factual, understated. Short sentences. No marketing language.
-- No self-evaluation or superlatives ("leading", "top", "rigorous", "solutions-oriented"). Keep objective facts: dates, grades, prizes, roles. Information must be truthful, objective and not misleading.
+- No self-evaluation or superlatives. Information must be truthful, objective and not misleading.
+- The site does not reproduce CV detail beyond the description: no grades, rankings, prizes, internships, training courses, moot court, debating or scholarships, and no task lists per job.
 - No em dashes (U+2014) anywhere. En dashes only in date ranges.
 - Dates: "jul. 2025 – presente" / "Jul 2025 – present".
 - Never invent facts, dates, URLs, titles or affiliations. Where data is missing, leave a visible `TODO` and report it.
@@ -24,29 +30,31 @@ Personal professional website. Astro, static output, GitHub Pages. Public reposi
 
 ## Way of working
 - Work in stages; stop for review after each. Commit after each stage with a clear message.
-- Before finishing: `npm run check`, `npm run build`, broken-link check, Lighthouse, HTML validation, and search `dist/` for em dashes and `TODO`.
+- Before finishing: `npm run check`, `npm run build`, broken-link check (including redirects), Lighthouse, HTML validation, keyboard test of the submenu and collapsible sections, and a search of `dist/` for em dashes, `TODO` and removed CV items.
+- Sections that only exist with content must be tested with temporary sample content (build to a separate `--outDir`), then the samples removed.
 
 ## Routine edits
-- Current role or promotion: `src/data/experience.yaml` only (current role has `end: null`). The bio in `src/data/profile.yaml` fills `{position}` from it.
-- Identity, contacts, bio, languages: `src/data/profile.yaml`.
-- Education (incl. dissertation `status`), research, training, practice areas: matching file in `src/data/`.
-- New publication: add an entry to `src/data/publications.yaml` (sorting and year grouping are automatic).
-- Article: see "Publishing an article" below.
-- News item: add `src/content/news/pt/<date>-<slug>.md` and the same file name in `src/content/news/en/`. News appears in the navigation and on the home page once the first entry in that language exists.
+- Role or firm: `src/data/profile.yaml` only (`role`, `employer` for the text, `firm` for structured data). The first sentence of the About text is generated from it.
+- Description: `src/content/description/<pt|en>.md` (home text in the frontmatter, About text in the body). `{dissertation}` is filled from `profile.yaml`; after the defence set `dissertation.status: defended` and `defenceYear`.
+- Research areas: `src/data/research-areas.yaml`. Academic affiliations (research positions only): `src/data/research.yaml`.
+- Publications (Artigos e estudos): `src/data/publications.yaml`; sorting and year groups are automatic.
+- Commentary: see "Publishing a commentary".
+- News or talk: `src/content/news/<pt|en>/<slug>.md` with `date`, `category` (`talk`, `publication`, `teaching`, `other`, from `src/data/news-categories.yaml`), `title`, optional `link`, `image` (+ `imageAlt`), `translationOf`, `draft`. The body is the text shown in the list. `talk` items also appear on the Intervenções page. One language is enough.
+- Images (optional, any of .jpg/.jpeg/.png/.webp): `src/assets/profile.jpg` (home photo), `src/assets/banners/{inicio,sobre,publicacoes,contactos}.<ext>` (banners; `contactos` is the image beside the contact box), `src/assets/strip.<ext>` (home strip). Without an image, banners are navy blocks. Strip metadata before committing.
 - Privacy policy and legal notice: `src/content/legal/<pt|en>/<privacy|legal>.md`. Remove `draft: true` once approved.
 - Missing data: `todo: [field]` in the YAML renders a visible TODO.
-- New page: add a route key and both slugs in `src/i18n/config.ts`, labels and meta description in `src/i18n/ui.ts`, a view in `src/views/` and a line in `src/pages/[...path].astro`.
+- New page: add a route key and both paths in `src/i18n/routes.mjs`, labels and meta description in `src/i18n/ui.ts`, a view in `src/views/` (use `layouts/Page.astro`) and a line in `src/pages/[...path].astro`.
 - Share image: `node scripts/og-image.mjs` (needs Playwright) regenerates `public/og-image.png`.
 
-## Publishing an article
-- File: `src/content/articles/<pt|en>/<slug>.md`. The file name is the slug: `/artigos/<slug>/` or `/en/articles/<slug>/`. Use lowercase ASCII and hyphens.
-- Frontmatter: `title`, `date` (YYYY-MM-DD), `updated` (optional), `summary`, `type` (`scientific` | `note` | `commentary`), `tags` (list), `lang` (must match the folder), `translationOf` (optional: slug of the version in the other language), `pdf` (optional: file name in `public/pdf/`), `draft` (true/false).
-- `draft: true` articles appear in `npm run dev` only; they are not built in production. Draft files are still visible in the public repository.
-- An article may exist in one language only. The other language's list shows it with a language label, and the language switch on the article goes to that list.
-- Body: `##` and `###` headings only. Footnotes with `[^1]` and `[^1]: text`. Statutory text as a block quote whose first line is the provision in bold (`> **Artigo 51.º do Código do IRC**`).
-- The build fails on: wrong folder/`lang`, a missing PDF, `#`/`####` headings, em dashes (including `---` inside text, which the Markdown processor turns into one; a `---` line on its own is a horizontal rule and is allowed).
-- Generated automatically: list and home entry, "Como citar / How to cite" (Católica Law Review style rules, V.5: `GONÇALVES, João Gabriel (2026), *Título*, in <URL> (d.mm.aaaa)`, consultation date filled in by the reader's browser), JSON-LD (ScholarlyArticle for `scientific`, Article otherwise), Open Graph article tags, canonical, hreflang (only for versions that exist), RSS at `/artigos/rss.xml` and `/en/articles/rss.xml`.
+## Publishing a commentary
+- File: `src/content/commentaries/<pt|en>/<slug>.md`. The file name is the slug: `/comentarios/<slug>/` or `/en/commentaries/<slug>/`. Lowercase ASCII and hyphens; not only digits. Never rename after publication.
+- Frontmatter: `title`, `date` (YYYY-MM-DD), `updated` (optional), `summary`, `type` (`case-commentary`, `ruling-commentary`, `legislative-note`, `article`, from `src/data/commentary-types.yaml`), `tags`, `translationOf` (optional: slug of the version in the other language), `pdf` (optional: file name in `public/pdf/`), `draft`.
+- `draft: true` appears in `npm run dev` only and is never built in production. Draft files are still visible in the public repository.
+- One language is enough: the other language's list shows it with a language label, and the language switch on the commentary goes to that list.
+- Body: `##` and `###` headings only. Footnotes with `[^1]`. Statutory text as a block quote whose first line is the provision in bold (`> **Artigo 51.º do Código do IRC**`).
+- The build fails on: wrong folder, a missing PDF, `#`/`####` headings, em dashes (including `---` inside text; a `---` line on its own is a horizontal rule).
+- Generated automatically: list entry, home and sidebar "Em destaque", "Como citar / How to cite" (Católica Law Review style rules, V.5: `GONÇALVES, João Gabriel (2026), *Título*, in <URL> (d.mm.aaaa)`, consultation date from the reader's browser), JSON-LD (`ScholarlyArticle` for `article`, `Article` otherwise), Open Graph article tags, canonical, hreflang, sitemap pairs, RSS at `/comentarios/rss.xml` and `/en/commentaries/rss.xml`, and the switch of the old `/artigos/` redirect to `/comentarios/`.
 
 ## YAML pitfalls
-- Quote any value containing a comma inside inline `{ }` or `[ ]` (e.g. `{ pt: "Lisboa, Portugal", en: "Lisbon, Portugal" }`). Unquoted, the comma splits the value; the strict schemas then fail the build.
+- Quote any value containing a comma inside inline `{ }` or `[ ]`. Unquoted, the comma splits the value; the strict schemas then fail the build.
 - Quote dates: `"2025-07"`.

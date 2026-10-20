@@ -1,37 +1,35 @@
-# Site profissional de João Gabriel Gonçalves
+# Site de João Gabriel Gonçalves
 
-Site estático em [Astro](https://astro.build), publicado no GitHub Pages através de GitHub Actions. Cada `push` para `main` publica o site automaticamente.
+Site estático em [Astro](https://astro.build), publicado no GitHub Pages em https://jgmpgoncalves-tax.github.io/. Cada `push` para `main` publica o site automaticamente.
 
 O conteúdo está separado do código. Para atualizar o site basta editar ficheiros de dados (YAML) ou Markdown; não é necessário mexer em templates.
 
-## Atualizar o cargo atual
+As secções Comentários e notas, Intervenções e Notícias só aparecem no menu, na página inicial, no hub de Publicações e no sitemap a partir do primeiro conteúdo publicado.
 
-Editar apenas `src/data/experience.yaml`, na entrada da entidade empregadora atual (a que tem `end: null`):
+## Mudar de cargo ou de sociedade
 
-1. no cargo atual, substituir `end: null` pela data de fim (por exemplo, `end: "2027-01"`);
-2. acrescentar o novo cargo à lista `roles`, com `start` e `end: null`.
+Editar apenas `src/data/profile.yaml`:
 
 ```yaml
-  roles:
-    - title: { pt: Associado Sénior, en: Senior Associate }
-      start: "2026-06"
-      end: "2027-01"
-    - title: { pt: Novo cargo, en: New title }
-      start: "2027-01"
-      end: null
+  role: { pt: advogado sénior, en: senior associate }
+  # Como a sociedade é descrita no texto (o nome não aparece nas páginas).
+  employer: { pt: numa sociedade de advogados internacional, en: at an international law firm }
+  # Só para os motores de busca (dados estruturados).
+  firm: "Brasil, Salomão e Matthes - Sociedade de Advogados"
+  formerEmployers:
+    - KPMG Portugal
+    - Abreu Advogados
 ```
 
-A biografia (`src/data/profile.yaml`) é atualizada automaticamente: o texto `{position}` é preenchido com o cargo atual e a entidade.
+A primeira frase do texto da página Sobre é gerada a partir destes campos («João Gabriel Gonçalves é advogado sénior numa sociedade de advogados internacional, em Lisboa.»). Ao mudar de sociedade, acrescentar a anterior a `formerEmployers`.
 
-Se mudar de entidade empregadora, criar uma nova entrada com `end: null` e o campo `position` (por exemplo, `"{role} na Nova Sociedade"` / `"a {role} at Nova Sociedade"`), e indicar a data de fim (`end`) na entrada anterior.
-
-Os dados de identificação e contactos (título profissional, email, LinkedIn) estão em `src/data/profile.yaml`.
+O resto da descrição está em `src/content/description/pt.md` e `en.md`: o texto da página inicial no cabeçalho (`home`), o texto da página Sobre no corpo.
 
 ## Defesa da dissertação
 
-Em `src/data/education.yaml`, na entrada do mestrado: mudar `status` para `defended`, preencher `defenceDate` e `grade` e indicar o ano em `end`.
+Em `src/data/profile.yaml`, no bloco `dissertation`: mudar `status` para `defended` e preencher `defenceYear` (por exemplo, `defenceYear: 2027`). A frase sobre o mestrado muda sozinha nas duas línguas.
 
-## Acrescentar uma publicação
+## Acrescentar uma publicação (Artigos e estudos)
 
 Acrescentar uma entrada em `src/data/publications.yaml`:
 
@@ -47,29 +45,37 @@ Acrescentar uma entrada em `src/data/publications.yaml`:
   url: https://...                        # opcional; sem URL, o título não tem link
 ```
 
-A ordenação cronológica inversa e os separadores por ano são automáticos.
+A ordenação e os separadores por ano são automáticos.
 
-## Publicar um artigo
+## Publicar um comentário ou nota
 
-Os artigos escritos para o site ficam em `src/content/articles/pt/` (português) ou `src/content/articles/en/` (inglês). Um artigo só precisa de existir na língua em que foi escrito.
+Os comentários escritos para o site ficam em `src/content/commentaries/pt/` (português) ou `src/content/commentaries/en/` (inglês). Basta existir na língua em que foi escrito: na outra língua aparece na lista com a indicação do idioma.
 
-1. Criar o ficheiro `src/content/articles/pt/<slug>.md`. O nome do ficheiro define o endereço: `/artigos/<slug>/` (ou `/en/articles/<slug>/`). Usar minúsculas, sem acentos, com hífenes (por exemplo, `regime-participation-exemption.md`).
+1. Criar o ficheiro `src/content/commentaries/pt/<slug>.md`. O nome do ficheiro define o endereço: `/comentarios/<slug>/` (ou `/en/commentaries/<slug>/`). Usar minúsculas, sem acentos, com hífenes (por exemplo, `ac-sta-dedutibilidade-encargos.md`). **Depois de publicado, nunca mudar o nome do ficheiro**: o endereço será citado.
 2. Preencher o cabeçalho:
 
 ```markdown
 ---
-title: Título do artigo
+title: Título do comentário
 date: 2026-11-03
-updated: 2026-11-20          # opcional
-summary: Resumo de uma ou duas frases.
-type: scientific             # scientific (artigo científico), note (nota) ou commentary (comentário)
+updated: 2026-11-20            # opcional
+summary: Resumo de uma ou duas frases (aparece na lista e no topo da página).
+type: case-commentary          # ver tipos abaixo
 tags: [IRC, Reestruturações]
-lang: pt                     # pt ou en, igual à pasta
-translationOf: english-slug  # opcional: slug da versão na outra língua
-pdf: nome-do-ficheiro.pdf    # opcional: ficheiro colocado em public/pdf/
-draft: true                  # true enquanto estiver em preparação
+translationOf: slug-na-outra-lingua   # opcional
+pdf: nome-do-ficheiro.pdf      # opcional: ficheiro colocado em public/pdf/
+draft: true                    # true enquanto estiver em preparação
 ---
 ```
+
+Tipos (`src/data/commentary-types.yaml`):
+
+| `type` | Português | Inglês |
+|---|---|---|
+| `case-commentary` | Comentário de jurisprudência | Case commentary |
+| `ruling-commentary` | Comentário a informação vinculativa | Commentary on a binding ruling |
+| `legislative-note` | Nota legislativa | Legislative note |
+| `article` | Artigo | Article |
 
 3. Escrever o texto em Markdown:
    - títulos apenas com `##` e `###`;
@@ -87,30 +93,42 @@ draft: true                  # true enquanto estiver em preparação
 
 Não usar travessões (o carácter U+2014). A sequência `---` dentro de uma frase também é convertida em travessão e faz falhar o build; uma linha só com `---` é uma linha horizontal e é permitida.
 
-Para uma tradução, criar o ficheiro na outra pasta e indicar em `translationOf` o slug da versão original. As duas versões ficam ligadas no seletor de idioma.
-
-O site gera automaticamente a entrada na lista de artigos e na homepage, o bloco "Como citar" (segundo as regras de estilo da Católica Law Review para textos consultados na internet: GONÇALVES, João Gabriel (2026), *Título*, in URL (data de consulta, preenchida pelo navegador do leitor)), os dados estruturados, as etiquetas para partilha e os feeds RSS (`/artigos/rss.xml` e `/en/articles/rss.xml`).
+O site gera automaticamente: a entrada na lista, os cartões "Em destaque", o bloco "Como citar" (regras de estilo da Católica Law Review para textos consultados na internet), os dados estruturados, as etiquetas para partilha, o feed RSS (`/comentarios/rss.xml` e `/en/commentaries/rss.xml`) e o menu "Comentários e notas" a partir do primeiro comentário.
 
 Nota: o repositório é público. Mesmo com `draft: true`, o ficheiro fica visível no GitHub. Para manter um texto privado, não o colocar no repositório.
 
-## Acrescentar uma notícia
+## Acrescentar uma notícia ou intervenção
 
-Criar dois ficheiros Markdown, um por idioma, com o mesmo nome:
-
-- `src/content/news/pt/2026-11-03-exemplo.md`
-- `src/content/news/en/2026-11-03-exemplo.md`
+Criar um ficheiro Markdown em `src/content/news/pt/` (ou `en/`). Basta uma língua; para ter as duas, criar o ficheiro na outra pasta e ligar com `translationOf`.
 
 ```markdown
 ---
 date: 2026-11-03
-category: Conferência
-title: Título da notícia
-link: https://...   # opcional
+category: talk                 # talk (Intervenção), publication (Publicação), teaching (Docência), other (Outro)
+title: Intervenção sobre ... na conferência ...
+link: https://...              # opcional: página do evento ou da publicação
+image: ./nome-da-imagem.jpg    # opcional: imagem na mesma pasta (aparece no cartão grande)
+imageAlt: Descrição da imagem  # obrigatório se houver imagem com conteúdo
 ---
-Texto curto.
+Texto curto (as duas primeiras linhas aparecem na lista).
 ```
 
-A página de notícias só aparece no menu, e as três notícias mais recentes só aparecem na homepage, a partir da primeira notícia publicada em cada idioma.
+As notícias da categoria `talk` aparecem também na página Intervenções. A primeira notícia faz aparecer Notícias no menu; a primeira intervenção faz aparecer Intervenções no menu, o mosaico na página inicial e a secção na página Sobre.
+
+## Acrescentar imagens
+
+Todas as imagens são opcionais e otimizadas automaticamente. Formatos: `.jpg`, `.jpeg`, `.png` ou `.webp`.
+
+| Ficheiro | Onde aparece | Sem imagem |
+|---|---|---|
+| `src/assets/profile.jpg` | Fotografia na página inicial | Silhueta neutra |
+| `src/assets/banners/inicio.jpg` | Banner da página inicial | Bloco azul-marinho |
+| `src/assets/banners/sobre.jpg` | Banner da página Sobre | Bloco azul-marinho com o nome |
+| `src/assets/banners/publicacoes.jpg` | Banner de Publicações, Artigos e estudos e Comentários | Bloco azul-marinho com o título |
+| `src/assets/banners/contactos.jpg` | Imagem à esquerda da caixa de contactos | A caixa ocupa a largura toda |
+| `src/assets/strip.jpg` | Faixa a toda a largura na página inicial | A faixa não aparece |
+
+Os banners devem ser imagens horizontais largas (por exemplo, 1600 × 600 px). Antes de juntar uma fotografia ao repositório, retirar os metadados (localização, câmara): o repositório é público.
 
 ## Trabalhar localmente
 
