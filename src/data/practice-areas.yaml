@@ -17,3 +17,9 @@
   text:
     pt: Planeamento fiscal de pessoas singulares, incluindo clientes estrangeiros, tributação internacional de rendimentos e enquadramento fiscal de investimento imobiliário.
     en: Tax planning for individuals, including foreign clients, the international taxation of income and the tax treatment of real estate investment.
+- id: tax-planning
+  order: 4
+  title: { pt: Planeamento fiscal, en: Tax planning }
+  text:
+    pt: Estruturação fiscal de investimentos e patrimónios, incluindo a análise de soluções como seguros unit-linked e veículos de investimento, no quadro das normas fiscais e antiabuso aplicáveis.
+    en: Tax structuring of investments and wealth, including the analysis of solutions such as unit-linked insurance and investment vehicles, within the applicable tax and anti-abuse rules.
