@@ -1,0 +1,28 @@
+---
+import Page from '../layouts/Page.astro';
+import type { Locale } from '../i18n/config';
+import { UI } from '../i18n/ui';
+import { getPracticeAreas } from '../lib/data';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = UI[locale];
+const areas = await getPracticeAreas();
+---
+<Page
+  locale={locale}
+  routeKey="practice"
+  title={t.nav.practice}
+  description={t.meta.practice}
+  intro={t.intro.practice}
+  banner={{ title: t.nav.practice }}
+>
+  <ul class="practice-list">
+    {areas.map(({ data: a }) => (
+      <li>
+        <h2>{a.title[locale]}</h2>
+        <p>{a.text[locale]}</p>
+      </li>
+    ))}
+  </ul>
+</Page>

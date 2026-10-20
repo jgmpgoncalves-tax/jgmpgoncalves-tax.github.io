@@ -19,8 +19,6 @@ export default defineConfig({
   // The old articles list points to the commentaries once the first one is published
   // (until then that page does not exist), otherwise to the Publications hub.
   redirects: {
-    '/areas-de-pratica/': '/sobre/',
-    '/en/practice-areas/': '/en/about/',
     '/artigos/': hasCommentaries() ? '/comentarios/' : '/publicacoes/',
     '/en/articles/': hasCommentaries() ? '/en/commentaries/' : '/en/publications/',
   },

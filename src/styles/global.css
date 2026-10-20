@@ -534,3 +534,10 @@ main:focus { outline: none; }
   padding-bottom: var(--space-2);
   margin: var(--space-5) 0 var(--space-3);
 }
+
+/* Practice areas */
+.practice-list { list-style: none; margin: 0; padding: 0; max-width: 46rem; }
+.practice-list > li { padding-block: var(--space-4); border-top: 1px solid var(--border); }
+.practice-list > li:last-child { border-bottom: 1px solid var(--border); }
+.practice-list h2 { font-size: var(--step-2); margin: 0 0 var(--space-2); }
+.practice-list p { margin: 0; }

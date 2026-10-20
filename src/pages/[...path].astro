@@ -9,6 +9,7 @@ import { paginate } from '../lib/entries';
 import { getCommentaryList, getNews, getTalks, hasContent } from '../lib/data';
 import Home from '../views/Home.astro';
 import About from '../views/About.astro';
+import Practice from '../views/Practice.astro';
 import Publications from '../views/Publications.astro';
 import Papers from '../views/Papers.astro';
 import EntryList from '../views/EntryList.astro';
@@ -60,6 +61,7 @@ const { key, locale, items, page, pageCount, commentary } = Astro.props;
 ---
 {key === 'home' && <Home locale={locale} />}
 {key === 'about' && <About locale={locale} />}
+{key === 'practice' && <Practice locale={locale} />}
 {key === 'publications' && <Publications locale={locale} />}
 {key === 'papers' && <Papers locale={locale} />}
 {(key === 'commentaries' || key === 'talks' || key === 'news') && (

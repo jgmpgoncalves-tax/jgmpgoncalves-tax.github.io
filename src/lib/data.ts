@@ -44,6 +44,10 @@ export async function getResearchAreas() {
   return (await getCollection('researchAreas')).sort((a, b) => a.data.order - b.data.order);
 }
 
+export async function getPracticeAreas() {
+  return (await getCollection('practiceAreas')).sort((a, b) => a.data.order - b.data.order);
+}
+
 export async function getResearch() {
   return (await getCollection('research')).sort(
     (a, b) => dateKey(b.data.start).localeCompare(dateKey(a.data.start)) || dateKey(b.data.end).localeCompare(dateKey(a.data.end)),

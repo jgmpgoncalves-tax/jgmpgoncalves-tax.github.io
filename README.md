@@ -25,6 +25,10 @@ A primeira frase do texto da página Sobre é gerada a partir destes campos («J
 
 O resto da descrição está em `src/content/description/pt.md` e `en.md`: o texto da página inicial no cabeçalho (`home`), o texto da página Sobre no corpo.
 
+## Áreas de prática
+
+Editar `src/data/practice-areas.yaml` (título e uma ou duas frases por área, nas duas línguas). A ordem é dada pelo campo `order`.
+
 ## Defesa da dissertação
 
 Em `src/data/profile.yaml`, no bloco `dissertation`: mudar `status` para `defended` e preencher `defenceYear` (por exemplo, `defenceYear: 2027`). A frase sobre o mestrado muda sozinha nas duas línguas.

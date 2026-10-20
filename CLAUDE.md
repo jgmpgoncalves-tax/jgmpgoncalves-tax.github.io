@@ -1,6 +1,6 @@
 # Site rules (João Gabriel Gonçalves)
 
-Academic outlet of a tax lawyer: a short description, publications, commentaries and, once they exist, talks and news. Astro, static output, GitHub Pages (repository `jgmpgoncalves-tax.github.io`, site at the domain root). Public repository.
+Academic outlet of a tax lawyer: a short description, practice areas, publications, commentaries and, once they exist, talks and news. Astro, static output, GitHub Pages (repository `jgmpgoncalves-tax.github.io`, site at the domain root). Public repository.
 
 ## Technical rules
 - Astro (static), plain CSS with custom properties (`src/styles/global.css`). No UI framework, no client-side framework. Vanilla JS only where needed (mobile menu, submenu, citation date).
@@ -36,6 +36,7 @@ Academic outlet of a tax lawyer: a short description, publications, commentaries
 ## Routine edits
 - Role or firm: `src/data/profile.yaml` only (`role`, `employer` for the text, `firm` for structured data). The first sentence of the About text is generated from it.
 - Description: `src/content/description/<pt|en>.md` (home text in the frontmatter, About text in the body). `{dissertation}` is filled from `profile.yaml`; after the defence set `dissertation.status: defended` and `defenceYear`.
+- Practice areas ("Áreas de prática" / "Expertise", `/areas-de-pratica/`, `/en/practice-areas/`): `src/data/practice-areas.yaml`.
 - Research areas: `src/data/research-areas.yaml`. Academic affiliations (research positions only): `src/data/research.yaml`.
 - Publications (Artigos e estudos): `src/data/publications.yaml`; sorting and year groups are automatic.
 - Commentary: see "Publishing a commentary".

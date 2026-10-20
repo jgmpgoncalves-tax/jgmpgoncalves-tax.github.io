@@ -78,6 +78,11 @@ const publications = defineCollection({
   }),
 });
 
+const practiceAreas = defineCollection({
+  loader: file('src/data/practice-areas.yaml'),
+  schema: z.object({ order: z.number().int(), title: localised, text: localised }),
+});
+
 const commentaryTypes = defineCollection({
   loader: file('src/data/commentary-types.yaml'),
   schema: z.object({ label: localised, schema: z.enum(['ScholarlyArticle', 'Article']) }),
@@ -134,6 +139,7 @@ export const collections = {
   researchAreas,
   research,
   publications,
+  practiceAreas,
   commentaryTypes,
   commentaries,
   newsCategories,

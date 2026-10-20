@@ -9,6 +9,7 @@ export const UI = {
     nav: {
       home: 'Início',
       about: 'Sobre',
+      practice: 'Áreas de prática',
       publications: 'Publicações',
       papers: 'Artigos e estudos',
       commentaries: 'Comentários e notas',
@@ -20,6 +21,7 @@ export const UI = {
     } satisfies Record<RouteKey, string>,
     meta: {
       about: 'João Gabriel Gonçalves: advogado em Lisboa, áreas de investigação e ligações académicas.',
+      practice: 'Áreas de prática de João Gabriel Gonçalves: tributação societária, contencioso tributário e private clients.',
       publications: 'Publicações de João Gabriel Gonçalves sobre fiscalidade nacional e internacional.',
       papers: 'Artigos e estudos de João Gabriel Gonçalves publicados em revistas e séries de investigação.',
       commentaries: 'Comentários de jurisprudência, comentários a informações vinculativas e notas legislativas de João Gabriel Gonçalves.',
@@ -30,6 +32,7 @@ export const UI = {
       legal: 'Aviso legal do site de João Gabriel Gonçalves.',
     } satisfies Record<PageKey, string>,
     intro: {
+      practice: 'Áreas em que João Gabriel Gonçalves presta assessoria.',
       publications: 'Trabalhos publicados por João Gabriel Gonçalves sobre fiscalidade nacional e internacional.',
       papers: 'Artigos e capítulos publicados em revistas e séries de investigação, do mais recente para o mais antigo.',
       commentaries: 'Comentários de jurisprudência, comentários a informações vinculativas e notas legislativas escritos para este site.',
@@ -83,6 +86,7 @@ export const UI = {
     nav: {
       home: 'Home',
       about: 'About',
+      practice: 'Expertise',
       publications: 'Publications',
       papers: 'Articles and papers',
       commentaries: 'Commentaries and notes',
@@ -94,6 +98,7 @@ export const UI = {
     } satisfies Record<RouteKey, string>,
     meta: {
       about: 'João Gabriel Gonçalves: lawyer in Lisbon, research areas and academic affiliations.',
+      practice: 'Expertise of João Gabriel Gonçalves: corporate taxation, tax litigation and private clients.',
       publications: 'Publications by João Gabriel Gonçalves on domestic and international taxation.',
       papers: 'Articles and papers by João Gabriel Gonçalves published in journals and research series.',
       commentaries: 'Case commentaries, commentaries on binding rulings and legislative notes by João Gabriel Gonçalves.',
@@ -104,6 +109,7 @@ export const UI = {
       legal: 'Legal notice for the website of João Gabriel Gonçalves.',
     } satisfies Record<PageKey, string>,
     intro: {
+      practice: 'Areas in which João Gabriel Gonçalves advises.',
       publications: 'Work published by João Gabriel Gonçalves on domestic and international taxation.',
       papers: 'Articles and chapters published in journals and research series, most recent first.',
       commentaries: 'Case commentaries, commentaries on binding rulings and legislative notes written for this site.',

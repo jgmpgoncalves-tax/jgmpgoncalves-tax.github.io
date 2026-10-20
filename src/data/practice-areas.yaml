@@ -1,0 +1,19 @@
+# Practice areas ("Áreas de prática" / "Expertise"), shown in this order.
+- id: corporate
+  order: 1
+  title: { pt: Tributação societária, en: Corporate taxation }
+  text:
+    pt: Assessoria fiscal em operações de fusões e aquisições e em reestruturações societárias, sobretudo em matéria de IRC.
+    en: Tax advice on mergers, acquisitions and corporate restructurings, mainly on corporate income tax.
+- id: litigation
+  order: 2
+  title: { pt: Contencioso tributário, en: Tax litigation }
+  text:
+    pt: Procedimentos e processos tributários, na fase administrativa e na fase judicial.
+    en: Tax disputes at the administrative stage and before the courts.
+- id: private-clients
+  order: 3
+  title: { pt: Private Wealth / Private Clients, en: Private Wealth / Private Clients }
+  text:
+    pt: Planeamento fiscal de pessoas singulares, incluindo clientes estrangeiros, tributação internacional de rendimentos e enquadramento fiscal de investimento imobiliário.
+    en: Tax planning for individuals, including foreign clients, the international taxation of income and the tax treatment of real estate investment.

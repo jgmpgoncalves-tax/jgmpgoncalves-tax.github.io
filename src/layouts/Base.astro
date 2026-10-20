@@ -35,6 +35,7 @@ const profile = await getProfile();
 // Sections appear in the navigation only once they have content.
 const navItems: NavItem[] = [
   { key: 'about' },
+  { key: 'practice' },
   { key: 'publications', children: ['papers', ...((await hasContent('commentaries')) ? (['commentaries'] as const) : [])] },
   ...((await hasContent('talks')) ? [{ key: 'talks' as const }] : []),
   ...((await hasContent('news')) ? [{ key: 'news' as const }] : []),

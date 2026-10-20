@@ -21,6 +21,7 @@ export const FORMAT_LOCALES = { pt: 'pt-PT', en: 'en-GB' };
 export const ROUTES = /** @type {const} */ ({
   home: { pt: '', en: '' },
   about: { pt: 'sobre', en: 'about' },
+  practice: { pt: 'areas-de-pratica', en: 'practice-areas' },
   publications: { pt: 'publicacoes', en: 'publications' },
   papers: { pt: 'publicacoes/artigos', en: 'publications/articles' },
   commentaries: { pt: 'comentarios', en: 'commentaries' },
