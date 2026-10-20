@@ -80,6 +80,8 @@ main:focus { outline: none; }
 /* Buttons: solid navy, or outlined (on navy and on images) */
 .button {
   display: inline-block;
+  font-family: inherit;
+  cursor: pointer;
   background: var(--navy);
   color: #fff;
   border: 1px solid var(--navy);
@@ -541,3 +543,33 @@ main:focus { outline: none; }
 .practice-list > li:last-child { border-bottom: 1px solid var(--border); }
 .practice-list h2 { font-size: var(--step-2); margin: 0 0 var(--space-2); }
 .practice-list p { margin: 0; }
+
+/* Contact form */
+.contact-form-section { margin-top: var(--space-6); max-width: 46rem; }
+.form-intro { margin: 0 0 var(--space-2); }
+.form-warning { margin: 0 0 var(--space-4); color: var(--muted); font-size: var(--step--1); }
+.contact-form { display: grid; gap: var(--space-3); }
+.contact-form p { margin: 0; }
+.form-row { display: grid; gap: var(--space-3); }
+@media (min-width: 40rem) { .form-row { grid-template-columns: 1fr 1fr; } }
+.field { display: grid; gap: var(--space-1); }
+.field > label, .field legend { font-weight: 600; font-size: var(--step--1); color: var(--navy); }
+fieldset.field { border: 0; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); }
+fieldset.field legend { flex-basis: 100%; padding: 0; margin-bottom: var(--space-1); }
+.contact-form input[type='text'], .contact-form input[type='email'], .contact-form textarea {
+  width: 100%;
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--muted);
+  border-radius: 0;
+  padding: 0.6rem 0.75rem;
+}
+.contact-form textarea { resize: vertical; min-height: 9rem; }
+.contact-form input:focus-visible, .contact-form textarea:focus-visible { outline: 3px solid var(--navy-700); outline-offset: 1px; border-color: var(--navy-700); }
+.choice { display: inline-flex; align-items: flex-start; gap: var(--space-2); font-weight: 400; color: var(--text); font-size: var(--step-0); }
+.choice input { margin-top: 0.3rem; width: 1.05rem; height: 1.05rem; accent-color: var(--navy); }
+.form-trap { position: absolute !important; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.button:disabled { opacity: 0.7; cursor: progress; }
+.form-status { color: var(--text); background: #fff3bf; padding: var(--space-2) var(--space-3); }
+.form-done { background: var(--bg); border-left: 3px solid var(--navy); padding: var(--space-3) var(--space-4); font-weight: 600; color: var(--navy); }

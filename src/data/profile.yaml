@@ -55,4 +55,6 @@
     - Faculdade de Direito da Universidade de Lisboa
 
   email: jgmpgoncalves@gmail.com
+  # Contact form endpoint (Formspree). Remove the line to hide the form.
+  contactForm: https://formspree.io/f/xdeavqrg
   linkedin: https://www.linkedin.com/in/jgmpgoncalves

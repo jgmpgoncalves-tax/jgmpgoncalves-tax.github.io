@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import Page from '../layouts/Page.astro';
 import Icon from '../components/Icon.astro';
+import ContactForm from '../components/ContactForm.astro';
 import type { Locale } from '../i18n/config';
 import { UI } from '../i18n/ui';
 import { pathFor } from '../i18n/utils';
@@ -24,5 +25,9 @@ const image = bannerImage('contactos');
       <li><Icon name="linkedin" /><a href={p.linkedin} rel="me"><span class="visually-hidden">{t.linkedin}: </span>{p.linkedin.replace(/^https:\/\/(www\.)?/, '')}</a></li>
     </ul>
   </div>
-  <p class="contact-note">{t.contactNote} <a href={pathFor('legal', locale)}>{t.nav.legal.toLowerCase()}</a>.</p>
+  {p.contactForm ? (
+    <ContactForm locale={locale} endpoint={p.contactForm} email={p.email} />
+  ) : (
+    <p class="contact-note">{t.contactNote} <a href={pathFor('legal', locale)}>{t.nav.legal.toLowerCase()}</a>.</p>
+  )}
 </Page>

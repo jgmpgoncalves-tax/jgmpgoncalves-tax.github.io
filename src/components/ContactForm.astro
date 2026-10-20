@@ -1,0 +1,102 @@
+---
+// Contact form. Posts to the Formspree endpoint in profile.yaml (`contactForm`); nothing is
+// loaded from Formspree when the page opens. With JavaScript the message is sent in the
+// background and a confirmation is shown here; without it (or if that fails) the browser
+// submits the form normally and Formspree shows its own confirmation page.
+import type { Locale } from '../i18n/config';
+import { UI } from '../i18n/ui';
+import { pathFor } from '../i18n/utils';
+
+interface Props { locale: Locale; endpoint: string; email: string }
+const { locale, endpoint, email } = Astro.props;
+const f = UI[locale].form;
+---
+<section class="contact-form-section" aria-labelledby="form-title" data-sent={f.sent}>
+  <h2 id="form-title" class="section-label">{f.title}</h2>
+  <p class="form-intro">{f.intro}</p>
+  <p class="form-warning">{f.warning}</p>
+  <form class="contact-form" action={endpoint} method="POST" data-error={f.error} data-sending={f.sending} data-email={email}>
+    <input type="hidden" name="_subject" value={f.emailSubject} />
+    <input type="hidden" name="language" value={locale} />
+    <!-- Spam trap: hidden from people, filled in by bots (Formspree discards those messages). -->
+    <p class="form-trap" aria-hidden="true">
+      <label>Leave empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" /></label>
+    </p>
+    <div class="form-row">
+      <p class="field">
+        <label for="cf-name">{f.name} *</label>
+        <input id="cf-name" name="name" type="text" required autocomplete="name" maxlength="200" />
+      </p>
+      <p class="field">
+        <label for="cf-email">{f.email} *</label>
+        <input id="cf-email" name="email" type="email" required autocomplete="email" maxlength="200" />
+      </p>
+    </div>
+    <fieldset class="field">
+      <legend>{f.enquiry} *</legend>
+      <label class="choice"><input type="radio" name="enquiry" value="business" required /><span>{f.business}</span></label>
+      <label class="choice"><input type="radio" name="enquiry" value="academic" /><span>{f.academic}</span></label>
+    </fieldset>
+    <p class="field">
+      <label for="cf-subject">{f.subject} *</label>
+      <input id="cf-subject" name="subject" type="text" required maxlength="200" />
+    </p>
+    <p class="field">
+      <label for="cf-message">{f.message} *</label>
+      <textarea id="cf-message" name="message" rows="7" required maxlength="5000"></textarea>
+    </p>
+    <p class="field">
+      <label class="choice">
+        <input type="checkbox" name="privacy_policy_read" value="yes" required />
+        <span>{f.privacy} <a href={pathFor('privacy', locale)}>{f.privacyLink}</a>. *</span>
+      </label>
+    </p>
+    <p class="form-actions">
+      <button class="button" type="submit">{f.send}</button>
+    </p>
+    <p class="form-status" role="status" aria-live="polite" hidden></p>
+  </form>
+</section>
+
+<script>
+  for (const form of document.querySelectorAll<HTMLFormElement>('.contact-form')) {
+    const status = form.querySelector<HTMLParagraphElement>('.form-status')!;
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    const label = button.textContent;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      button.disabled = true;
+      button.textContent = form.dataset.sending ?? label;
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        if (res.ok) {
+          const done = document.createElement('p');
+          done.className = 'form-done';
+          done.setAttribute('role', 'status');
+          done.textContent = form.closest('section')!.dataset.sent ?? '';
+          form.replaceWith(done);
+          done.tabIndex = -1;
+          done.focus();
+          return;
+        }
+        // Not accepted in the background (e.g. plan limits): submit normally instead.
+        if (res.status >= 400 && res.status !== 422) return form.submit();
+        throw new Error(String(res.status));
+      } catch {
+        status.hidden = false;
+        status.innerHTML = '';
+        status.append(`${form.dataset.error} `);
+        const a = document.createElement('a');
+        a.href = `mailto:${form.dataset.email}`;
+        a.textContent = form.dataset.email ?? '';
+        status.append(a, '.');
+        button.disabled = false;
+        button.textContent = label;
+      }
+    });
+  }
+</script>

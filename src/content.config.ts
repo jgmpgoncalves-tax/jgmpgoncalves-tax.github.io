@@ -37,6 +37,7 @@ const profile = defineCollection({
     }),
     alumniOf: z.array(text),
     email: z.email(),
+    contactForm: z.url().optional(),
     linkedin: z.url(),
   }),
 });
