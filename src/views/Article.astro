@@ -13,6 +13,7 @@ import {
   type Article,
 } from '../lib/articles';
 import { getProfile } from '../lib/data';
+import { versioned } from '../lib/versioned';
 
 interface Props { article: Article; locale: Locale }
 const { article: a, locale } = Astro.props;
@@ -42,7 +43,7 @@ const jsonLd = {
   mainEntityOfPage: url,
   ...(a.data.tags.length && { keywords: a.data.tags.join(', ') }),
   author: { '@type': 'Person', name: profile.name, url: new URL(pathFor('home', locale), Astro.site).href },
-  image: new URL(asset('og-image.png'), Astro.site).href,
+  image: new URL(versioned('og-image.png'), Astro.site).href,
   ...(Object.entries(alternates).some(([l]) => l !== locale) && {
     workTranslation: Object.entries(alternates)
       .filter(([l]) => l !== locale)

@@ -47,7 +47,7 @@ Academic outlet of a tax lawyer: a short description, practice areas, publicatio
 - Privacy policy and legal notice: `src/content/legal/<pt|en>/<privacy|legal>.md`. Remove `draft: true` once approved.
 - Missing data: `todo: [field]` in the YAML renders a visible TODO.
 - New page: add a route key and both paths in `src/i18n/routes.mjs`, labels and meta description in `src/i18n/ui.ts`, a view in `src/views/` (use `layouts/Page.astro`) and a line in `src/pages/[...path].astro`.
-- Share image: `node scripts/og-image.mjs` (needs Playwright) regenerates `public/og-image.png`.
+- Share image: `node scripts/og-image.mjs` (needs Playwright) regenerates `public/og-image.png`. The favicon and share image URLs carry a content fingerprint (`?v=…`, `src/lib/versioned.ts`), so a new image reaches browsers and social networks without cache problems; keep the file names.
 
 ## Publishing an article
 - Articles are the author's own texts (opinion, reflections, case and ruling commentaries, legislative notes), not peer-reviewed. Peer-reviewed or edited publications go in `publications.yaml` instead.
