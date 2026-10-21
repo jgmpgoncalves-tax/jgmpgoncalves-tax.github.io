@@ -1,5 +1,8 @@
-# Types of commentaries and notes. A commentary's `type` must be one of these ids.
-# `schema` is the JSON-LD type: ScholarlyArticle or Article.
+# Types of articles (own texts, not peer-reviewed). An article's `type` must be one of these ids.
+# `schema` is the JSON-LD type; peer-reviewed work goes in publications.yaml, not here.
+- id: opinion
+  label: { pt: Opinião, en: Opinion }
+  schema: Article
 - id: case-commentary
   label: { pt: Comentário de jurisprudência, en: Case commentary }
   schema: Article
@@ -9,6 +12,3 @@
 - id: legislative-note
   label: { pt: Nota legislativa, en: Legislative note }
   schema: Article
-- id: article
-  label: { pt: Artigo, en: Article }
-  schema: ScholarlyArticle

@@ -3,7 +3,7 @@
 import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
 import { LANG_TAGS, type Locale } from '../i18n/config';
-import { dateFormat, localeOf, slugOf } from '../lib/commentaries';
+import { dateFormat, localeOf, slugOf } from '../lib/articles';
 import { categoryLabel, type NewsItem } from '../lib/data';
 
 interface Props { item: NewsItem; locale: Locale }

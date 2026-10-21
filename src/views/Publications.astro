@@ -1,16 +1,16 @@
 ---
+// Publications: scientific work (journals, research series), grouped by year.
 import Page from '../layouts/Page.astro';
-import Tiles from '../components/Tiles.astro';
+import Todo from '../components/Todo.astro';
 import type { Locale } from '../i18n/config';
 import { UI } from '../i18n/ui';
-import { pathFor } from '../i18n/utils';
-import { hasContent } from '../lib/data';
+import { formatDate } from '../lib/dates';
+import { getPublicationsByYear } from '../lib/data';
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 const t = UI[locale];
-const keys = ['papers', ...((await hasContent('commentaries')) ? (['commentaries'] as const) : [])] as const;
-const tiles = keys.map((key) => ({ href: pathFor(key, locale), title: t.nav[key], text: t.tiles[key] }));
+const groups = await getPublicationsByYear();
 ---
 <Page
   locale={locale}
@@ -21,5 +21,29 @@ const tiles = keys.map((key) => ({ href: pathFor(key, locale), title: t.nav[key]
   banner={{ image: 'publicacoes', title: t.nav.publications }}
   sidebar
 >
-  <Tiles items={tiles} label={t.nav.publications} />
+  {groups.map(({ year, items }) => (
+    <section class="pub-year" aria-labelledby={`y-${year ?? 'nd'}`}>
+      <h2 class="year-sep" id={`y-${year ?? 'nd'}`}>
+        {year ? <>– {year} –</> : <Todo what={locale === 'pt' ? 'data' : 'date'} />}
+      </h2>
+      <ul class="pub-list">
+        {items.map(({ data: p }) => (
+          <li>
+            <p class="pub-title" lang="en">
+              {p.url ? <a href={p.url}>{p.title}</a> : p.title}
+              {!p.url && p.todo?.includes('url') && <> <Todo what="link" /></>}
+            </p>
+            <p class="pub-meta">
+              <i>{p.venue}</i>
+              {p.edition && <>, {p.edition[locale]}</>}
+              {p.volume && <>, <i>{p.volume}</i></>}
+              {p.pages && <>, pp. {p.pages}</>}
+              {p.date && <>, {formatDate(p.date, locale)}</>}
+              {p.coauthors && <> ({t.with} {p.coauthors.join(', ')})</>}
+            </p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
 </Page>

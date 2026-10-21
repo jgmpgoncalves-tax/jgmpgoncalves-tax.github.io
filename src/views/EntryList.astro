@@ -1,5 +1,5 @@
 ---
-// Commentaries, talks and news lists: newest first, PAGE_SIZE per page, "Ver mais" to the next page.
+// Articles, talks and news lists: newest first, PAGE_SIZE per page, "Ver mais" to the next page.
 // The news page opens with its two latest items as large cards.
 import Page from '../layouts/Page.astro';
 import EntryRow from '../components/EntryRow.astro';
@@ -7,14 +7,14 @@ import NewsLead from '../components/NewsLead.astro';
 import type { Locale } from '../i18n/config';
 import { UI } from '../i18n/ui';
 import { pathFor } from '../i18n/utils';
-import type { Commentary } from '../lib/commentaries';
+import type { Article } from '../lib/articles';
 import type { NewsItem } from '../lib/data';
 import type { BannerSlot } from '../lib/images';
 
 interface Props {
-  section: 'commentaries' | 'talks' | 'news';
+  section: 'articles' | 'talks' | 'news';
   locale: Locale;
-  items: (Commentary | NewsItem)[];
+  items: (Article | NewsItem)[];
   page: number;
   pageCount: number;
 }
@@ -24,9 +24,9 @@ const base = pathFor(section, locale);
 const self = page > 1 ? `${base}${page}/` : base;
 const next = page < pageCount ? `${base}${page + 1}/` : undefined;
 const title = page > 1 ? `${t.nav[section]} (${t.pageN(page)})` : t.nav[section];
-const kind = section === 'commentaries' ? 'commentary' : 'news';
+const kind = section === 'articles' ? 'article' : 'news';
 const lead = section === 'news' && page === 1 ? (items.slice(0, 2) as NewsItem[]) : [];
-const slot: BannerSlot | undefined = section === 'commentaries' ? 'publicacoes' : undefined;
+const slot: BannerSlot | undefined = undefined;
 ---
 <Page
   locale={locale}
@@ -49,5 +49,5 @@ const slot: BannerSlot | undefined = section === 'commentaries' ? 'publicacoes' 
       <a class="button" href={next}>{t.more}<span class="visually-hidden">: {t.nav[section]}, {t.pageN(page + 1)}</span></a>
     </p>
   )}
-  {section === 'commentaries' && <p class="rss-link"><a href={`${base}rss.xml`}>{t.rss}</a></p>}
+  {section === 'articles' && <p class="rss-link"><a href={`${base}rss.xml`}>{t.rss}</a></p>}
 </Page>

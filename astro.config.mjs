@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 import { DEFAULT_LOCALE, LOCALES, legacyRedirects, routePath } from './src/i18n/routes.mjs';
-import { hasCommentaries, sitemapLinks } from './src/i18n/sitemap-links.mjs';
+import { hasArticles, sitemapLinks } from './src/i18n/sitemap-links.mjs';
 
 const SITE = 'https://jgmpgoncalves-tax.github.io';
 const BASE = '/';
@@ -16,12 +16,12 @@ export default defineConfig({
   base: BASE,
   trailingSlash: 'always',
   // Old URLs. Static redirect pages on GitHub Pages (meta refresh + canonical).
-  // The old articles list points to the commentaries once the first one is published
-  // (until then that page does not exist), otherwise to the Publications hub.
+  // The first site's own-articles list (/artigos/, /en/articles/) points to Articles once
+  // the first article is published (until then that page does not exist), otherwise to Publications.
   redirects: {
     ...legacyRedirects(),
-    '/artigos/': routePath(hasCommentaries() ? 'commentaries' : 'publications', 'pt'),
-    '/en/articles/': routePath(hasCommentaries() ? 'commentaries' : 'publications', 'en'),
+    '/artigos/': routePath(hasArticles() ? 'articles' : 'publications', 'pt'),
+    '/en/articles/': routePath(hasArticles() ? 'articles' : 'publications', 'en'),
   },
   output: 'static',
   build: { format: 'directory' },
@@ -32,7 +32,7 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      // hreflang pairs from the route map and commentary translations (localised slugs).
+      // hreflang pairs from the route map and article translations (localised slugs).
       serialize(item) {
         const l = links.get(item.url);
         return l ? { ...item, links: l } : item;

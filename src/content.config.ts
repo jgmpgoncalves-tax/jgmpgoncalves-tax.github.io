@@ -84,21 +84,21 @@ const practiceAreas = defineCollection({
   schema: z.object({ order: z.number().int(), title: localised, text: localised }),
 });
 
-const commentaryTypes = defineCollection({
-  loader: file('src/data/commentary-types.yaml'),
+const articleTypes = defineCollection({
+  loader: file('src/data/article-types.yaml'),
   schema: z.object({ label: localised, schema: z.enum(['ScholarlyArticle', 'Article']) }),
 });
 
-// Commentaries and notes: src/content/commentaries/<pt|en>/<slug>.md, published at
-// /comentarios/<slug>/ and /en/commentaries/<slug>/. Never rename a published file.
-const commentaries = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/commentaries' }),
+// Articles (own texts, opinion and reflections, not peer-reviewed): src/content/articles/<pt|en>/<slug>.md,
+// published at /articles/<slug>/ and /pt/artigos/<slug>/. Never rename a published file.
+const articles = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/articles' }),
   schema: z.object({
     title: text,
     date: z.coerce.date(),
     updated: z.coerce.date().optional(),
     summary: text,
-    type: reference('commentaryTypes'),
+    type: reference('articleTypes'),
     tags: z.array(text).default([]),
     translationOf: text.optional(),
     pdf: text.optional(),
@@ -141,8 +141,8 @@ export const collections = {
   research,
   publications,
   practiceAreas,
-  commentaryTypes,
-  commentaries,
+  articleTypes,
+  articles,
   newsCategories,
   news,
   legal,

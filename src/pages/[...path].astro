@@ -1,19 +1,18 @@
 ---
 // Every page in every language, from the route map in src/i18n/config.ts.
-// Commentaries, talks and news are generated only once they have content, with one page
-// per PAGE_SIZE items (<section>/, <section>/2/, ...), plus one page per commentary.
+// Articles, talks and news are generated only once they have content, with one page
+// per PAGE_SIZE items (<section>/, <section>/2/, ...), plus one page per article.
 import { CONDITIONAL_ROUTES, LOCALES, PAGE_SIZE, ROUTES, type Locale, type RouteKey } from '../i18n/config';
 import { pathFor, routeParam } from '../i18n/utils';
-import { commentaryPath, getCommentaries, localeOf, type Commentary } from '../lib/commentaries';
+import { articlePath, getArticles, localeOf, type Article } from '../lib/articles';
 import { paginate } from '../lib/entries';
-import { getCommentaryList, getNews, getTalks, hasContent } from '../lib/data';
+import { getArticleList, getNews, getTalks, hasContent } from '../lib/data';
 import Home from '../views/Home.astro';
 import About from '../views/About.astro';
 import Practice from '../views/Practice.astro';
 import Publications from '../views/Publications.astro';
-import Papers from '../views/Papers.astro';
 import EntryList from '../views/EntryList.astro';
-import CommentaryView from '../views/Commentary.astro';
+import ArticleView from '../views/Article.astro';
 import Contact from '../views/Contact.astro';
 import Legal from '../views/Legal.astro';
 
@@ -30,7 +29,7 @@ export async function getStaticPaths() {
       }
       if (!(await hasContent(key))) continue;
       const list =
-        key === 'commentaries' ? await getCommentaryList(locale) : key === 'talks' ? await getTalks(locale) : await getNews(locale);
+        key === 'articles' ? await getArticleList(locale) : key === 'talks' ? await getTalks(locale) : await getNews(locale);
       const pages = paginate<unknown>(list, PAGE_SIZE);
       pages.forEach((items, i) =>
         paths.push({
@@ -40,33 +39,32 @@ export async function getStaticPaths() {
       );
     }
   }
-  for (const commentary of await getCommentaries()) {
+  for (const article of await getArticles()) {
     paths.push({
-      params: { path: routeParam(commentaryPath(commentary)) },
-      props: { key: 'commentary', locale: localeOf(commentary), commentary },
+      params: { path: routeParam(articlePath(article)) },
+      props: { key: 'article', locale: localeOf(article), article },
     });
   }
   return paths;
 }
 
 type Props = {
-  key: RouteKey | 'commentary';
+  key: RouteKey | 'article';
   locale: Locale;
   items?: unknown[];
   page?: number;
   pageCount?: number;
-  commentary?: Commentary;
+  article?: Article;
 };
-const { key, locale, items, page, pageCount, commentary } = Astro.props;
+const { key, locale, items, page, pageCount, article } = Astro.props;
 ---
 {key === 'home' && <Home locale={locale} />}
 {key === 'about' && <About locale={locale} />}
 {key === 'practice' && <Practice locale={locale} />}
 {key === 'publications' && <Publications locale={locale} />}
-{key === 'papers' && <Papers locale={locale} />}
-{(key === 'commentaries' || key === 'talks' || key === 'news') && (
+{(key === 'articles' || key === 'talks' || key === 'news') && (
   <EntryList section={key} locale={locale} items={items as never} page={page!} pageCount={pageCount!} />
 )}
-{key === 'commentary' && commentary && <CommentaryView commentary={commentary} locale={locale} />}
+{key === 'article' && article && <ArticleView article={article} locale={locale} />}
 {key === 'contact' && <Contact locale={locale} />}
 {(key === 'privacy' || key === 'legal') && <Legal locale={locale} page={key} />}

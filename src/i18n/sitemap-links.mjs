@@ -1,13 +1,13 @@
-// hreflang links for the sitemap: every route in both languages, and every commentary
+// hreflang links for the sitemap: every route in both languages, and every article
 // with its translation (linked by `translationOf` in either file). Read at build time.
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { DEFAULT_LOCALE, LANG_TAGS, LOCALES, ROUTES, routePath } from './routes.mjs';
 
-const COMMENTARIES = 'src/content/commentaries';
+const ARTICLES = 'src/content/articles';
 
-function commentaryFiles() {
+function articleFiles() {
   return LOCALES.flatMap((locale) => {
-    const dir = `${COMMENTARIES}/${locale}`;
+    const dir = `${ARTICLES}/${locale}`;
     if (!existsSync(dir)) return [];
     return readdirSync(dir)
       .filter((f) => f.endsWith('.md'))
@@ -22,11 +22,11 @@ function commentaryFiles() {
   });
 }
 
-/** Whether any commentary is published (built in production). */
-export const hasCommentaries = () => commentaryFiles().length > 0;
+/** Whether any article is published (built in production). */
+export const hasArticles = () => articleFiles().length > 0;
 
-function commentaryGroups() {
-  const files = commentaryFiles();
+function articleGroups() {
+  const files = articleFiles();
   const groups = [];
   for (const f of files) {
     const partner = files.find(
@@ -36,7 +36,7 @@ function commentaryGroups() {
     else if (!partner) groups.push({ [f.locale]: f.slug });
   }
   return groups.map((g) =>
-    Object.fromEntries(Object.entries(g).map(([l, slug]) => [l, `${routePath('commentaries', l)}${slug}/`])),
+    Object.fromEntries(Object.entries(g).map(([l, slug]) => [l, `${routePath('articles', l)}${slug}/`])),
   );
 }
 
@@ -46,7 +46,7 @@ export function sitemapLinks(site, base = '/') {
   const abs = (path) => new URL(`${prefix}${path}`, site).href;
   const groups = [
     ...Object.keys(ROUTES).map((key) => Object.fromEntries(LOCALES.map((l) => [l, routePath(key, l)]))),
-    ...commentaryGroups(),
+    ...articleGroups(),
   ];
   const map = new Map();
   for (const g of groups) {

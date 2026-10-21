@@ -3,7 +3,7 @@ import type { Locale, RouteKey } from './config';
 type PageKey = Exclude<RouteKey, 'home'>;
 
 // Interface strings, page metadata and page introductions.
-// Content (description, publications, commentaries, news) lives in src/data and src/content.
+// Content (description, publications, articles, news) lives in src/data and src/content.
 export const UI = {
   pt: {
     nav: {
@@ -11,8 +11,7 @@ export const UI = {
       about: 'Sobre',
       practice: 'Áreas de prática',
       publications: 'Publicações',
-      papers: 'Artigos e estudos',
-      commentaries: 'Comentários e notas',
+      articles: 'Artigos',
       talks: 'Intervenções',
       news: 'Notícias',
       contact: 'Contactos',
@@ -22,9 +21,8 @@ export const UI = {
     meta: {
       about: 'João Gabriel Gonçalves: advogado em Lisboa, áreas de investigação e ligações académicas.',
       practice: 'Áreas de prática de João Gabriel Gonçalves: tributação societária, contencioso tributário, private clients, planeamento fiscal e IVA.',
-      publications: 'Publicações de João Gabriel Gonçalves sobre fiscalidade nacional e internacional.',
-      papers: 'Artigos e estudos de João Gabriel Gonçalves publicados em revistas e séries de investigação.',
-      commentaries: 'Comentários de jurisprudência, comentários a informações vinculativas e notas legislativas de João Gabriel Gonçalves.',
+      publications: 'Publicações científicas de João Gabriel Gonçalves em revistas e séries de investigação.',
+      articles: 'Artigos de opinião e reflexões de João Gabriel Gonçalves sobre questões fiscais.',
       talks: 'Intervenções de João Gabriel Gonçalves em conferências, seminários e cursos.',
       news: 'Notícias sobre a atividade de João Gabriel Gonçalves.',
       contact: 'Contactos de João Gabriel Gonçalves, advogado em Lisboa.',
@@ -33,24 +31,22 @@ export const UI = {
     } satisfies Record<PageKey, string>,
     intro: {
       practice: 'Áreas em que João Gabriel Gonçalves presta assessoria.',
-      publications: 'Trabalhos publicados por João Gabriel Gonçalves sobre fiscalidade nacional e internacional.',
-      papers: 'Artigos e capítulos publicados em revistas e séries de investigação, do mais recente para o mais antigo.',
-      commentaries: 'Comentários de jurisprudência, comentários a informações vinculativas e notas legislativas escritos para este site.',
+      publications: 'Artigos e capítulos publicados em revistas e séries de investigação, do mais recente para o mais antigo.',
+      articles: 'Textos de opinião e reflexões sobre questões fiscais, escritos para este site. Não são sujeitos a revisão por pares.',
       talks: 'Intervenções em conferências, seminários e cursos.',
       news: 'Notícias sobre intervenções, publicações e atividade docente.',
       contact: 'Contacto por email, através do LinkedIn ou pelo formulário abaixo.',
     } satisfies Partial<Record<PageKey, string>>,
     tiles: {
-      publications: 'Artigos e estudos publicados.',
-      papers: 'Artigos e capítulos em revistas e séries de investigação.',
-      commentaries: 'Comentários de jurisprudência, informações vinculativas e notas legislativas.',
+      publications: 'Artigos e capítulos em revistas e séries de investigação.',
+      articles: 'Textos de opinião e reflexões sobre questões fiscais.',
       talks: 'Intervenções em conferências e seminários.',
     },
     about: {
       researchAreas: 'Áreas de investigação',
       affiliations: 'Ligações académicas',
       publications: 'Publicações',
-      publicationsText: 'Os artigos e estudos publicados estão reunidos, por ano, na página de publicações.',
+      publicationsText: 'As publicações em revistas e séries de investigação estão reunidas, por ano, na página de publicações.',
       talks: 'Intervenções',
       talksText: 'As intervenções em conferências, seminários e cursos estão reunidas na página de intervenções.',
     },
@@ -107,8 +103,7 @@ export const UI = {
       about: 'About',
       practice: 'Expertise',
       publications: 'Publications',
-      papers: 'Articles and papers',
-      commentaries: 'Commentaries and notes',
+      articles: 'Articles',
       talks: 'Talks',
       news: 'News',
       contact: 'Contact',
@@ -118,9 +113,8 @@ export const UI = {
     meta: {
       about: 'João Gabriel Gonçalves: lawyer in Lisbon, research areas and academic affiliations.',
       practice: 'Expertise of João Gabriel Gonçalves: corporate taxation, tax litigation, private clients, tax planning and VAT.',
-      publications: 'Publications by João Gabriel Gonçalves on domestic and international taxation.',
-      papers: 'Articles and papers by João Gabriel Gonçalves published in journals and research series.',
-      commentaries: 'Case commentaries, commentaries on binding rulings and legislative notes by João Gabriel Gonçalves.',
+      publications: 'Scholarly publications by João Gabriel Gonçalves in journals and research series.',
+      articles: 'Opinion pieces and reflections on tax matters by João Gabriel Gonçalves.',
       talks: 'Talks by João Gabriel Gonçalves at conferences, seminars and courses.',
       news: 'News about the work of João Gabriel Gonçalves.',
       contact: 'Contact details for João Gabriel Gonçalves, lawyer in Lisbon.',
@@ -129,24 +123,22 @@ export const UI = {
     } satisfies Record<PageKey, string>,
     intro: {
       practice: 'Areas in which João Gabriel Gonçalves advises.',
-      publications: 'Work published by João Gabriel Gonçalves on domestic and international taxation.',
-      papers: 'Articles and chapters published in journals and research series, most recent first.',
-      commentaries: 'Case commentaries, commentaries on binding rulings and legislative notes written for this site.',
+      publications: 'Articles and chapters published in journals and research series, most recent first.',
+      articles: 'Opinion pieces and reflections on tax matters, written for this site. They are not peer-reviewed.',
       talks: 'Talks at conferences, seminars and courses.',
       news: 'News of talks, publications and teaching.',
       contact: 'Contact by email, through LinkedIn or with the form below.',
     } satisfies Partial<Record<PageKey, string>>,
     tiles: {
-      publications: 'Published articles and papers.',
-      papers: 'Articles and chapters in journals and research series.',
-      commentaries: 'Case commentaries, binding rulings and legislative notes.',
+      publications: 'Articles and chapters in journals and research series.',
+      articles: 'Opinion pieces and reflections on tax matters.',
       talks: 'Talks at conferences and seminars.',
     },
     about: {
       researchAreas: 'Research areas',
       affiliations: 'Academic affiliations',
       publications: 'Publications',
-      publicationsText: 'His published articles and papers are listed by year on the Publications page.',
+      publicationsText: 'His publications in journals and research series are listed by year on the Publications page.',
       talks: 'Talks',
       talksText: 'His talks at conferences, seminars and courses are listed on the Talks page.',
     },

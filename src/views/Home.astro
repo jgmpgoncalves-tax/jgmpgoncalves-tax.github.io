@@ -18,11 +18,11 @@ const t = UI[locale];
 const profile = await getProfile();
 const { home } = await getDescription(locale);
 const hasFeatured = (await getFeatured(locale)).length > 0;
-// Second tile: talks once they exist, otherwise commentaries once they exist, otherwise none.
-const second: 'talks' | 'commentaries' | undefined = (await hasContent('talks'))
+// Second tile: talks once they exist, otherwise articles once they exist, otherwise none.
+const second: 'talks' | 'articles' | undefined = (await hasContent('talks'))
   ? 'talks'
-  : (await hasContent('commentaries'))
-    ? 'commentaries'
+  : (await hasContent('articles'))
+    ? 'articles'
     : undefined;
 const tiles = (['publications', ...(second ? [second] : [])] as const).map((key) => ({
   href: pathFor(key, locale),

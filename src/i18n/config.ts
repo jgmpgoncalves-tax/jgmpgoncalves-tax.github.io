@@ -21,15 +21,12 @@ export const OG_LOCALES: Record<Locale, string> = { pt: 'pt_PT', en: 'en_GB' };
 export const ROUTES = ROUTE_MAP;
 
 // Sections that exist only once they have content (navigation, home, hub, sitemap).
-export const CONDITIONAL_ROUTES = ['commentaries', 'talks', 'news'] as const;
+export const CONDITIONAL_ROUTES = ['articles', 'talks', 'news'] as const;
 
 // Pages that sit inside another section (breadcrumbs, submenu).
-export const PARENTS: Partial<Record<keyof typeof ROUTES, keyof typeof ROUTES>> = {
-  papers: 'publications',
-  commentaries: 'publications',
-};
+export const PARENTS: Partial<Record<keyof typeof ROUTES, keyof typeof ROUTES>> = {};
 
-// Items per page in the commentaries, talks and news lists.
+// Items per page in the articles, talks and news lists.
 export const PAGE_SIZE = 10;
 
 export type RouteKey = keyof typeof ROUTES;

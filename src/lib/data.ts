@@ -1,7 +1,7 @@
 import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
 import type { Locale, RouteKey } from '../i18n/config';
 import { pathFor } from '../i18n/utils';
-import { commentaryPath, getCommentaries, type Commentary } from './commentaries';
+import { articlePath, getArticles, type Article } from './articles';
 import { dateKey } from './dates';
 import { checkFolder, listFor, newestFirst, slugOf } from './entries';
 
@@ -91,8 +91,8 @@ export async function getTalks(locale: Locale) {
   return (await getNews(locale)).filter((n) => n.data.category.id === 'talk');
 }
 
-export async function getCommentaryList(locale: Locale) {
-  return listFor(await getCommentaries(), locale);
+export async function getArticleList(locale: Locale) {
+  return listFor(await getArticles(), locale);
 }
 
 /**
@@ -100,7 +100,7 @@ export async function getCommentaryList(locale: Locale) {
  * on the Publications hub and in the sitemap only once it has content.
  */
 export async function hasContent(key: RouteKey): Promise<boolean> {
-  if (key === 'commentaries') return (await getCommentaries()).length > 0;
+  if (key === 'articles') return (await getArticles()).length > 0;
   if (key === 'news') return (await getAllNews()).length > 0;
   if (key === 'talks') return (await getAllNews()).some((n) => n.data.category.id === 'talk');
   return true;
@@ -109,16 +109,16 @@ export async function hasContent(key: RouteKey): Promise<boolean> {
 /** Anchor of a news item in a language's news list, used when the item has no link of its own. */
 export const newsAnchor = (n: NewsItem, locale: Locale) => `${pathFor('news', locale)}#${slugOf(n)}`;
 
-export type Featured = ({ kind: 'commentary'; item: Commentary } | { kind: 'news'; item: NewsItem }) & { label: string };
+export type Featured = ({ kind: 'article'; item: Article } | { kind: 'news'; item: NewsItem }) & { label: string };
 
-/** The latest items across commentaries and news, for "Em destaque". */
+/** The latest items across articles and news, for "Em destaque". */
 export async function getFeatured(locale: Locale, count = 3): Promise<Featured[]> {
   const items: Featured[] = [
     ...(await Promise.all(
-      (await getCommentaryList(locale)).map(async (item) => ({
-        kind: 'commentary' as const,
+      (await getArticleList(locale)).map(async (item) => ({
+        kind: 'article' as const,
         item,
-        label: (await categoryLabel('commentaryTypes', item.data.type.id))[locale],
+        label: (await categoryLabel('articleTypes', item.data.type.id))[locale],
       })),
     )),
     ...(await Promise.all(
@@ -132,12 +132,12 @@ export async function getFeatured(locale: Locale, count = 3): Promise<Featured[]
   return items.sort((a, b) => b.item.data.date.getTime() - a.item.data.date.getTime()).slice(0, count);
 }
 
-/** Label of a commentary type or news category. */
-export async function categoryLabel(collection: 'commentaryTypes' | 'newsCategories', id: string) {
+/** Label of an article type or news category. */
+export async function categoryLabel(collection: 'articleTypes' | 'newsCategories', id: string) {
   const entry = await getEntry(collection, id);
   if (!entry) throw new Error(`Unknown ${collection} id "${id}"`);
   return entry.data.label;
 }
 
 export const featuredHref = (f: Featured, locale: Locale) =>
-  f.kind === 'commentary' ? commentaryPath(f.item) : (f.item.data.link ?? newsAnchor(f.item, locale));
+  f.kind === 'article' ? articlePath(f.item) : (f.item.data.link ?? newsAnchor(f.item, locale));

@@ -1,4 +1,4 @@
-// Entries written per language (commentaries, news): src/content/<collection>/<pt|en>/<slug>.md.
+// Entries written per language (articles, news): src/content/<collection>/<pt|en>/<slug>.md.
 // An entry may exist in one language only; `translationOf` (in either file) links two versions.
 import { LOCALES, type Locale } from '../i18n/config';
 

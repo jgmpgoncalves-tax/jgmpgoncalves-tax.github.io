@@ -23,8 +23,7 @@ export const ROUTES = /** @type {const} */ ({
   about: { pt: 'sobre', en: 'about' },
   practice: { pt: 'areas-de-pratica', en: 'practice-areas' },
   publications: { pt: 'publicacoes', en: 'publications' },
-  papers: { pt: 'publicacoes/artigos', en: 'publications/articles' },
-  commentaries: { pt: 'comentarios', en: 'commentaries' },
+  articles: { pt: 'artigos', en: 'articles' },
   talks: { pt: 'intervencoes', en: 'talks' },
   news: { pt: 'noticias', en: 'news' },
   contact: { pt: 'contactos', en: 'contact' },
@@ -43,7 +42,7 @@ export function routePath(key, locale) {
 // These published URLs redirect to their new place. Only pages that existed then are listed;
 // sections that only exist with content had not been published.
 const LEGACY_DEFAULT = 'pt';
-const LEGACY_KEYS = ['about', 'practice', 'publications', 'papers', 'contact', 'privacy', 'legal'];
+const LEGACY_KEYS = ['about', 'practice', 'publications', 'contact', 'privacy', 'legal'];
 
 /** Redirects from the URLs used while Portuguese was the default language. */
 export function legacyRedirects() {
@@ -58,5 +57,9 @@ export function legacyRedirects() {
   }
   // Old English home page.
   out['/en/'] = routePath('home', 'en');
+  // Until 21 Oct 2026 the publications list sat under a Publications hub; the hub page
+  // itself is now the list. Old addresses of the list, in both URL schemes:
+  for (const old of ['/publicacoes/artigos/', '/pt/publicacoes/artigos/']) out[old] = routePath('publications', 'pt');
+  for (const old of ['/en/publications/articles/', '/publications/articles/']) out[old] = routePath('publications', 'en');
   return out;
 }

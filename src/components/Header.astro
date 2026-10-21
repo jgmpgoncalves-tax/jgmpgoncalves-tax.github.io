@@ -15,7 +15,7 @@ interface Props {
   profession: string;
   /** Target of the language switch for each language. */
   switchHrefs: Record<Locale, string>;
-  /** False on pages inside a section (a commentary), where the section link is current but not the page. */
+  /** False on pages inside a section (an article), where the section link is current but not the page. */
   isSectionPage?: boolean;
 }
 const { locale, routeKey, navItems, name, profession, switchHrefs, isSectionPage = true } = Astro.props;

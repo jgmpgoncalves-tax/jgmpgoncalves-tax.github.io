@@ -6,26 +6,26 @@ import { UI } from '../i18n/ui';
 import { asset, pathFor } from '../i18n/utils';
 import {
   citation,
-  commentaryAlternates,
-  commentaryHtml,
-  commentaryPath,
+  articleAlternates,
+  articleHtml,
+  articlePath,
   dateFormat,
-  type Commentary,
-} from '../lib/commentaries';
+  type Article,
+} from '../lib/articles';
 import { getProfile } from '../lib/data';
 
-interface Props { commentary: Commentary; locale: Locale }
-const { commentary: a, locale } = Astro.props;
+interface Props { article: Article; locale: Locale }
+const { article: a, locale } = Astro.props;
 const t = UI[locale];
 const profile = await getProfile();
 const fmt = dateFormat(locale);
-const url = new URL(commentaryPath(a), Astro.site).href;
-const alternates = await commentaryAlternates(a);
-const type = await getEntry('commentaryTypes', a.data.type.id);
-if (!type) throw new Error(`Unknown commentary type ${a.data.type.id}`);
+const url = new URL(articlePath(a), Astro.site).href;
+const alternates = await articleAlternates(a);
+const type = await getEntry('articleTypes', a.data.type.id);
+if (!type) throw new Error(`Unknown article type ${a.data.type.id}`);
 // Without a translation, the switch goes to the other language's list.
 const switchHrefs = Object.fromEntries(
-  LOCALES.map((l) => [l, alternates[l] ?? pathFor('commentaries', l)]),
+  LOCALES.map((l) => [l, alternates[l] ?? pathFor('articles', l)]),
 ) as Record<Locale, string>;
 const iso = (d: Date) => d.toISOString().slice(0, 10);
 const cite = citation(a, profile.citationName, url);
@@ -52,7 +52,7 @@ const jsonLd = {
 ---
 <Page
   locale={locale}
-  routeKey="commentaries"
+  routeKey="articles"
   title={a.data.title}
   description={a.data.summary}
   alternates={alternates}
@@ -79,7 +79,7 @@ const jsonLd = {
     <p><a class="button button-quiet" href={asset(`pdf/${a.data.pdf}`)} download>{t.downloadPdf}</a></p>
   )}
 
-  <div class="article-body" set:html={commentaryHtml(a)} />
+  <div class="article-body" set:html={articleHtml(a)} />
 
   <footer class="article-footer">
     {a.data.tags.length > 0 && (
