@@ -25,7 +25,7 @@ Editar apenas `src/data/profile.yaml`:
     - Abreu Advogados
 ```
 
-A primeira frase do texto da página Sobre é gerada a partir destes campos («João Gabriel Gonçalves é advogado sénior numa sociedade de advogados internacional, em Lisboa.»). Ao mudar de sociedade, acrescentar a anterior a `formerEmployers`.
+A primeira frase do texto da página Sobre é gerada a partir destes campos («Sou advogado sénior numa sociedade de advogados internacional, em Lisboa.»). Ao mudar de sociedade, acrescentar a anterior a `formerEmployers`.
 
 O resto da descrição está em `src/content/description/pt.md` e `en.md`: o texto da página inicial no cabeçalho (`home`), o texto da página Sobre no corpo.
 

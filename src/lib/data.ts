@@ -15,9 +15,9 @@ export async function getProfile() {
 export async function positionSentence(locale: Locale) {
   const p = await getProfile();
   const role = p.role[locale];
-  if (locale === 'pt') return `${p.name} é ${role} ${p.employer.pt}, em ${p.city.pt}.`;
+  if (locale === 'pt') return `Sou ${role} ${p.employer.pt}, em ${p.city.pt}.`;
   const article = /^[aeiou]/i.test(role) ? 'an' : 'a';
-  return `${p.name} is ${article} ${role} ${p.employer.en} in ${p.city.en}.`;
+  return `I am ${article} ${role} ${p.employer.en} in ${p.city.en}.`;
 }
 
 /** The {dissertation} sentence, from the status field in profile.yaml. */

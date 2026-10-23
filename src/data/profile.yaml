@@ -41,11 +41,11 @@
     defenceYear: null
     text:
       pending-defence:
-        pt: Concluiu a parte curricular e a dissertação do Mestrado em Direito Fiscal na Católica Tax, Universidade Católica Portuguesa. A dissertação, «{title}», aguarda defesa pública.
-        en: He has completed the coursework and dissertation for the Master's in Tax Law at Católica Tax, Universidade Católica Portuguesa. The dissertation, '{title}', awaits its public defence.
+        pt: Terminei a parte curricular e a dissertação do Mestrado em Direito Fiscal na Católica Tax, Universidade Católica Portuguesa. A dissertação, «{title}», aguarda defesa pública.
+        en: I have completed the coursework and dissertation for the Master's in Tax Law at Católica Tax, Universidade Católica Portuguesa. The dissertation, '{title}', awaits its public defence.
       defended:
-        pt: É mestre em Direito Fiscal pela Católica Tax, Universidade Católica Portuguesa, com a dissertação «{title}» ({year}).
-        en: He holds a Master's in Tax Law from Católica Tax, Universidade Católica Portuguesa, with the dissertation '{title}' ({year}).
+        pt: Sou mestre em Direito Fiscal pela Católica Tax, Universidade Católica Portuguesa, com a dissertação «{title}» ({year}).
+        en: I hold a Master's in Tax Law from Católica Tax, Universidade Católica Portuguesa, with the dissertation '{title}' ({year}).
 
   # Institutions for the Person JSON-LD (alumniOf): completed degrees only. Not shown in the text.
   alumniOf:

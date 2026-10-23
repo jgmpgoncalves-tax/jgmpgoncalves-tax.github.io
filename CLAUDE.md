@@ -22,7 +22,7 @@ Academic outlet of a tax lawyer: a short description, practice areas, publicatio
 
 ## Writing rules (all site copy)
 - European Portuguese (AO90) and British English, each written natively, not translated sentence by sentence. The author's own texts (description) are kept as written, with spelling corrections only.
-- Third person, factual, understated. Short sentences. No marketing language.
+- First person ("I" / "eu") in the site's own copy (About text, page intros). Meta descriptions, alt text and the legal pages name the author instead. Factual, understated. Short sentences. No marketing language.
 - No self-evaluation or superlatives. Information must be truthful, objective and not misleading.
 - The site does not reproduce CV detail beyond the description: no grades, rankings, prizes, internships, training courses, moot court, debating or scholarships, and no task lists per job.
 - No em dashes (U+2014) anywhere. En dashes only in date ranges.
