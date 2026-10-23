@@ -541,6 +541,7 @@ main:focus { outline: none; }
 
 .article-footer { margin-top: var(--space-5); }
 .article-tags { font-size: var(--step--1); }
+.article-note { font-size: var(--step--1); }
 
 .section-label {
   font-family: var(--font-sans);

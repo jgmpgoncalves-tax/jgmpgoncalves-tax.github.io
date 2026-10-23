@@ -100,6 +100,8 @@ const articles = defineCollection({
     type: reference('articleTypes'),
     tags: z.array(text).default([]),
     translationOf: text.optional(),
+    // true when the text was translated with the help of AI (changes the AI note at the end).
+    aiTranslation: z.boolean().default(false),
     pdf: text.optional(),
     draft: z.boolean().default(false),
   }),

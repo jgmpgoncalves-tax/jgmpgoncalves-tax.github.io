@@ -5,6 +5,7 @@ summary: "Um tribunal arbitral do CAAD permitiu a um residente não habitual que
 type: case-commentary
 tags: [IRS, Residentes não habituais, Mais-valias, Brasil, CAAD]
 translationOf: the-benefit-and-the-burden
+aiTranslation: true
 draft: false
 ---
 

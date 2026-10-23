@@ -75,6 +75,7 @@ summary: Resumo de uma ou duas frases (aparece na lista e no topo da página).
 type: opinion                  # ver tipos abaixo
 tags: [IRC, Reestruturações]
 translationOf: slug-na-outra-lingua   # opcional
+aiTranslation: true            # opcional: só se o texto for uma tradução feita com apoio de IA
 pdf: nome-do-ficheiro.pdf      # opcional: ficheiro colocado em public/pdf/
 draft: true                    # true enquanto estiver em preparação
 ---

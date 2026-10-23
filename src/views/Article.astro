@@ -84,5 +84,6 @@ const jsonLd = {
     {a.data.tags.length > 0 && (
       <p class="article-tags"><span class="muted">{t.tags}:</span> {a.data.tags.join(', ')}</p>
     )}
+    <p class="article-note muted">{a.data.aiTranslation ? t.aiNoteTranslation : t.aiNote}</p>
   </footer>
 </Page>
