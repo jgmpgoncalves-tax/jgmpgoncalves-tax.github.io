@@ -66,12 +66,3 @@ export function articleHtml(c: Article): string {
 
 export const dateFormat = (locale: Locale) =>
   new Intl.DateTimeFormat(FORMAT_LOCALES[locale], { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
-
-/**
- * Parts of the "Como citar / How to cite" reference, following the Católica Law Review
- * style rules for texts consulted online (V.5): author (surname in small capitals),
- * year, title in italics, "in" + URL, and the date of consultation (d.mm.yyyy).
- */
-export function citation(c: Article, name: { surname: string; given: string }, url: string) {
-  return { surname: name.surname, given: name.given, year: c.data.date.getUTCFullYear(), title: c.data.title, url };
-}

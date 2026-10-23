@@ -3,8 +3,6 @@
 # is generated from `role`, `employer` and `city`.
 - id: main
   name: João Gabriel Gonçalves
-  # For "Como citar": surname shown first, in small capitals (Católica Law Review style rules).
-  citationName: { surname: Gonçalves, given: João Gabriel }
 
   role: { pt: advogado sénior, en: senior associate }
   # How the firm is described in the text (the firm is not named on the pages).

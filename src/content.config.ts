@@ -16,7 +16,6 @@ const profile = defineCollection({
   loader: file('src/data/profile.yaml'),
   schema: z.object({
     name: text,
-    citationName: z.strictObject({ surname: text, given: text }),
     role: localised,
     employer: localised,
     firm: text,

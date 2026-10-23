@@ -5,7 +5,6 @@ import { LANG_TAGS, LOCALES, type Locale } from '../i18n/config';
 import { UI } from '../i18n/ui';
 import { asset, pathFor } from '../i18n/utils';
 import {
-  citation,
   articleAlternates,
   articleHtml,
   articlePath,
@@ -29,7 +28,6 @@ const switchHrefs = Object.fromEntries(
   LOCALES.map((l) => [l, alternates[l] ?? pathFor('articles', l)]),
 ) as Record<Locale, string>;
 const iso = (d: Date) => d.toISOString().slice(0, 10);
-const cite = citation(a, profile.citationName, url);
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -86,19 +84,5 @@ const jsonLd = {
     {a.data.tags.length > 0 && (
       <p class="article-tags"><span class="muted">{t.tags}:</span> {a.data.tags.join(', ')}</p>
     )}
-    <section class="cite" aria-labelledby="cite-title">
-      <h2 id="cite-title" class="section-label">{t.howToCite}</h2>
-      <p>
-        <span class="small-caps">{cite.surname}</span>, {cite.given} ({cite.year}), <i>{cite.title}</i>, in {cite.url}{' '}
-        (<span data-access-date>{t.accessDate}</span>)
-      </p>
-    </section>
   </footer>
-  <script>
-    // Date of consultation for the citation, in the reader's local date (d.mm.yyyy).
-    const d = new Date();
-    document.querySelectorAll('[data-access-date]').forEach((el) => {
-      el.textContent = `${d.getDate()}.${String(d.getMonth() + 1).padStart(2, '0')}.${d.getFullYear()}`;
-    });
-  </script>
 </Page>

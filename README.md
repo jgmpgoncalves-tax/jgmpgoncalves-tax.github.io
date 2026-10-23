@@ -105,7 +105,7 @@ Tipos (`src/data/article-types.yaml`):
 
 Não usar travessões (o carácter U+2014). A sequência `---` dentro de uma frase também é convertida em travessão e faz falhar o build; uma linha só com `---` é uma linha horizontal e é permitida.
 
-O site gera automaticamente: a entrada na lista, os cartões "Em destaque", o bloco "Como citar" (regras de estilo da Católica Law Review para textos consultados na internet), os dados estruturados, as etiquetas para partilha, o feed RSS (`/pt/artigos/rss.xml` e `/articles/rss.xml`) e o menu "Artigos" a partir do primeiro artigo.
+O site gera automaticamente: a entrada na lista, os cartões "Em destaque", os dados estruturados, as etiquetas para partilha, o feed RSS (`/pt/artigos/rss.xml` e `/articles/rss.xml`) e o menu "Artigos" a partir do primeiro artigo.
 
 Nota: o repositório é público. Mesmo com `draft: true`, o ficheiro fica visível no GitHub. Para manter um texto privado, não o colocar no repositório.
 

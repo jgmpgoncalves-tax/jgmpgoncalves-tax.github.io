@@ -3,7 +3,7 @@
 Academic outlet of a tax lawyer: a short description, practice areas, publications (scholarly work) and, once they exist, articles (own opinion pieces, not peer-reviewed), talks and news. Astro, static output, GitHub Pages (repository `jgmpgoncalves-tax.github.io`, site at the domain root). Public repository.
 
 ## Technical rules
-- Astro (static), plain CSS with custom properties (`src/styles/global.css`). No UI framework, no client-side framework. Vanilla JS only where needed (mobile menu, submenu when a nav item has children, citation date).
+- Astro (static), plain CSS with custom properties (`src/styles/global.css`). No UI framework, no client-side framework. Vanilla JS only where needed (mobile menu, submenu when a nav item has children).
 - Colour tokens are fixed: `--navy`, `--navy-700`, `--bg`, `--surface`, `--text`, `--muted`, `--border`, and `--accent` (burgundy `#9b1c39`, from the letterhead: only for the rules in the J|G|G monogram, on light backgrounds). Do not add tokens.
 - Visual identity matches the letterhead: J|G|G monogram (serif capitals, two burgundy rules), navy rule under the header, profession letter-spaced beside the monogram, letter-spaced uppercase labels. The same mark is in `public/favicon.svg` and `public/og-image.png`. On navy surfaces: white for titles and arrows, `--border` for labels and dates. In white layouts, dates in `--muted`.
 - Fonts: Source Serif 4 + Source Sans 3, self-hosted via Fontsource (the two latin files are preloaded in `Base.astro`).
@@ -57,7 +57,7 @@ Academic outlet of a tax lawyer: a short description, practice areas, publicatio
 - One language is enough: the other language's list shows it with a language label, and the language switch on the article goes to that list.
 - Body: `##` and `###` headings only. Footnotes with `[^1]`. Statutory text as a block quote whose first line is the provision in bold (`> **Artigo 51.º do Código do IRC**`).
 - The build fails on: wrong folder, a missing PDF, `#`/`####` headings, em dashes (including `---` inside text; a `---` line on its own is a horizontal rule).
-- Generated automatically: list entry, home and sidebar "Em destaque", "Como citar / How to cite" (Católica Law Review style rules, V.5: `GONÇALVES, João Gabriel (2026), *Título*, in <URL> (d.mm.aaaa)`, consultation date from the reader's browser), JSON-LD `Article`, Open Graph article tags, canonical, hreflang, sitemap pairs, RSS at `/articles/rss.xml` and `/pt/artigos/rss.xml`, the Artigos menu entry, and the switch of the old `/artigos/` and `/en/articles/` redirects to the articles.
+- Generated automatically: list entry, home and sidebar "Em destaque", JSON-LD `Article`, Open Graph article tags, canonical, hreflang, sitemap pairs, RSS at `/articles/rss.xml` and `/pt/artigos/rss.xml`, the Artigos menu entry, and the switch of the old `/artigos/` and `/en/articles/` redirects to the articles.
 
 ## YAML pitfalls
 - Quote any value containing a comma inside inline `{ }` or `[ ]`. Unquoted, the comma splits the value; the strict schemas then fail the build.
