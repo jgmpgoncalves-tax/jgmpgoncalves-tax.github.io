@@ -506,6 +506,7 @@ main:focus { outline: none; }
 .article-body h2 { font-size: var(--step-2); margin: var(--space-5) 0 var(--space-3); }
 .article-body h3 { font-size: var(--step-1); margin: var(--space-4) 0 var(--space-2); }
 .article-body p, .article-body ul, .article-body ol { margin: 0 0 var(--space-3); }
+.article-body p, .article-body li { text-align: justify; }
 .article-body li + li { margin-top: var(--space-1); }
 .article-body table { display: block; overflow-x: auto; border-collapse: collapse; margin-bottom: var(--space-3); font-size: var(--step--1); }
 .article-body th, .article-body td { border: 1px solid var(--border); padding: var(--space-2); text-align: left; vertical-align: top; }
