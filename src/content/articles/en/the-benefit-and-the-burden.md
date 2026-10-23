@@ -7,7 +7,7 @@ tags: [IRS, Non-habitual residents, Capital gains, Brazil, CAAD]
 draft: false
 ---
 
-The facts of Process 864/2025-T will be familiar to anyone who advises Brazilian clients in Portugal. A non-habitual resident (NHR) sold securities in several countries during 2024. His Brazilian shares produced a net loss, while the rest produced a net gain. In his return, he elected the exemption method for his foreign income. The Tax Authority (AT) then removed every Brazilian operation from his capital gains balance, reasoning that, if Brazilian gains were exempt, Brazilian losses could not count either.
+The facts of [Process 864/2025-T](https://caad.org.pt/tributario/decisoes/decisao.php?id=10801) will be familiar to anyone who advises Brazilian clients in Portugal. A non-habitual resident (NHR) sold securities in several countries during 2024. His Brazilian shares produced a net loss, while the rest produced a net gain. In his return, he elected the exemption method for his foreign income. The Tax Authority (AT) then removed every Brazilian operation from his capital gains balance, reasoning that, if Brazilian gains were exempt, Brazilian losses could not count either.
 
 The tribunal disagreed by majority. It held that, since article 43(1) of the IRS Code defines capital gains income as the balance of all gains and losses realised in the year, nothing in the law allows that balance to be split by country. More interesting than the holding, though, is what the majority conceded along the way. It accepted that letting Portugal absorb Brazilian losses while leaving Brazilian gains untaxed was not a sound distribution of taxing power, and that the AT's appeal to equity had real force. Even so, it applied the law.
 
@@ -21,7 +21,7 @@ The NHR regime did not simply exempt foreign income. For capital gains, article 
 
 The legislator thus offered two complete regimes, each with its own logic, and left the choice to the taxpayer. Exemption takes foreign results out of the Portuguese tax base (except for the purposes of determining the tax rate applicable to non-exempt income), whereas credit keeps them in and relieves double taxation through the tax itself. As a result, neither produces the outcome the majority accepted: under exemption, Brazilian results stay out whether positive or negative, while under credit both come in.
 
-In my view, the majority's result belongs to neither. It gives the taxpayer the exemption when the Brazilian result is positive and the treatment of the credit method when it is negative, without requiring him to choose. That is not the application of a structure, but a combination of two structures that the Code presents as alternatives. Less than a month later, another tribunal rejected this combination and reached the opposite conclusion for the same year and the same treaty (Process 933/2025-T), summing up the taxpayer's position with a Portuguese saying: querer sol na eira e chuva no nabal.
+In my view, the majority's result belongs to neither. It gives the taxpayer the exemption when the Brazilian result is positive and the treatment of the credit method when it is negative, without requiring him to choose. That is not the application of a structure, but a combination of two structures that the Code presents as alternatives. Less than a month later, another tribunal rejected this combination and reached the opposite conclusion for the same year and the same treaty ([Process 933/2025-T](https://caad.org.pt/tributario/decisoes/decisao.php?id=10867)), summing up the taxpayer's position with a Portuguese saying: querer sol na eira e chuva no nabal.
 
 ## 2. The benefit and the burden
 
@@ -33,11 +33,11 @@ The structure versus fairness framing therefore needs correcting. The majority d
 
 ## 3. Where the dissent should have stood
 
-The dissent reaches the right result, but its main authority is, in our opinion the weakest part of its reasoning. It relies on the CJEU's judgment in K (C-322/11), where the Court accepted that Finland could refuse to deduct losses on French property whose income it exempted under its treaty with France. K, however, holds only that EU law permits such a refusal, not that domestic law requires it. It also concerned a treaty-based exemption between two Member States, not a unilateral and elective exemption for income from a third country. For these reasons, a Portuguese tribunal cannot read a loss rule into the IRS Code merely because the CJEU found a similar rule compatible with the Treaties.
+The dissent reaches the right result, but its main authority is, in our opinion the weakest part of its reasoning. It relies on the CJEU's judgment in [K (C-322/11)](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:62011CJ0322), where the Court accepted that Finland could refuse to deduct losses on French property whose income it exempted under its treaty with France. K, however, holds only that EU law permits such a refusal, not that domestic law requires it. It also concerned a treaty-based exemption between two Member States, not a unilateral and elective exemption for income from a third country. For these reasons, a Portuguese tribunal cannot read a loss rule into the IRS Code merely because the CJEU found a similar rule compatible with the Treaties.
 
 The dissent also describes Portugal as having given up its taxing right through the treaty. It did not: the treaty with Brazil lets Portugal tax these gains and only requires it to credit the Brazilian tax. Under the treaty alone, then, the result would be symmetric. The imbalance both opinions describe comes, rather, from Portugal's own decision to exempt, at the taxpayer's option, gains that Brazil may tax, whether or not it does.
 
-Consequently, the dissent does not need a principle of international tax law. It needs the structure of the Code: an exemption the taxpayer elects, applied to income that article 43(1) measures as a net balance, and a credit method available to anyone who wants foreign losses relieved. That is the route 933/2025-T took.
+Consequently, the dissent does not need a principle of international tax law. It needs the structure of the Code: an exemption the taxpayer elects, applied to income that article 43(1) measures as a net balance, and a credit method available to anyone who wants foreign losses relieved. That is the route [933/2025-T](https://caad.org.pt/tributario/decisoes/decisao.php?id=10867) took.
 
 The strongest objection is ability to pay. On the dissent's reading, the taxpayer is taxed on more than he gained across all his sales in the year, and ability to pay carries constitutional weight. The answer, once again, lies in the election. The law did not compel this outcome; it offered a method that would have taxed his worldwide net gain, and it was he who chose the other. Ability to pay limits what the legislator may impose, but it does not require the legislator to shield a taxpayer from the consequences of a choice it allowed him to make.
 
@@ -53,9 +53,9 @@ Two collective tribunals have now decided the same question for the same year in
 
 ## References
 
-- CAAD, Process 864/2025-T, decision of 17 July 2026, with a dissenting vote.
-- CAAD, Process 933/2025-T, decision of 10 August 2026.
-- CJEU, Case C-322/11, K, judgment of 7 November 2013.
+- CAAD, [Process 864/2025-T](https://caad.org.pt/tributario/decisoes/decisao.php?id=10801), decision of 17 July 2026, with a dissenting vote.
+- CAAD, [Process 933/2025-T](https://caad.org.pt/tributario/decisoes/decisao.php?id=10867), decision of 10 August 2026.
+- CJEU, [Case C-322/11, K](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:62011CJ0322), judgment of 7 November 2013.
 - Código do IRS, articles 43 and 81; article 81(5) to (8) in the wording before Law 82/2023 (as transcribed in 933/2025-T); Law 82/2023, of 29 December, article 236(3).
 - Convention between Portugal and Brazil for the avoidance of double taxation (Resolução da Assembleia da República 33/2001), articles 13(4) and 23(1).
 - RJAT, article 25(2).
