@@ -48,7 +48,7 @@ Esta resposta tem limites: **(i)** o Código não esclarece se a opção pelo cr
 
 O caso parecia perguntar se uma estrutura deliberadamente criada pelo legislador deve prevalecer sobre um resultado que ambas as partes consideravam injusto. Lido com atenção, pergunta algo mais restrito. O legislador criou um regime opcional que funciona quando cada opção é tomada por inteiro. A maioria, pelo contrário, permitiu ao contribuinte ficar com a vantagem de uma opção e o alívio da outra. Apesar de assentar no fundamento errado, o voto de vencido ficou mais próximo do desenho da lei.
 
-Dois tribunais arbitrais coletivos decidiram já a mesma questão, para o mesmo ano, em sentidos opostos. É precisamente para este tipo de conflito que existe o recurso para uniformização de jurisprudência para o Supremo Tribunal Administrativo (artigo 25.º, n.º 2, do RJAT). Até lá, e contra toda a lógica e razão, um RNH com menos-valias brasileiras deve tratar a escolha do método na declaração como a decisão que conta.
+Dois tribunais arbitrais coletivos decidiram já a mesma questão, para o mesmo ano, em sentidos opostos. É precisamente para este tipo de conflito que existe o recurso para uniformização de jurisprudência para o Supremo Tribunal Administrativo (artigo 25.º, n.º 2, do RJAT). Até lá, curiosamente, um RNH com menos-valias brasileiras deve tratar a escolha do método na declaração como a decisão que conta.
 
 *Este texto não constitui aconselhamento jurídico. As opiniões expressas são exclusivamente minhas e não representam necessariamente a posição do meu empregador.*
 

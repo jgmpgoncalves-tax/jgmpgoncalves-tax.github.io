@@ -47,7 +47,7 @@ That answer has limits: **(i)** the Code does not say whether the credit method 
 
 The case seemed to ask whether a structure the legislator deliberately put in place should prevail over a result both sides considered unfair. Read closely, it asks something narrower. The legislator built an elective regime that works when each option is taken as a whole. The majority, by contrast, allowed the taxpayer to take one option's advantage and the other's relief. Thus, despite resting on the wrong authority, the dissent stayed closer to the design of the law.
 
-Two collective tribunals have now decided the same question for the same year in opposite ways. That is the kind of conflict the appeal for uniformisation of case law to the Supreme Administrative Court exists to resolve (article 25(2) RJAT). Until it is resolved, and against all logic and reason, an NHR with Brazilian losses should therefore treat the choice of method in the return as the decision that counts.
+Two collective tribunals have now decided the same question for the same year in opposite ways. That is the kind of conflict the appeal for uniformisation of case law to the Supreme Administrative Court exists to resolve (article 25(2) RJAT). Until it is resolved, an NHR with Brazilian losses should, curiously, treat the choice of method in the return as the decision that counts.
 
 *This is not legal advice. All views are my own and do not necessarily represent my employer.*
 
